@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guardian Tales - Guia Interativo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f0f1a;
+      color: #ffffff;
+    }
+
+    html {
+  scroll-behavior: smooth;
+}
+
+
+    header {
+      background-color: #121226;
+      border-bottom: 2px solid #ff0000;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 0 10px #ff000050;
+    }
+
+    header h1 {
+      color: #ff0000;
+      text-shadow: 0 0 8px #ff0000;
+      margin: 0;
+    }
+
+    nav a {
+      color: #ffffff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #ff0000;
+    }
+
+    .hero-image {
+  height: 100vh;
+  background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj3b3_t-D1swlRoaGuZ-EoWJBh6tM1D-qt8tIfSeBnEHQnoYHqwp5Aiej9XtgX38a7AXsRGAzNxTlXlwuTPA0-n2u3Dnxc8NA57Sf8KAHQsmSbjbVSLxZ7zwOnqvW7PI0kPM-0NpC_jtAlV/s1600/doom_eternal_key_art.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  border-bottom: 2px solid #ff000060;
+}
+
+
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .accordion {
+      background-color: #1c1c2e;
+      border-left: 5px solid #ff3c00;
+      border-bottom: 2px solid #ff3c00;
+      border-radius: 0px 20px 20px 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 0 10px #ff080020;
+      transition: background-color 0.3s;
+    }
+
+    .accordion:hover {
+      background-color: #25253a;
+    }
+
+    .accordion h2 {
+      color: #ff0000;
+      margin: 0;
+      text-shadow: 0 0 5px #ff0000;
+      
+    }
+
+    .content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.4s;
+      padding: 0 20px;
+    }
+
+    .content.open {
+      padding: 20px;
+      max-height: 5000px;
+    }
+
+    .content p {
+  margin: 0;
+  line-height: 1.7;
+  color: #ddd;
+  font-size: 1.05rem;
+}
+
+
+
+
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #ff0000;
+      border-top: 1px solid #ff510030;
+      box-shadow: 0 -2px 10px #ff0000, inset #ff000098 0 2px 10px;
+      margin-top: 60px;
+    }
+
+
+    .personagens{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px; 
+    }
+
+    
+.imagem1{
+  width: 500px;
+  height: 500px;
+  background-image: url(https://i.makeagif.com/media/7-29-2023/Lb3cx-.gif);
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  position: absolute;
+  top: 109%;
+
+}
+
+.imagem2{
+  width: 500px;
+  height: 500px;
+  background-image: url(https://images.steamusercontent.com/ugc/2453976830029594884/3604FDBE41258A5BB9163BAFDBE3BA156A1C0F18/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false);
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  position: absolute;
+  top: 132%;
+
+}
+
+.imagem3{
+  width: 500px;
+  height: 500px;
+  background-image: url(https://media.tenor.com/bYDwCShVUaIAAAAM/knight-knight-guardian-tales.gif);
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  position: absolute;
+  top: 109%;
+  left: 81%;
+}
+
+
+.boss-list {
+  display: flex;
+  gap: 40px; /* Espaço entre colunas */
+  margin-top: 10px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column.left {
+  color: rgb(255, 0, 0);
+}
+
+.column.right {
+  color: #ccc;
+  max-width: 400px; /* Largura máxima da coluna da direita */
+}
+
+.gifs {
+  position: absolute; /* Melhor usar relative para facilitar o controle */
+  margin-top: 100px;  /* Ajuste de posição geral */
+  height: 300px;       /* Altura para conter os gifs */
+}
+
+.G1, .G2, .G3 {
+  position: absolute;
+  width: 280px;
+  height: auto;
+  left: 0;
+}
+
+/* Cada um com posição e camada diferentes */
+.G1 {
+  top: 0;
+  z-index: 2;
+}
+
+.G2 {
+  top: 170px;
+  z-index: 1;
+}
+
+.G3 {
+  top: 340px;
+  z-index: 3;
+}
+
+  </style>
+</head>
+<body>
+
+
+
+
+  <header>
+    <h1> DOOM
+        ETERNAL
+    </h1>
+    <nav>
+      <a href="/GM1 - wiki/wiki web/index.html">Voltar</a>
+    </nav>
+  </header>
+
+  <!-- Banner de Capa com Efeito Parallax -->
+<section class="hero-image"></section>
+
+
+
+  <div class="gifs">
+  <img src="https://4.bp.blogspot.com/-3oAqTT8ZKeE/V3KQ_gyWKtI/AAAAAAAAAfc/0Dw8FiYsBv4_7HOTRrT5sqbCPUCd-nABQCLcB/s1600/lbf4y0d6qt96smfcl22z.gif" alt="" class="G1">
+  <img src="https://i.makeagif.com/media/8-13-2018/rQEUsV.gif" alt="" class="G2">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjnAvr87KZ_minsSfQG0D5QDSmlOg8XthyphenhyphenLhIm_EaWM1LUzUKHm7w3WL9GJZ-cUomYMIrxW6Jy1MIpRDV1N6E3OJwu9T0ilmjpywUo2dTyb83Cz9omJ9ud8M_ZRf8oalrne7tDQKVHbFvMr/s2048/DOOM-Eternal-The-Ancient-Gods-hero.jpg" alt="" class="G3">
+</div>
+  
+
+
+
+  <div class="container">
+
+    <div class="accordion">
+  <h2>Lore do Jogo</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #ff0000 ;">
+      Após os eventos de Doom (2016), em que o Doom Slayer impediu temporariamente os planos da UAC (Union Aerospace Corporation) em Marte, o caos não foi contido por completo. A energia Argent, obtida por meio da conversão de almas humanas no Inferno, continuava sendo explorada — e com ela, o perigo. Eventualmente, os portões do Inferno se abriram de forma definitiva, e os demônios invadiram a Terra. <br><br>
+
+      Em questão de semanas, o planeta entrou em colapso. Mais de 60% da população humana foi exterminada. Cidades ruíram, a natureza foi corrompida, e a civilização humana quase chegou ao fim. No centro da invasão estavam três sacerdotes infernais: Deag Ranak, Deag Nilox e Deag Grav — emissários do Inferno encarregados de manter o sacrifício humano em massa. Eles operavam sob as ordens de uma entidade ainda mais poderosa: a Khan Maykr, soberana dos Maykrs, seres angelicais do reino celestial de Urdak.<br><br>
+      
+      Mas com a Terra em ruínas, uma força antiga desperta mais uma vez: o Doom Slayer. Após escapar de sua prisão ao final do jogo anterior, ele retorna mais preparado do que nunca. Em sua fortaleza espacial, o Fortress of Doom, ele planeja sua vingança. O Slayer não é apenas um guerreiro humano — ele é uma figura mitológica, originária do mundo de Argent D’Nur, um antigo império guerreiro que também foi corrompido pelos demônios e pelos próprios Maykrs.<br><br>
+      
+      No passado, o Slayer havia sido agraciado com habilidades sobre-humanas pelos próprios Maykrs, após sobreviver a provações impossíveis. Tornou-se uma lenda viva, imortal, incansável, chamado de “O Matador” por seus inimigos. Contudo, ao descobrir a corrupção dos Maykrs — que passaram a colher almas humanas para gerar energia e garantir sua própria sobrevivência — ele se voltou contra os antigos deuses e jurou destruir tanto o Inferno quanto os céus corruptos.<br><br>
+      
+      Durante sua cruzada, o Slayer caça e elimina os três sacerdotes um por um, enfrentando hordas de demônios e máquinas sagradas dos Maykrs. Ele viaja entre mundos, entre ruínas humanas, terras demoníacas e Urdak, o próprio paraíso dos Maykrs, onde desafia e mata a Khan Maykr, rompendo o equilíbrio entre o céu e o inferno.<br><br>
+      
+      No entanto, com sua morte, um último plano é colocado em prática: o despertar do Icon of Sin, uma criatura colossal, feita a partir do corpo corrompido de um antigo guerreiro Argenta. Uma arma viva, alimentada por pura fúria infernal. O Icon of Sin rompe as barreiras dimensionais e traz o apocalipse para a Terra. Cabe ao Slayer impedir o fim definitivo da humanidade.
+
+Em um confronto épico, o Doom Slayer destrói o Icon of Sin, encerrando temporariamente a ameaça demoníaca. Porém, ele sabe que a luta não acabou. Ele não é um herói comum, nem um salvador celestial. Ele é a própria força da destruição contra o mal. E enquanto houver demônios para caçar, ele nunca descansará.<br><br>
+      
+      
+    </p>
+  </div>
+</div>
+
+
+
+<div class="accordion">
+  <h2>Como Jogar</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #ff0000 ;">
+      Você controla o Doom Slayer, um guerreiro solitário que luta contra demônios em primeira pessoa. O jogo é dividido em fases (missões) com objetivos principais e áreas exploráveis.
+
+      Objetivo principal
+      Avance pelas fases eliminando todos os inimigos, alcançando pontos de controle e derrotando chefes. O progresso é linear, mas há caminhos alternativos com segredos.<br><br>
+      
+      Combate:<br>
+      O combate é rápido e exige movimento constante.<br>
+      
+      Você usa armas variadas, cada uma com munição limitada.<br><br>
+      
+      Existem três formas principais de recuperar recursos:<br><br>
+      
+      Glory Kill: executa inimigos atordoados para recuperar vida.<br>
+      
+      Serra elétrica: mata instantaneamente inimigos pequenos e gera munição.<br>
+      
+      Lança-chamas: faz inimigos soltarem armadura.<br><br>
+      
+      Controles principais (padrão de console/PC):<br><br>
+      Mover: analógico esquerdo / WASD<br>
+      
+      Atirar: gatilho direito / botão esquerdo do mouse<br>
+      
+      Mira alternativa (mod): gatilho esquerdo / botão direito do mouse<br>
+      
+      Pulo: botão A / barra de espaço<br>
+      
+      Dash (esquiva): botão B / Shift esquerdo<br>
+      
+      Trocar armas: botão Y / rolagem do mouse<br>
+      
+      Glory Kill: analógico direito / tecla E<br>
+      
+      Serra elétrica: botão RB + botão de serra / tecla C<br>
+      
+      Lança-chamas: botão de ombro esquerdo / tecla R<br>
+      
+      Granada: botão de ombro direito / tecla G<br><br>
+      
+      Progressão:<br>
+      Ao longo do jogo, você coleta itens que aumentam:<br><br>
+      
+      Vida máxima<br>
+      
+      Munição máxima<br>
+      
+      Armadura máxima<br>
+      
+      Você também desbloqueia melhorias para armas, runas e habilidades do traje.<br><br>
+      
+      Exploração:<br><br>
+      Cada fase contém segredos escondidos.<br>
+      
+      Use o mapa para localizar caminhos e colecionáveis.<br>
+      
+      Você pode revisitar fases para completar 100%.<br><br>
+      
+      Estrutura geral
+      A campanha principal é jogada offline.<br><br>
+      
+      Existe um modo multiplayer online chamado BATTLEMODE, onde um jogador é o Slayer e outros dois controlam demônios.
+      
+         
+      
+    </p>
+  </div>
+</div>
+
+<div class="accordion">
+  <h2>Armas</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #ff0000 ;">
+      1. Combat Shotgun:<br><br>
+      Arma inicial, versátil e eficaz em curta distância.<br><br>
+      
+       Mods:<br><br>
+      Sticky Bombs: Dispara granadas que grudam nos inimigos. Ótima contra Cacodemon (explode na boca).<br><br>
+      
+      Full Auto: Transforma a Shotgun em uma metralhadora de disparo rápido.<br><br>
+      
+       Upgrades:<br><br>
+      Mais velocidade de recarga, maior número de bombas, etc.<br><br>
+      
+       2. Heavy Cannon:<br><br>
+      Rifle de precisão automática. Ideal para disparos rápidos e precisos.<br><br>
+      
+      🔧 Mods:<br><br>
+      Precision Bolt: Mira com zoom e dispara tiros de precisão. Ótimo para acertar pontos fracos (como o canhão do Arachnotron).<br><br>
+      
+      Micro Missiles: Lança uma rajada de mini-mísseis. Eficaz contra grupos.<br><br>
+      
+       Upgrades:<br><br>
+      Redução de tempo de mira, mais mísseis, etc.<br><br>
+      
+       3. Plasma Rifle:<br><br>
+      Dispara rajadas rápidas de energia. Especialmente útil contra escudos de energia (como os do Carcass ou do Doom Hunter).<br><br>
+      
+       Mods:<br><br>
+      Heat Blast: Acumula calor e libera uma explosão ao redor.<br><br>
+      
+      Microwave Beam: Raio contínuo que explode inimigos ao final da canalização. Ideal contra inimigos resistentes e para destruir escudos.<br><br>
+      
+       4. Rocket Launcher:<br><br>
+      Lento, mas muito poderoso. Causa dano em área.<br><br>
+      
+       Mods:<br><br>
+      Remote Detonate: Detona o foguete no ar, antes de atingir o alvo.<br><br>
+      
+      Lock-On Burst: Mira automaticamente em alvos, disparando 3 foguetes seguidos (excelente contra inimigos pesados como Hell Knight ou Pain Elemental).<br><br>
+      
+       5. Super Shotgun:<br><br>
+      Dano imenso em curta distância. Possui um gancho de carne (Meat Hook) para puxar você até os inimigos.<br><br>
+      
+      🔧 Mods:<br><br>
+      Não tem mods alternativos, mas o gancho pode ser melhorado com fogo, congelamento, etc.<br><br>
+      
+       6. Ballista:<br><br>
+      Arma de energia que dispara projéteis poderosos. Substituta da Gauss Cannon de Doom (2016).<br><br>
+      
+      🔧 Mods:<br><br>
+      Arbalest: Dispara projétil explosivo que gruda e explode após um curto tempo.<br><br>
+      
+      Destroyer Blade: Carrega uma lâmina de energia horizontal que corta grupos inteiros.<br><br>
+      
+       7. Chaingun:<br><br>
+      Metralhadora pesada. Muito eficaz contra grupos ou inimigos rápidos.<br><br>
+      
+      🔧 Mods:<br><br>
+      Mobile Turret: Transforma a arma em torre giratória de 3 canos (dano altíssimo, mas superaquece).<br><br>
+      
+      Energy Shield: Cria um escudo protetor enquanto atira (bom para enfrentar Archvile e Marauder).<br><br>
+      
+       8. BFG-9000:<br><br>
+      Arma suprema. Dispara uma esfera de energia verde que elimina a maioria dos inimigos na tela.<br><br>
+      
+      Sem mods. Tem munição limitada, mas é essencial para limpar arenas rapidamente ou salvar em situações difíceis.<br><br>
+      
+       9. The Crucible:<br><br>
+      Espada de energia usada para matar instantaneamente quase qualquer inimigo (exceto chefes).<br><br>
+      
+      Sem mods, com cargas limitadas (3 por vez).<br><br>
+      
+      Não afeta Marauder ou Icon of Sin.<br><br>
+      
+ 
+      Além das armas, o Slayer também conta com:<br><br>
+      
+      Granada de Fragmentação.<br><br>
+      
+      Granada de Gelo.<br><br>
+      
+      Flame Belch (Chama de armadura).<br><br>
+      
+      Blood Punch (Soco explosivo corpo a corpo).<br><br>
+      
+      Chainsaw (motosserra, usada para recuperar munição).<br><br>
+
+    </p>
+  </div>
+</div>
+
+
+<div class="accordion">
+  <h2>Inimigos</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #ff0000 ;">
+      Inimigos Comuns:<br><br>
+Esses aparecem com mais frequência e são relativamente fáceis de eliminar:<br><br>
+
+Zombieman (Zumbi padrão).<br><br>
+
+Zombie Mecha (versão com armamento).<br><br>
+
+Possessed Soldier (Soldado possuído).<br><br>
+
+Gargoyle.<br><br>
+
+Imp.<br><br>
+
+Lost Soul.<br><br>
+
+Cueball (explosivo, tipo kamikaze).<br><br>
+
+Prowler.<br><br>
+
+Whiplash Spectre. (variante invisível)<br><br>
+
+ Inimigos Pesados
+Mais resistentes, exigem estratégia e uso de pontos fracos:<br><br>
+
+Arachnotron.<br><br>
+
+Cacodemon.<br><br>
+
+Hell Knight.<br><br>
+
+Revenant.<br><br>
+
+Pain Elemental.<br><br>
+
+Carcass.<br><br>
+
+Whiplash.<br><br>
+
+Dread Knight.<br><br>
+
+Mancubus.<br><br>
+
+Cyber-Mancubus.<br><br>
+
+Spectre (invisível).<br><br>
+
+Baron of Hell.<br><br>
+
+ Inimigos Superpesados
+Muito poderosos, costumam ser mini-chefes ou elite:<br><br>
+
+Tyrant (inspirado no clássico Cyberdemon).<br>
+
+Archvile (invoca outros demônios).<br>
+
+Doom Hunter (meio demônio, meio máquina).<br>
+
+Marauder (ex-Doom Slayer corrompido).<br>
+
+
+
+    </p>
+  </div>
+</div>
+
+
+
+<div class="accordion">
+  <h2>Chefes</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #ff0000 ;">
+      1. Doom Hunter:<br><br>
+
+      História:<br><br>
+Criado pela UAC sob ordens da Khan Maykr, o Doom Hunter é um híbrido de demônio e máquina. A base é de um antigo guerreiro demoníaco ressuscitado e mecanizado com um trenó flutuante com escudos.<br><br>
+
+Fases e Estratégia:<br><br>
+Fase 1: Um Doom Hunter. Ele possui escudo de energia (quebra fácil com Plasma Rifle e Mod Microwave Beam) e lança foguetes e ataques corpo a corpo.<br><br>
+
+Fase 2: Aparecem dois Doom Hunters juntos.<br><br>
+
+Dica: Foque em destruir o trenó (parte de baixo). Depois ele perde o escudo e mobilidade.<br><br>
+
+Fraquezas:<br><br>
+Plasma Rifle (escudo)<br><br>
+
+Rocket Launcher e Ballista (quando o escudo cai)<br><br><br>
+
+2. Marauder:<br><br>
+
+História:<br><br>
+Um ex-Slayer corrompido pela Hell Priests. Ele carrega uma machadão vermelho, escudo, e invoca um cão espectral. Serve diretamente à Khan Maykr.<br>
+
+Estratégia:<br><br>
+Usa escudo invulnerável contra ataques à distância.<br><br>
+
+Só pode ser acertado quando se aproxima e brilha os olhos verdes.<br><br>
+
+Se atacado fora disso, bloqueia ou contra-ataca.<br><br>
+
+Invoca um cão espectral que precisa ser destruído rapidamen<br><br>
+
+Fraquezas:<br><br>
+Super Shotgun + Ballista combo<br><br>
+
+Precision Bolt quando ele expõe brecha<br><br>
+
+Mantenha a média distância<br><br>
+
+⚠️ Dificuldade: Alta. É o inimigo mais técnico do jogo base.<br><br><br>
+
+3. Gladiator:
+
+História:<br><br>
+Guardião da arena de Sentinel Prime. É uma criatura gigantesca com escudo e um mangual duplo.<br><br>
+
+Estratégia:<br><br>
+Fase 1: Ele usa escudo e tenta acertar com correntes. Ataque quando os olhos verdes brilharem.<br><br>
+
+Fase 2: Ele quebra o escudo e fica mais rápido e agressivo, usa ataques em área com seus manguaizinhos.<br><br>
+
+Fraquezas:<br><br>
+Precision Bolt (nos olhos)<br><br>
+
+Super Shotgun em curta distância durante as aberturas<br><br>
+
+🎯 Dica: Use o gancho da Super Shotgun para escapar rápido.<br><br><br>
+
+4. Khan Maykr:<br><br>
+História:<br><br>
+Líder dos Maykr e responsável por manipular a UAC para invadir a Terra. Ela deseja transformar todos os humanos em energia para alimentar Urdak e prolongar sua espécie.<br><br>
+
+ Estratégia:<br><br>
+Voa, dispara rajadas e orbes de energia.<br><br>
+
+Tem escudo de energia que deve ser destruído com Plasma Rifle (Microwave Beam).<br><br>
+
+Quando o escudo acaba, ela cai e você precisa usar Blood Punch para causar dano real.<br><br>
+
+   Repete isso por cinco fases.<br><br>
+ Fraquezas:<br><br>
+Plasma Rifle<br><br>
+
+Blood Punch<br><br>
+
+Fique em movimento no ar e use os painéis de salto<br><br><br>
+
+5. Icon of Sin:<br><br>
+
+História:<br><br>
+A encarnação física do caos. Antigamente era um Sentinel transformado pela Khan Maykr. Após ser liberto pelo Doom Slayer, ele começa a destruir tudo indiscriminadamente.<br><br>
+
+ Batalha dividida em 2 partes:<br><br>
+Parte 1 – Exterior:<br><br>
+Enfrenta o Icon enquanto destrói as 8 partes da armadura (cabeça, braços, peito, pernas).<br><br>
+
+Cada parte destruída abre vulnerabilidade para a próxima.<br><br>
+
+Parte 2 – Interior:<br><br>
+Agora sem armadura, você deve destruir o corpo real parte por parte.<br><br>
+
+Icon ataca com fogo, raios, invocações e pisões.<br><br>
+
+ Fraquezas:<br><br>
+Ballista (para precisão nas partes do corpo)<br><br>
+
+Rocket Launcher com lock-on<br><br>
+
+Chaingun (contra mobs que aparecem)<br><br>
+
+
+
+    </p>
+  </div>
+</div>
+
+
+
+<div class="accordion">
+  <h2>Personagens</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #ff0000 ;">
+      Em Doom Eternal, o jogador encontra diversos personagens importantes que contribuem para a história e o universo do jogo. Aqui estão os principais personagens:
+
+      Protagonista:<br><br>
+      Doom Slayer (Doomguy): O herói silencioso, uma máquina de matar demônios incansável e extremamente poderoso. Ele é o personagem jogável.<br>
+      
+       Aliados / Neutros:<br><br>
+      VEGA: Inteligência artificial que auxilia o Doom Slayer. Já presente em Doom (2016), retorna com papel fundamental na narrativa.<br><br>
+      
+      Samuel Hayden: Cientista da UAC que transferiu sua consciência para um corpo robótico. Tem um papel ambíguo, ajudando o Slayer mas também com seus próprios interesses.<br><br>
+      
+      Khan Maykr: Líder das Maykrs, espécie alienígena poderosa. Antagonista principal do jogo base.<br><br>
+      
+      Father / Seraphim (apenas mencionado brevemente, papel maior na DLC): Entidade poderosa relacionada à criação do universo — é referenciado, mas não explorado profundamente no jogo base.<br><br>
+      
+      Demônios e Antagonistas:<br><br>
+      Hell Priests (Sacerdotes do Inferno): Três servos do Khan Maykr que lideram a invasão demoníaca:<br><br>
+      
+      Deag Nilox.<br><br>
+      
+      Deag Ranak.<br><br>
+      
+      Deag Grav.<br><br>
+      
+      Icon of Sin: O chefe final do jogo base. Um titã colossal demoníaco criado pelo Khan Maykr.<br><br>
+      
+      Marauder: Antigo Night Sentinel corrompido, extremamente ágil e um dos inimigos mais desafiadores.<br><br>
+      
+      Demonic Forces: Vários demônios clássicos e novos, como:<br><br>
+      
+      Cacodemon.<br><br>
+      
+      Revenant.<br><br>
+      
+      Pain Elemental.<br><br>
+      
+      Archvile.<br><br>
+      
+      Baron of Hell.<br><br>
+      
+      Tyrant (versão moderna do Cyberdemon).<br><br>
+      
+      Arachnotron.<br><br>
+      
+      Mancubus / Cyber-Mancubus.<br><br>
+      
+      Whiplash.<br><br>
+      
+      Dread Knight.<br><br>
+      
+      Carcass.<br><br>
+      
+      Prowler.<br><br>
+      
+      Pinky / Spectre.<br><br>
+      
+      Sentinelas de Argent D'Nur
+      Night Sentinels: Ordem guerreira da qual o Doom Slayer fazia parte antes de se tornar o que é.<br><br>
+      
+      King Novik: Rei dos Sentinelas, aparece em visões e cutscenes.<br><br>
+    </p>
+  </div>
+</div>
+
+
+<div class="accordion">
+  <h2>Lore da DLC</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #ff0000 ;">
+
+      DOOM Eternal possui duas DLCs principais que continuam diretamente a história do jogo base. Essas expansões são:<br><br>
+
+ The Ancient Gods – Parte 1
+Lançamento: 20 de outubro de 2020.<br><br>
+
+ Enredo:<br><br>
+Após os eventos do jogo principal, com a derrota do Khan Maykr e a morte do Ícone do Pecado, o equilíbrio entre os céus, a Terra e o Inferno ainda está ameaçado. O Slayer agora enfrenta uma nova missão: restaurar a ordem divina e destruir o verdadeiro mal por trás do caos.<br><br>
+
+Samuel Hayden, agora revelado como o Seraphim, ajuda o Slayer.<br><br>
+
+Eles buscam ressuscitar o Pai (The Father), uma entidade divina que pode restaurar a ordem.<br><br>
+
+Para isso, o Slayer precisa derrotar as forças demoníacas remanescentes e acessar o Lago das Almas, onde o poder do Pai foi selado.<br><br>
+
+A DLC termina com o Slayer liberando o Dark Lord (Senhor das Trevas), a verdadeira origem de todo o mal, e uma revelação bombástica: o Dark Lord é uma contraparte do próprio Slayer, também um ser humano, chamado Davoth.<br><br>
+
+The Ancient Gods – Parte 2
+Lançamento: 18 de março de 2021.<br><br>
+
+
+ Enredo:<br><br>
+A guerra final se aproxima. O Slayer agora lidera a resistência contra o Inferno para acabar de vez com a ameaça demoníaca.<br><br>
+
+Ele busca um artefato ancestral chamado Martelo Sentinela para derrotar Davoth.<br><br>
+
+Viajando por reinos sagrados e corrompidos, o Slayer confronta exércitos demoníacos e antigos aliados.<br><br>
+
+Ao final, ele invade Immora, a fortaleza do Senhor das Trevas, e ocorre o confronto final.<br><br>
+
+Conclusão:<br><br>
+O Slayer derrota Davoth em um duelo épico.<br><br>
+
+Ao fazê-lo, o equilíbrio é restaurado, mas o Slayer entra em estado de estase, pois sua existência estava ligada à de Davoth.<br><br>
+
+Ele é colocado em uma cripta pelos Sentinelas, como um guerreiro adormecido, pronto para acordar se o mal retornar.<br><br>
+
+
+
+
+      
+    </p>
+  </div>
+</div>
+
+<div class="accordion">
+  <h2>Armas da DLC</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ;">
+      
+      
+      Nas DLCs de DOOM Eternal: The Ancient Gods – Parte 1 e Parte 2, a maioria das armas do jogo base está disponível, mas há novas adições e modificações importantes. Veja a seguir as armas exclusivas das DLCs:<br><br>
+
+       1. Martelo Sentinela (Sentinel Hammer),<br><br>
+
+      DLC: The Ancient Gods – Parte 2:<br><br>
+    
+      
+       Função:<br><br>
+      Substitui a Granada de Gelo no loadout.<br><br>
+      
+      Quando usado, o Slayer bate no chão com força, atordoando todos os inimigos ao redor e recarregando munição, vida e armadura se os inimigos estiverem sob os efeitos de fogo, gelo ou atordoamento.<br><br>
+      
+      É uma arma de utilidade extrema para controle de multidões e recuperação rápida.<br><br>
+      
+       Como recarrega:<br><br>
+      Derrotar dois inimigos fracos ou um inimigo atordoado recarrega uma carga do martelo.<br><br>
+      
+       Armas principais (do jogo base) que continuam nas DLCs:<br><br>
+      Todas as armas do jogo principal continuam acessíveis e funcionais. Algumas das principais incluem:<br><br>
+      
+      Combat Shotgun (com Mod de granada adesiva e modo automático).<br><br>
+      
+      Super Shotgun (com o gancho de carne – "Meat Hook").<br><br>
+      
+      Heavy Cannon (modo micro-mísseis e modo precisão).<br><br>
+      
+      Plasma Rifle (com modo de calor e de disparo contínuo).<br><br>
+      
+      Rocket Launcher.<br><br>
+      
+      Ballista.<br><br>
+      
+      Chaingun.<br><br>
+      
+      BFG-9000.<br><br>
+      
+      Crucible (não disponível na Parte 1, apenas brevemente na Parte 2).<br><br>
+      
+      Unmaykr (se desbloqueada no jogo base).<br><br>
+      
+       Armas que não retornam totalmente:<br><br>,
+      Crucible Sword (a espada do Slayer) não está disponível como arma utilizável em The Ancient Gods – Parte 1.<br><br>
+      
+      Na Parte 2, aparece brevemente em cutscenes, mas o Martelo Sentinela substitui seu papel como arma poderosa de curta distância.
+      
+      
+    </p>
+  </div>
+</div>
+
+<div class="accordion">
+  <h2>Lore do Jogo</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ;">
+      Após os eventos de Doom (2016), em que o Doom Slayer impediu temporariamente os planos da UAC (Union Aerospace Corporation) em Marte, o caos não foi contido por completo. A energia Argent, obtida por meio da conversão de almas humanas no Inferno, continuava sendo explorada — e com ela, o perigo. Eventualmente, os portões do Inferno se abriram de forma definitiva, e os demônios invadiram a Terra. <br><br>
+
+      Em questão de semanas, o planeta entrou em colapso. Mais de 60% da população humana foi exterminada. Cidades ruíram, a natureza foi corrompida, e a civilização humana quase chegou ao fim. No centro da invasão estavam três sacerdotes infernais: Deag Ranak, Deag Nilox e Deag Grav — emissários do Inferno encarregados de manter o sacrifício humano em massa. Eles operavam sob as ordens de uma entidade ainda mais poderosa: a Khan Maykr, soberana dos Maykrs, seres angelicais do reino celestial de Urdak.<br><br>
+      
+      Mas com a Terra em ruínas, uma força antiga desperta mais uma vez: o Doom Slayer. Após escapar de sua prisão ao final do jogo anterior, ele retorna mais preparado do que nunca. Em sua fortaleza espacial, o Fortress of Doom, ele planeja sua vingança. O Slayer não é apenas um guerreiro humano — ele é uma figura mitológica, originária do mundo de Argent D’Nur, um antigo império guerreiro que também foi corrompido pelos demônios e pelos próprios Maykrs.<br><br>
+      
+      No passado, o Slayer havia sido agraciado com habilidades sobre-humanas pelos próprios Maykrs, após sobreviver a provações impossíveis. Tornou-se uma lenda viva, imortal, incansável, chamado de “O Matador” por seus inimigos. Contudo, ao descobrir a corrupção dos Maykrs — que passaram a colher almas humanas para gerar energia e garantir sua própria sobrevivência — ele se voltou contra os antigos deuses e jurou destruir tanto o Inferno quanto os céus corruptos.<br><br>
+      
+      Durante sua cruzada, o Slayer caça e elimina os três sacerdotes um por um, enfrentando hordas de demônios e máquinas sagradas dos Maykrs. Ele viaja entre mundos, entre ruínas humanas, terras demoníacas e Urdak, o próprio paraíso dos Maykrs, onde desafia e mata a Khan Maykr, rompendo o equilíbrio entre o céu e o inferno.<br><br>
+      
+      No entanto, com sua morte, um último plano é colocado em prática: o despertar do Icon of Sin, uma criatura colossal, feita a partir do corpo corrompido de um antigo guerreiro Argenta. Uma arma viva, alimentada por pura fúria infernal. O Icon of Sin rompe as barreiras dimensionais e traz o apocalipse para a Terra. Cabe ao Slayer impedir o fim definitivo da humanidade.
+
+Em um confronto épico, o Doom Slayer destrói o Icon of Sin, encerrando temporariamente a ameaça demoníaca. Porém, ele sabe que a luta não acabou. Ele não é um herói comum, nem um salvador celestial. Ele é a própria força da destruição contra o mal. E enquanto houver demônios para caçar, ele nunca descansará.<br><br>
+      
+      
+    </p>
+  </div>
+</div>
+
+<div class="accordion">
+  <h2>Lore da DLC</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ;">
+       
+      
+    </p>
+  </div>
+</div>
+
+        
+
+
+
+</div>
+
+  <footer>
+    © 2025 Guardian Tales Fan Page | Criado por: ARTHUR RABELO
+  </footer>
+
+  <script>
+
+  function fecharPopup() {
+    popup.style.display = "none";
+  }
+
+  const accordions = document.querySelectorAll('.accordion');
+
+  accordions.forEach((acc) => {
+    acc.addEventListener('click', function () {
+      const content = this.querySelector('.content');
+      content.classList.toggle('open');
+
+      accordions.forEach((other) => {
+        if (other !== this) {
+          other.querySelector('.content').classList.remove('open');
+        }
+      });
+    });
+  });
+
+  const topBtn = document.getElementById("topBtn");
+
+  window.onscroll = function () {
+    topBtn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? "block" : "none";
+  };
+
+  topBtn.onclick = function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+</script>
+
+
+</body>
+</html>

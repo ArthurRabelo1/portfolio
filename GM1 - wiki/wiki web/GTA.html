@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GTA V</title>
+  <style>
+    /* Reset e básicos */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      transition: all 0.4s;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --bg-color: #0a0a0a;
+      --text-color: #e0e0e0;
+      --accent-color: #ff5500;
+      --accent-color-light: #ff8844;
+      --header-bg: #1a1a1a;
+      --accordion-bg: #252525;
+      --accordion-bg-hover: #333;
+    }
+
+    /* Tema claro */
+    body.light {
+      --bg-color: #f5f5f5;
+      --text-color: #333;
+      --accent-color: #ff3300;
+      --accent-color-light: #ff6633;
+      --header-bg: #e0e0e0;
+      --accordion-bg: #d5d5d5;
+      --accordion-bg-hover: #bbb;
+    }
+
+    /* Cabeçalho */
+    header {
+      background-color: var(--header-bg);
+      border-bottom: 3px solid var(--accent-color);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    header h1 {
+      color: var(--accent-color);
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      color: var(--text-color);
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+      font-size: 0.9rem;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Botão toggle tema */
+    #theme-toggle {
+      background: var(--accent-color);
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.8rem;
+      transition: all 0.3s;
+    }
+
+    #theme-toggle:hover {
+      background: var(--accent-color-light);
+      transform: scale(1.05);
+    }
+
+    /* Hero */
+    .hero-image {
+      height: 50vh;
+      background-image: url('https://imgs.search.brave.com/tnIDba3b2oZ1Enjq5s-N3RV39-DWb7cgc2s_MqGqNmM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/c3BhemlvZ2FtZXMu/aXQvc3RvcmFnZS9t/ZWRpYS8yMDIzLzEy/Lzc1NTkvR1RBLTUu/anBnP3dpZHRoPTkz/MCZhc3BlY3RfcmF0/aW89MTY6OQ');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      border-bottom: 3px solid var(--accent-color);
+    }
+
+    /* Layout com índice lateral */
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 30px auto;
+      gap: 20px;
+      padding: 0 15px;
+    }
+
+    /* Índice fixo lateral */
+    .sidebar {
+      position: sticky;
+      top: 80px;
+      flex-shrink: 0;
+      width: 200px;
+      background-color: var(--accordion-bg);
+      border-radius: 8px;
+      padding: 15px;
+      height: fit-content;
+      font-size: 0.85rem;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+      color: var(--accent-color);
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .sidebar a {
+      display: block;
+      color: var(--text-color);
+      margin-bottom: 8px;
+      text-decoration: none;
+      padding: 8px;
+      transition: all 0.3s;
+      border-radius: 4px;
+    }
+
+    .sidebar a:hover {
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    /* Conteúdo principal */
+    .main-content {
+      flex-grow: 1;
+      max-width: 800px;
+    }
+
+    /* Accordion */
+    .accordion {
+      background-color: var(--accordion-bg);
+      border-left: 4px solid var(--accent-color);
+      margin-bottom: 15px;
+      cursor: pointer;
+      padding: 15px;
+      position: relative;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+
+    .accordion:hover {
+      background-color: var(--accordion-bg-hover);
+    }
+
+    .accordion h2 {
+      color: var(--accent-color);
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s;
+      padding: 0 15px;
+    }
+
+    .content.open {
+      padding: 15px;
+      max-height: 3000px;
+    }
+
+    .content p {
+      margin: 10px 0 0 0;
+      line-height: 1.6;
+      color: var(--text-color);
+      font-size: 0.95rem;
+    }
+
+    /* Vídeos */
+    .videos {
+      margin-top: 15px;
+    }
+
+    .videos iframe {
+      width: 100%;
+      height: 315px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border: none;
+    }
+
+    /* Galeria */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+      justify-content: center;
+    }
+
+    .gallery img {
+      width: 140px;
+      height: 85px;
+      object-fit: cover;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Lightbox simples */
+    #lightbox {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+    }
+
+    /* Curiosidades */
+    .curiosities {
+      background-color: var(--accordion-bg);
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+
+    .curiosities ul {
+      padding-left: 20px;
+      margin: 10px 0 0 0;
+    }
+
+    .curiosities li {
+      margin-bottom: 8px;
+    }
+
+    /* Botão voltar topo */
+    #btn-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: all 0.3s;
+    }
+
+    #btn-top:hover {
+      background-color: var(--accent-color-light);
+      transform: scale(1.1);
+    }
+
+    /* Quiz */
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+    form button {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: all 0.3s;
+    }
+    form button:hover {
+      background-color: var(--accent-color-light);
+    }
+
+    #quiz-result {
+      font-weight: bold;
+    }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+        position: static;
+      }
+
+      .accordion {
+        width: 100%;
+      }
+
+      header {
+        padding: 10px 15px;
+      }
+
+      header h1 {
+        font-size: 1.4rem;
+      }
+
+      nav a {
+        margin-left: 10px;
+        font-size: 0.8rem;
+      }
+
+      .hero-image {
+        height: 40vh;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .gallery img {
+        width: 100%;
+        height: auto;
+        max-height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>GTA V - Wiki Zica</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <button id="theme-toggle" title="Mudar o tema">Tema claro</button>
+    </nav>
+  </header>
+
+  <section class="hero-image" aria-label="Imagem do GTA V"></section>
+
+  <div class="container">
+    <nav class="sidebar" aria-label="Índice da página">
+      <h3>Índice</h3>
+      <a href="#historia">História do GTA V</a>
+      <a href="#como-jogar">Como Jogar</a>
+      <a href="#personagens">Personagens</a>
+      <a href="#codigos-dicas">Códigos e Dicas</a>
+      <a href="#mapa">Mapa e Locais</a>
+      <a href="#veiculos">Veículos</a>
+      <a href="#missoes">Missões</a>
+      <a href="#curiosidades">Curiosidades</a>
+      <a href="#videos">Vídeos</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#quiz">Quiz</a>
+    </nav>
+
+    <main class="main-content">
+
+      <section id="historia" class="accordion" tabindex="0">
+        <h2>História do GTA V</h2>
+        <div class="content">
+          <p>Mano, o GTA V é PIKA! A história rola em Los Santos, que é tipo uma Los Angeles fictícia, saca? Tem três malucos como protagonistas: o Michael, um ex-bandido aposentado que tá na bad com a família; o Franklin, um mlk da quebrada querendo subir na vida; e o Trevor, um doido varrido que é capaz de qualquer merda.<br><br>
+            Os três se juntam pra fazer uns assaltos sinistros e acabam se metendo em cada rolo - FIB (que é tipo o FBI), cartel, máfia... Tá ligado como é. O legal é que você pode trocar entre os três personagens a qualquer hora (quase sempre) e cada um tem seu estilo próprio.<br><br>
+            O jogo é cheio de liberdade - pode seguir a história ou só zuar pela cidade fazendo o que der na telha.</p>
+        </div>
+      </section>
+
+      <section id="como-jogar" class="accordion" tabindex="0">
+        <h2>Como Jogar</h2>
+        <div class="content">
+          <p>Cara, é simples demais! Você controla os três personagens e cada um tem um poder especial:<br><br>
+            • Michael: fica tipo em câmera lenta na hora do tiro<br>
+            • Franklin: dirige igual um maníaco, com tempo de reação mais rápido<br>
+            • Trevor: vira um tanque de guerra, aguenta porrada e dá dano dobrado<br><br>
+            Além das missões principais, tem um monte de coisa pra fazer: assaltar lojinha, investir na bolsa, correr de carro, pilotar avião, jogar tênis... Ou só sair causando na rua mesmo, que é o que a galera mais curte. E tem o Online também, onde você cria seu próprio personagem e faz merda com os amigos.</p>
+        </div>
+      </section>
+
+      <section id="personagens" class="accordion" tabindex="0">
+        <h2>Personagens</h2>
+        <div class="content">
+          <p><strong>Michael:</strong> O tiozão que já foi bandido grande mas tá tentando viver direito. Só que a vida dele tá uma zona - esposa chata, filhos problemáticos e saudade do tempo de crime.<br><br>
+            <strong>Franklin:</strong> O mlk da quebrada que quer dar um jeito na vida. Tá cansado de trampar pra chefes merdas e quer fazer grana de verdade, mas sem se foder muito.<br><br>
+            <strong>Trevor:</strong> O MALUCO COMPLETO! Mora no meio do nada, usa cueca suja, cheira pó e é capaz de qualquer coisa. O cara é instável demais, mas é o mais engraçado de jogar.<br><br>
+            Juntos, eles fazem cada assalto doido que você não vai acreditar!</p>
+        </div>
+      </section>
+
+      <section id="codigos-dicas" class="accordion" tabindex="0">
+        <h2>Códigos e Dicas</h2>
+        <div class="content">
+          <p>Olha só esses códigos irados pra deixar o jogo mais daora (só funciona offline, beleza?):<br><br>
+            • Virar o Homem de Ferro (5 min): <em>PAINKILLER</em><br>
+            • Vida e armadura no talo: <em>TURTLE</em><em><br>
+            • Câmera lenta estilo Matrix: <em>SLOWMO</em><br>
+            • Pular igual o Super Mario: <em>HOPTOIT</em><br>
+            • Spawnar um Comet (o carro mais midia): <em>COMET</em><br><br>
+            Pra ativar, é só digitar no celular do personagem ou usar os botões certos pra sua plataforma.</p>
+        </div>
+      </section>
+
+      <section id="mapa" class="accordion" tabindex="0">
+        <h2>Mapa e Locais</h2>
+        <div class="content">
+          <p>O mapa do GTA V é gigante, mano! Tem a cidade (Los Santos) e um monte de área rural em volta - montanha, deserto, praia, floresta... Cada canto tem sua vibe.<br><br>
+            Lugares irados:<br>
+            • Vinewood - tipo Hollywood, cheio de celebridade esnobe<br>
+            • Sandy Shores - onde o Trevor mora, um lugar largado<br>
+            • Mount Chiliad - a montanha com um mistério do absurdo<br>
+            • Praia de Vespucci - pra pegar um bronze e arrumar confusão<br><br>
+            E ainda tem área debaixo d'água pra explorar com submarino! Vale a pena dar um rolê por tudo.</p>
+        </div>
+      </section>
+
+      <section id="veiculos" class="accordion" tabindex="0">
+        <h2>Veículos</h2>
+        <div class="content">
+          <p>Tem carro pra cacete nesse jogo, véi! Desde fusca velho até supercarro de milhões. E não é só carro não - tem moto, caminhão, avião, helicóptero, barco, submarino...<br><br>
+            Dá pra tunar os veículos na Los Santos Customs: mudar cor, colocar nitro, melhorar motor, freio, suspensão... Deixa o carro do jeito que você quiser!<br><br>
+            Alguns veículos especiais só desbloqueia fazendo missão ou no Online. E os detalhes são insanos - até o rádio do carro funciona de verdade!</p>
+        </div>
+      </section>
+
+      <section id="missoes" class="accordion" tabindex="0">
+        <h2>Missões</h2>
+        <div class="content">
+          <p>As missões principais são muito legais! Tem desde perseguição de carro até assalto a banco que parece filme de Hollywood.<br><br>
+            Os assaltos são os melhores - você planeja como vai ser, escolhe a equipe, a abordagem... Pode ser na surdina ou chegando metralhando tudo. Cada escolha muda como a missão rola.<br><br>
+            Além disso tem um monte de missão secundária, desafio e evento aleatório. Dá pra passar horas só fazendo essas paradas sem avançar na história.</p>
+        </div>
+      </section>
+
+      <section id="curiosidades" class="accordion" tabindex="0">
+        <h2>Curiosidades</h2>
+        <div class="content curiosities">
+          <ul>
+            <li>Tem um mistério do bizarro no Monte Chiliad que até hoje a galera tá tentando decifrar</li>
+            <li>Os devs esconderam referências a outros jogos da Rockstar pelo mapa</li>
+            <li>Tem mais de 240 músicas nas rádios - dá pra ficar horas só ouvindo</li>
+            <li>Tem OVNI escondido em alguns lugares, mas só aparece em condições específicas</li>
+            <li>O Online foi lançado depois, mas virou o modo mais jogado</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="videos" class="accordion" tabindex="0">
+        <h2>Vídeos</h2>
+        <div class="content videos">
+          <iframe src="https://www.youtube.com/embed/QkkoHAzjnUs" title="Trailer do GTA V" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </section>
+
+      <section id="galeria" class="accordion" tabindex="0">
+        <h2>Galeria</h2>
+        <div class="content gallery" aria-label="Galeria de imagens GTA V">
+          <img src="https://imgs.search.brave.com/S5nV3vv39GWPA6CHiAuw7EYBCeFnRN1BFb2U-2CJhOM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Z3RhNS5jb20uYnIv/d3AtY29udGVudC91/cGxvYWRzLzIwMTMv/MDkvU2NyZWVuc2hv/dC1HVEEtVi0xOTQt/NTgweDMyNi5qcGc" alt="Los Santos à noite" />
+          <img src="https://imgs.search.brave.com/_vvZJs-sG0tvsZhtAOU2eu_rJoM6tQJGNwjSQLJwUkQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvOTY3/MDc4LmpwZw" alt="Personagens juntos" />
+          <img src="https://imgs.search.brave.com/Gr4qIieoPAsdxdOXYPehqFGISnLFJPePaXLdQ-CA5kw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bGlnYWRvc2dhbWVz/LmNvbS9pbWFnZW5z/L2Rld2JhdWNoZWUt/dmFnbmVyLWNrZS5q/cGc_Y2xhc3M9YXJ0/aWNsZQ" alt="Veículo esportivo em alta velocidade" />
+          <img src="https://imgs.search.brave.com/vrlx3YWvWMceQJahFJrAkM3UCnYEVtb8Ge6GRuzHMC8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/c2l0ZWRvZ3RhLmNv/bS5ici9ndGE1L2lt/YWdlbnMvbWFwYXMv/TWFwYSUyMGRvJTIw/R1RBJTIwViUyMHZp/c2FvJTIwZGUlMjBz/YXRlbGl0ZSUyMG0u/anBn" alt="Vista aérea do mapa" />
+        </div>
+      </section>
+
+      <section id="quiz" class="accordion" tabindex="0">
+        <h2>Quiz</h2>
+        <div class="content">
+          <form id="quiz-form" aria-label="Quiz de perguntas sobre GTA V">
+            <p>Quem são os três protagonistas do GTA V?</p>
+            <label><input type="checkbox" name="char" value="Michael" /> Michael De Santa</label><br>
+            <label><input type="checkbox" name="char" value="Franklin" /> Franklin Clinton</label><br>
+            <label><input type="checkbox" name="char" value="Trevor" /> Trevor Philips</label><br>
+            <label><input type="checkbox" name="char" value="Tommy" /> Tommy Vercetti</label><br>
+            <button type="submit">Responder</button>
+          </form>
+          <p id="quiz-result" aria-live="polite" style="margin-top: 10px;"></p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <button id="btn-top" aria-label="Voltar ao topo">↑</button>
+
+  <div id="lightbox" aria-modal="true" role="dialog" tabindex="-1">
+    <img src="" alt="Imagem ampliada da galeria" />
+  </div>
+
+  <script>
+    // Accordion toggle
+    document.querySelectorAll('.accordion').forEach(acc => {
+      acc.addEventListener('click', () => {
+        const content = acc.querySelector('.content');
+        content.classList.toggle('open');
+      });
+      acc.addEventListener('keypress', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          acc.click();
+        }
+      });
+    });
+
+    // Lightbox para galeria
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    document.querySelectorAll('.gallery img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightbox.style.display = 'flex';
+        lightbox.focus();
+      });
+    });
+    lightbox.addEventListener('click', () => {
+      lightbox.style.display = 'none';
+      lightboxImg.src = '';
+    });
+    lightbox.addEventListener('keydown', e => {
+      if(e.key === 'Escape') {
+        lightbox.style.display = 'none';
+        lightboxImg.src = '';
+      }
+    });
+
+    // Botão voltar ao topo
+    const btnTop = document.getElementById('btn-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        btnTop.style.display = 'flex';
+      } else {
+        btnTop.style.display = 'none';
+      }
+    });
+    btnTop.addEventListener('click', () => {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    // Tema claro/escuro toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      if(document.body.classList.contains('light')) {
+        themeToggle.textContent = 'Tema escuro';
+      } else {
+        themeToggle.textContent = 'Tema claro';
+      }
+    });
+
+    // Quiz
+    const quizForm = document.getElementById('quiz-form');
+    const quizResult = document.getElementById('quiz-result');
+
+    quizForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const checked = Array.from(quizForm.elements['char'])
+        .filter(chk => chk.checked)
+        .map(chk => chk.value)
+        .sort();
+      const correct = ['Franklin', 'Michael', 'Trevor'];
+
+      if (checked.length === 3 && correct.every(c => checked.includes(c))) {
+        quizResult.textContent = "Isso aí, mano! Acertou tudo!";
+        quizResult.style.color = '#00ff00';
+      } else {
+        quizResult.textContent = "Errou feio, errou rude! Tenta de novo aí...";
+        quizResult.style.color = '#ff0000';
+      }
+    });
+    
+  </script>
+
+</body>
+</html>

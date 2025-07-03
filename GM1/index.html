@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Futuristic Game Site</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+ <header>
+  <h1>GAME</h1>
+  <nav role="navigation" aria-label="Main navigation">
+    <a href="#" tabindex="0">Home</a>
+    <a href="#" tabindex="0">Games</a>
+    <a href="#" tabindex="0">About</a>
+    <a href="#" tabindex="0">Contact</a>
+    <button id="signInBtn" aria-label="Sign in to your account">Sign In</button>
+  </nav>
+</header>
+
+<main>
+  <div class="search-bar">
+    <input type="text" id="searchInput" aria-label="Search for a game" placeholder="Search for a game...">
+  </div>
+
+  <section class="game-grid" aria-live="polite" aria-label="List of games">
+    <div class="game-card" tabindex="0">
+      <img src="https://upload.wikimedia.org/wikipedia/en/1/18/Guardian_Tales_cover.jpg" alt="Guardian Tales">
+      <h2>GUARDIAN TALES</h2>
+      <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+      <button id="guardian" class="button" aria-label="Learn more about Guardian Tales">Learn More</button>
+    </div>
+
+    <div class="game-card" tabindex="0">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpbHr9J2iuoToeoF-6MS0d_xZiVoK_Z2UHgg&s" alt="DOOM">
+      <h2>DOOM</h2>
+      <div class="stars" aria-label="4 out of 5 stars">★★★★☆</div>
+      <button id="doom" class="button" aria-label="Learn more about DOOM">Learn More</button>
+    </div>
+
+    <div class="game-card" tabindex="0">
+      <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/391540/capsule_616x353.jpg?t=1579096091" alt="Undertale">
+      <h2>UNDERTALE</h2>
+      <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+      <button id="undertale" class="button" aria-label="Learn more about Undertale">Learn More</button>
+    </div>
+  </section>
+</main>
+
+
+
+  <script src="script.js"></script>
+</body>
+</html>

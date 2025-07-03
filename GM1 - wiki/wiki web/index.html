@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Futuristic Game Site</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-image: url(https://i.redd.it/xs7959atghoc1.gif);
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle, #00ffff20 1px, transparent 1px),
+                  radial-gradient(circle, #ff00ff15 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: starsMove 30s linear infinite;
+      z-index: -1;
+      opacity: 0.2;
+    }
+
+    @keyframes starsMove {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 1000px 1000px, 500px 500px; }
+    }
+
+    header {
+      background: #1a1a2e;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #00ffff40;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #00ffff;
+      animation: glow 2s ease-in-out infinite alternate;
+      text-shadow: 0 0 10px #00ffff88;
+      margin: 0;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00ffff55; }
+      to { text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffffaa; }
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      transition: color 0.3s, text-shadow 0.3s, background 0.3s;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+      background: #00262633;
+      outline: none;
+    }
+
+    nav button {
+      background: #00ffff;
+      color: black;
+      border: 2px solid #00ffff;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      box-shadow: 0 0 10px #00ffff88;
+    }
+
+    nav button:hover,
+    nav button:focus {
+      background: #001f1f;
+      color: #00ffff;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #00ffffcc, inset 0 0 10px #00ffffaa;
+      outline: none;
+    }
+
+    .search-bar {
+      text-align: center;
+      margin: 2rem 0 1rem;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-bar input {
+      padding: 0.6rem 1rem;
+      border-radius: 20px;
+      border: 2px solid #00ffff55;
+      background: #1f1f3d;
+      color: #00ffff;
+      font-size: 1rem;
+      width: 300px;
+      max-width: 90vw;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: #00ffff;
+      box-shadow: 0 0 10px #00ffff99;
+    }
+
+    .game-grid {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .game-card {
+      position: relative;
+      overflow: hidden;
+      background: #1f1f3d;
+      border: 2px solid #00ffff30;
+      border-radius: 20px;
+      padding: 1.5rem;
+      text-align: center;
+      width: 250px;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .game-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
+      animation: rotateBorder 4s linear infinite;
+      z-index: 0;
+      opacity: 0.1;
+      border-radius: 20px;
+    }
+
+    @keyframes rotateBorder {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .game-card * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .game-card:hover,
+    .game-card:focus-within {
+      transform: scale(1.05);
+      border-color: #00ffff;
+      box-shadow: 0 0 16px #00ffff, inset 0 0 16px #00ffff;
+      outline: none;
+    }
+
+    .game-card button {
+      margin-top: 0.5rem;
+      background: #00ffff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+      font-weight: bold;
+      color: black;
+    }
+
+    .game-card button:hover,
+    .game-card button:focus {
+      background: #00ccff;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #00ffffaa;
+      outline: none;
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 150px; 
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .game-card h2 {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffffaa;
+    }
+
+    .stars {
+      color: gold;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (max-width: 800px) {
+      .game-grid { gap: 1rem; }
+      .game-card { width: 45vw; min-height: 320px; }
+    }
+
+    @media (max-width: 480px) {
+      header { flex-direction: column; align-items: flex-start; }
+      nav { width: 100%; justify-content: space-between; }
+      nav a, nav button { padding: 0.3rem 0.5rem; font-size: 0.9rem; }
+      .game-grid { flex-direction: column; align-items: center; gap: 1.5rem; }
+      .game-card { width: 90vw; min-height: 300px; }
+      .search-bar input { width: 90vw; }
+    }
+
+   .home-container {
+    position: absolute;
+    left: 60%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+  
+  padding: 80px 20px;
+  width: 1000px;
+  max-height: 100vh;
+}
+
+.home-card {
+  background-color: rgba(19, 19, 31, 0.85);
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 500px;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+  border: 1px solid rgba(0, 255, 255, 0.15);
+  text-align: center;
+  color: #ffffff;
+  animation: fadeInUp 1.2s ease-out;
+}
+
+.home-title {
+  font-size: 36px;
+  color: #00ffff;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #00ffffaa, 0 0 20px #00ffff44;
+}
+
+.home-text {
+  font-size: 18px;
+  margin-bottom: 20px;
+  line-height: 1.7;
+  color: #e0e0ff;
+}
+
+.highlight {
+  color: #00ffff;
+  font-weight: bold;
+  text-shadow: 0 0 6px #00ffff88, 0 0 12px #00ffff33;
+}
+
+.home-btn {
+  background: #00ffff;
+  color: #000;
+  font-weight: bold;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 0 15px #00ffff99;
+}
+
+.home-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ffffcc, inset 0 0 10px #00ffff88;
+}
+
+/* Animação de entrada suave */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+    #contact {
+  background: #121229;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  max-width: 700px;
+  margin: 3rem auto 5rem;
+  box-shadow: 0 0 20px #00ffff44;
+  color: #00ffffcc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+#contact h2 {
+  color: #00ffff;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  text-shadow: 0 0 8px #00ffffaa;
+}
+
+#contact p {
+  font-size: 1.1rem;
+  margin: 0.6rem 0 1.5rem 0;
+  color: #a0f0f0cc;
+  line-height: 1.5;
+  text-align: center;
+}
+
+#contact a {
+  color: #00ffff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+#contact a:hover,
+#contact a:focus {
+  color: #66ffff;
+  text-shadow: 0 0 5px #00ffffcc;
+  outline: none;
+}
+
+#contact ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+#contact ul li a {
+  background: #00ffff00;
+  
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #00ffff55;
+  font-weight: 700;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+#contact ul li a:hover,
+#contact ul li a:focus {
+  background: #00ffff15;
+  box-shadow: 0 0 15px #00ffffaa;
+  outline: none;
+}
+
+#contact form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+#contact label {
+  font-weight: 600;
+  color: #00ffffcc;
+  margin-bottom: 0.3rem;
+}
+
+#contact input[type="text"],
+#contact input[type="email"],
+#contact textarea {
+  background: #1f1f3d;
+  border: 2px solid #00ffff55;
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
+  color: #00ffffdd;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#contact input[type="text"]:focus,
+#contact input[type="email"]:focus,
+#contact textarea:focus {
+  border-color: #00ffff;
+  box-shadow: 0 0 10px #00ffff99;
+  outline: none;
+}
+
+#contact textarea {
+  min-height: 100px;
+}
+
+#contact button[type="submit"] {
+  background: #00ffff;
+  color: black;
+  font-weight: bold;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  box-shadow: 0 0 15px #00ffffaa;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+#contact button[type="submit"]:hover,
+#contact button[type="submit"]:focus {
+  background: #00ccff;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ffffcc, inset 0 0 15px #00ffffcc;
+  outline: none;
+}
+
+
+.about-container {
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 40px;
+  background-color: #13131f;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+  text-align: center;
+  color: #ffffff;
+  border: 1px solid rgba(0, 255, 255, 0.15);
+}
+
+.about-heading {
+  font-size: 28px;
+  color: #00ffff;
+  margin-bottom: 20px;
+  text-shadow: 0 0 5px #00ffffaa;
+}
+
+.about-intro,
+.about-description,
+.about-footer {
+  font-size: 17px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.highlight {
+  color: #00ffff;
+  font-weight: bold;
+}
+
+.about-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 30px 0;
+}
+
+.about-list li {
+  font-size: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mascote-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 9999;
+  pointer-events: none; /* Mascote não bloqueia clique no site */
+  transition: transform 3s ease-in-out;
+}
+
+.mascote-img {
+  width: 80px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #00ffffaa);
+}
+
+.balão-fala {
+  background: #1f1f3d;
+  color: #00ffff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  max-width: 200px;
+  box-shadow: 0 0 12px #00ffff44;
+}
+
+
+@keyframes aparecer {
+  to { opacity: 1; }
+}
+
+#mascote {
+  animation: flutuar 4s ease-in-out infinite;
+}
+
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+#mascote .brilho {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, #00ffff 40%, transparent 70%);
+  border-radius: 50%;
+  animation: brilhoSubir 0.6s ease-out forwards;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+@keyframes brilhoSubir {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -80px) scale(0.5);
+  }
+}
+
+.news-widget {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  width: 400px;
+  height: 200px;
+  background: rgba(15, 15, 30, 0.85);
+  padding-top: 45px; /* espaço para o título */
+  border: 1px solid #00ffff33;
+  border-radius: 16px;
+  color: #00ffff;
+  font-size: 0.9rem;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 0 15px #00ffff55;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.news-widget h3 {
+  position: absolute;
+  margin: 0;
+  padding: 8px 12px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 20, 1);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  font-size: 1rem;
+  color: #00ffff;
+  text-shadow: 0 0 6px #00ffffaa;
+  border-bottom: 1px solid #00ffff44;
+  box-shadow: 0 2px 6px #00000044;
+  z-index: 2;
+}
+
+.news-widget ul {
+  list-style: none;
+  padding: 0 12px;
+  margin: 0;
+  height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  z-index: 1;
+}
+
+
+
+#noticias {
+  display: inline-block;
+  animation: scrollNoticias 20s linear infinite;
+  padding: 0;
+  margin: 0;
+}
+
+#noticias li {
+  list-style: none;
+  margin-bottom: 12px;
+  white-space: nowrap;
+}
+
+
+/* Animação de rolagem vertical contínua */
+@keyframes scrollNoticias {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ArcadiaVault</h1>
+    <nav role="navigation" aria-label="Main navigation">
+      <a href="#" id="home-link" tabindex="0">Home</a>
+      <a href="#" id="games-link">Games</a>
+      <a href="#" id="about-link" tabindex="0">About</a>
+      <a href="#" id="contact-link" tabindex="0">Contact</a>
+      <button id="signInBtn" aria-label="Sign in to your account">Sign In</button>
+    </nav>
+  </header>
+
+  <div class="mascote-container" id="mascote">
+  <img src="https://media.tenor.com/ZLoIGLPBxYQAAAAj/guardian-tales-future-princess.gif" alt="Mascote Loraine" class="mascote-img">
+  <div class="balão-fala" id="falaMascote">Olá, viajante! Pronto para explorar?</div>
+</div>
+
+<div class="news-widget">
+  <h3>📰 Últimas do mundo gamer</h3>
+  <ul id="noticias">
+    <li>🎮 Jogo secreto escondido no ArcadiaVault?</li>
+    <li>💡 Dica: Combine espadas de luz com magias rápidas!</li>
+    <li>👾 Novo personagem revelado em Guardian Tales!</li>
+    <li>🛠️ Atualização v1.9 com balanceamento de classes.</li>
+    <li>🎮 Jogo secreto escondido no ArcadiaVault?</li>
+    <li>💡 Dica: Combine espadas de luz com magias rápidas!</li>
+  </ul>
+</div>
+
+
+
+  <section id="about" style="display: none;" class="about-container">
+  <h2 class="about-heading">Sobre o Projeto</h2>
+  <p class="about-intro">
+    Bem-vindo à <span class="highlight">Arcadia Vault</span>, um espaço feito para quem ama explorar universos de jogos como nunca antes! 🌌
+  </p>
+  <p class="about-description">
+    Nosso objetivo é oferecer um conteúdo envolvente, visualmente imersivo e cheio de informações úteis sobre seus jogos favoritos — tudo isso com um design moderno e interativo.
+  </p>
+
+  <ul class="about-list">
+    <li>📘 <strong>Guias completos</strong>e organizados</li>
+    <li>📜 <strong>Lore</strong>e histórias dos personagens</li>
+    <li>🎮 <strong>Dicas</strong>e estratégias de gameplay</li>
+    <li>✨ <strong>Curiosidades</strong>e conteúdos escondidos</li>
+  </ul>
+
+  <p class="about-footer">
+    Este é um projeto independente, feito com <span class="highlight">paixão por jogos e tecnologia</span>. Estamos sempre evoluindo para trazer o melhor para você!
+  </p>
+</section>
+
+
+
+<section id="home" class="home-container">
+  <div class="home-card">
+    <h1 class="home-title">
+      👾 Bem-vindo <br> ao <br> <span class="highlight">ArcadiaVault</span>
+    </h1>
+    <p class="home-text">
+      🌌 <span class="highlight">ArcadiaVault</span> é o seu universo gamer! Aqui você mergulha em <strong>lore profundas</strong>, descobre <strong>dicas estratégicas</strong>, <strong>personagens lendários</strong>, <strong>armas únicas</strong> e <strong>segredos ocultos</strong> dos seus jogos favoritos.
+    </p>
+    <p class="home-text">
+      🚀 Criado para <strong>jogadores de todos os níveis</strong>, este espaço é uma <span class="highlight">enciclopédia viva</span> com conteúdo atualizado, visual imersivo e navegação intuitiva.
+    </p>
+    <p class="home-text">
+      ✨ Entre, explore e descubra o que há <strong>além dos pixels</strong>!
+    </p>
+    <button class="home-btn" onclick="document.querySelector('#jogos').scrollIntoView({behavior: 'smooth'})">Explorar Jogos</button>
+  </div>
+</section>
+
+
+  <main>
+    <div class="search-bar" id="search-bar" style="display: none;">
+      <input type="text" id="searchInput" aria-label="Search for a game" placeholder="Search for a game...">
+    </div>
+
+    <section class="game-grid" id="games-section" aria-live="polite" aria-label="List of games" style="display: none;">
+      <div class="game-card" tabindex="0">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/18/Guardian_Tales_cover.jpg" alt="Guardian Tales">
+        <h2>GUARDIAN TALES</h2>
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <button id="guardian" class="button" aria-label="Learn more about Guardian Tales">Learn More</button>
+      </div>
+
+      <div class="game-card" tabindex="0">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpbHr9J2iuoToeoF-6MS0d_xZiVoK_Z2UHgg&s" alt="DOOM">
+        <h2>DOOM</h2>
+        <div class="stars" aria-label="4 out of 5 stars">★★★★☆</div>
+        <button id="doom" class="button" aria-label="Learn more about DOOM">Learn More</button>
+      </div>
+
+      <div class="game-card" tabindex="0">
+        <img src="https://cdn.awsli.com.br/2500x2500/1610/1610163/produto/177700817/poster-grand-theft-auto-v-gta-5-d-17afa315.jpg" alt="Undertale">
+        <h2>GTA</h2>
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <button id="GTA" class="button" aria-label="Learn more about Undertale">Learn More</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- SEÇÃO DE CONTATO -->
+  <section id="contact" style="display: none;">
+  <h2>Entre em Contato</h2>
+  <p>Tem sugestões de jogos, encontrou erros ou quer colaborar com o projeto? Fale com a gente!</p>
+  <p>📧 Email: <a href="mailto:contato@arcadiavault.com">contato@arcadiavault.com</a></p>
+  <p>Siga-nos nas redes sociais:</p>
+  <ul>
+    <li><a href="#" aria-label="Instagram">Instagram</a></li>
+    <li><a href="#" aria-label="Twitter">Twitter/X</a></li>
+    <li><a href="#" aria-label="Discord">Discord</a></li>
+  </ul>
+  <form>
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required />
+
+    <label for="message">Mensagem:</label>
+    <textarea id="message" name="message" required></textarea>
+
+    <button type="submit">Enviar</button>
+  </form>
+</section>
+
+
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+      const guardianBtn = document.getElementById('guardian');
+      const doomBtn = document.getElementById('doom');
+      const undertaleBtn = document.getElementById('GTA');
+      const searchInput = document.getElementById('searchInput');
+      const gameCards = document.querySelectorAll('.game-card');
+      const home = document.getElementById('home');
+      const aboutLink = document.getElementById('about-link');
+      const contactLink = document.getElementById('contact-link');
+      const aboutSection = document.getElementById('about');
+      const contactSection = document.getElementById('contact');
+      const descriptionSection = document.getElementById('description');
+      const gamesSection = document.getElementById('games-section');
+      const searchBar = document.getElementById('search-bar');
+
+      guardianBtn.addEventListener('click', () => {
+        window.location.href = 'guardian.html';
+      });
+
+      doomBtn.addEventListener('click', () => {
+        window.location.href = 'doom.html';
+      });
+
+      undertaleBtn.addEventListener('click', () => {
+        window.location.href = 'GTA.html';
+      });
+
+      searchInput.addEventListener('input', () => {
+        const filter = searchInput.value.toLowerCase();
+        gameCards.forEach(card => {
+          const title = card.querySelector('h2').textContent.toLowerCase();
+          card.style.display = title.includes(filter) ? 'flex' : 'none';
+        });
+      });
+
+      function hideAllSections() {
+    if (aboutSection) aboutSection.style.display = 'none';
+    if (contactSection) contactSection.style.display = 'none';
+    if (home) home.style.display = 'none';
+    if (gamesSection) gamesSection.style.display = 'none';
+    if (searchBar) searchBar.style.display = 'none';
+  }
+
+      aboutLink.addEventListener('click', () => {
+    hideAllSections();
+    aboutSection.style.display = 'block';
+  });
+
+  contactLink.addEventListener('click', () => {
+    hideAllSections();
+    contactSection.style.display = 'block';
+  });
+
+  document.getElementById('home-link').addEventListener('click', () => {
+    hideAllSections();
+    home.style.display = 'flex';
+  });
+
+  document.getElementById('games-link').addEventListener('click', () => {
+    hideAllSections();
+    gamesSection.style.display = 'flex';
+    searchBar.style.display = 'flex';
+  });
+    });
+
+    
+  
+   const frases = [
+    "Olá, viajante! Pronto para explorar?",
+    "Você sabia que há um baú escondido nessa página?",
+    "Aperte os cintos, a jornada começa agora!",
+    "Não se esqueça de hidratar-se entre uma missão e outra!",
+    "Lembre-se: até o menor pixel pode esconder um segredo.",
+    "Dica: experimente passar o mouse pelos cards 👀"
+  ];
+
+  const mascote = document.getElementById("mascote");
+  const fala = document.getElementById("falaMascote");
+
+  function novaFala() {
+    fala.textContent = frases[Math.floor(Math.random() * frases.length)];
+  }
+
+  function moverMascote() {
+    // movimenta dentro de um quadrado de 100px no canto inferior direito
+    const x = Math.random() * 30 - 15; // -15 a +15 px
+    const y = Math.random() * 30 - 15;
+
+    mascote.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  setInterval(() => {
+    novaFala();
+    moverMascote();
+  }, 8000); // menos frequência
+
+  moverMascote();
+
+ mascote.addEventListener("click", () => {
+    novaFala();
+    mascote.style.transition = "transform 0.2s ease";
+    mascote.style.transform += " translateY(-20px)";
+    mascote.classList.add("clicado");
+
+    setTimeout(() => {
+      mascote.style.transform = "translate(0, 0)";
+    }, 200);
+
+    // efeito de brilho ao clicar
+    const brilho = document.createElement("div");
+    brilho.className = "brilho";
+    mascote.appendChild(brilho);
+    setTimeout(() => mascote.removeChild(brilho), 600);
+  });
+
+  const mascoteImg = document.querySelector(".mascote-img");
+
+const mascotes = [
+  "https://media.tenor.com/ZLoIGLPBxYQAAAAj/guardian-tales-future-princess.gif",
+  "https://pngimg.com/d/doom_PNG1.png",
+  "https://pngimg.com/d/gta_PNG46.png",
+  "https://howlongtobeat.com/games/82097_Guardian_Tales.jpg"
+];
+
+// Função para trocar o mascote
+let mascoteIndex = 0;
+function trocarMascote() {
+  mascoteIndex = (mascoteIndex + 1) % mascotes.length;
+  mascoteImg.src = mascotes[mascoteIndex];
+}
+
+// Troca o mascote a cada 10 segundos
+setInterval(trocarMascote, 5000);
+
+  </script>
+</body>
+</html>

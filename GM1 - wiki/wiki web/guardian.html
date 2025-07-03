@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guardian Tales - Guia Interativo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f0f1a;
+      color: #ffffff;
+    }
+
+    html {
+  scroll-behavior: smooth;
+}
+
+
+    header {
+      background-color: #121226;
+      border-bottom: 2px solid #00f0ff;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      
+    }
+
+    header h1 {
+      color: #00f0ff;
+      text-shadow: 0 0 8px #00f0ff;
+      margin: 0;
+    }
+
+    nav a {
+      color: #ffffff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #00f0ff;
+    }
+
+    .hero-image {
+  height: 100vh;
+  background-image: url('https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000041655/2c8e04df5b0a67cadda0b78f4848ee28d901ee581028bcaea5c2adf861b7b145');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  border-bottom: 5px solid #00f0ff;
+}
+
+
+
+    .container {
+      max-width: 1000px;
+      
+      margin: 40px auto;
+      padding: 0 20px;
+
+
+
+      z-index: 80;
+    }
+
+    .accordion {
+      background-color: #1c1c2e;
+      border-left: 5px solid #00f0ff;
+      border-bottom: 2px solid #00f0ff;
+      border-top: 5px solid #00f0ff;
+      border-radius: 0px 20px 20px 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 0 10px #00f0ff20;
+      transition: background-color 0.3s;
+
+      background-image: url(https://img.freepik.com/vetores-premium/efeito-queimando-faiscas-vermelhas-de-fogo-realistas-chamas-azuis_29865-1657.jpg);
+    background-repeat: no-repeat;
+    background-size:cover;
+    }
+
+    .accordion:hover {
+      background-color: #25253a;
+    }
+
+    .accordion h2 {
+      color: #00f0ff;
+      margin: 0;
+      text-shadow: 0 0 5px #00f0ff;
+      
+    }
+
+    .content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.4s;
+      padding: 0 20px;
+      
+    }
+
+    .content.open {
+      padding: 20px;
+      max-height: 3000px;
+    }
+
+    .content p {
+  margin: 0;
+  line-height: 1.7;
+  color: #ddd;
+  font-size: 1.05rem;
+  
+}
+
+
+
+
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      border-top: 1px solid #00f0ff30;
+      box-shadow: 0 -2px 10px #00eeff, inset #00eeff98 0 2px 10px;
+      margin-top: 60px;
+
+      z-index: 10000;
+    }
+
+
+    .personagens{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px; 
+    }
+
+    
+
+
+.boss-list {
+  display: flex;
+  gap: 40px; /* Espaço entre colunas */
+  margin-top: 10px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column.left {
+  color: #0ff;
+}
+
+.column.right {
+  color: #ccc;
+  max-width: 400px; /* Largura máxima da coluna da direita */
+}
+
+.gifs {
+  position: absolute; /* Melhor usar relative para facilitar o controle */
+  margin-top: 100px;  /* Ajuste de posição geral */
+  height: 300px;       /* Altura para conter os gifs */
+}
+
+.G1, .G2, .G3 {
+  position: absolute;
+  width: 280px;
+  height: auto;
+  left: 0;
+}
+
+/* Cada um com posição e camada diferentes */
+.G1 {
+  top: 0;
+  z-index: 2;
+}
+
+.G2 {
+  top: 170px;
+  z-index: 10;
+}
+
+.G3 {
+  top: 340px;
+  z-index: 3;
+}
+
+a{
+  color: rgb(255, 255, 255);
+  text-shadow: #1100ff 0px 0px 10px;
+  
+}
+
+
+.gif {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: url('https://i.pinimg.com/originals/bc/8d/02/bc8d026b258afad9a3d4b1b84ed6721f.gif') no-repeat center center;
+  background-size: cover;
+  opacity: 0.4; 
+}
+
+  </style>
+</head>
+<body>
+
+
+
+
+  <header>
+    <h1>GUARDIAN TALES</h1>
+    <nav>
+      <a href="/GM1 - wiki/wiki web/index.html">Voltar</a>
+    </nav>
+  </header>
+
+  <!-- Banner de Capa com Efeito Parallax -->
+<section class="hero-image"></section>
+
+  <div>
+    <img src="https://i.pinimg.com/originals/bc/8d/02/bc8d026b258afad9a3d4b1b84ed6721f.gif" alt="gif" class="gif">
+  </div>
+
+  <!--<div class="gifs">
+  <img src="https://i.makeagif.com/media/7-29-2023/Lb3cx-.gif" alt="" class="G1">
+  <img src="https://i.makeagif.com/media/7-17-2021/G2pWw_.gif" alt="" class="G2">
+  <img src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/maleklopez/23swgE6Qe9QDKmnrUzL76BxrgRTEULa5xTiDHQppT4pLp1zaFQWxHzjbjC1pAjd81RmPS.gif" alt="" class="G3">
+</div>-->
+  
+
+
+
+  <div class="container">
+
+
+    <div class="accordion">
+  <h2>Lore do Jogo</h2>
+  <div class="content">
+    <p style="color: #ffffff; background-color: rgba(0,0,0,0.5); text-shadow: 0px 0px 10px #00eeff ;">
+      No pacífico mundo de <a href="GUARDIAN TALES/kanterburyGUARDIAN.html" style="color: #ff0000; text-decoration: underline;">Kanterbury</a>, a harmonia reinava sob a proteção de poderosos heróis chamados Guardians. Eles eram os defensores do reino, servindo à realeza e garantindo que nenhuma ameaça se aproximasse. Durante anos, tudo seguiu em equilíbrio... até que uma invasão repentina mudou o curso da história.<br><br>
+
+      Um exército misterioso conhecido como os <a href="GUARDIAN TALES/InvadersGUARDIAN.html" style="color: #ff0000; text-decoration: underline;">Invaders</a> surgiu, vindo de uma dimensão desconhecida. Eles destruíram cidades, dominaram o castelo real e deixaram o reino em caos. Liderados por um ser sombrio chamado <a href="GUARDIAN TALES/DarkMagicianGUARDIAN.html" style="color: #ff0000; text-decoration: underline;">Dark Magician</a>, os invasores não tinham piedade. Durante o ataque, a Princesa de Kanterbury foi sequestrada, e a maior parte dos Guardians foi derrotada ou desapareceu.<br><br>
+
+      Você, o protagonista da história, era apenas um Guardian novato, sem grandes títulos ou conquistas. No entanto, durante a invasão, você sobrevive e encontra um poder ancestral. A Deusa do Destino, uma entidade que observa o equilíbrio entre os mundos, entra em contato com você. Ela revela que você foi escolhido para empunhar a Espada da Profecia, uma arma sagrada destinada a salvar <a href="GUARDIAN TALES/kanterburyGUARDIAN.html" style="color: #ff0000; text-decoration: underline;">Kanterbury</a> do colapso.<br><br>
+
+      Guiado pela deusa e pela esperança, você parte em uma jornada perigosa para resgatar a princesa, descobrir a origem dos <a href="GUARDIAN TALES/InvadersGUARDIAN.html" style="color: #ff0000; text-decoration: underline;">Invaders</a> e restaurar a paz. Ao longo do caminho, você conhece diversos aliados vindos de diferentes reinos e dimensões — cada um com sua história, motivações e poderes únicos.<br><br>
+
+      Com o tempo, você descobre que a ameaça dos <a href="GUARDIAN TALES/InvadersGUARDIAN.html" style="color: #ff0000; text-decoration: underline;">Invaders</a> vai muito além de <a href="GUARDIAN TALES/kanterburyGUARDIAN.html" style="color: #ff0000; text-decoration: underline;">Kanterbury</a>. Eles são parte de uma guerra interdimensional, e seu verdadeiro objetivo é controlar o Cubo Dimensional, uma relíquia antiga com o poder de moldar realidades. Esse artefato é capaz de criar ou destruir universos inteiros, e está ligado ao destino de todos os mundos.<br><br>
+
+      <strong>Sua jornada o leva por locais como:</strong><br><br>
+
+      • <a href="GUARDIAN TALES/DW_GUARDIAN.html" style="color: #ff0000; text-decoration: underline;"><strong>The Demon World</strong></a>, um reino dominado por caos e magia negra.<br>
+      • <a href="GUARDIAN TALES/HeavenholdGUARDIAN.html" style="color: #ff0000; text-decoration: underline;"><strong>HeavenHold</strong></a>, uma fortaleza no céu onde você reúne aliados.<br>
+      • <a href="GUARDIAN TALES/WTS_GUARDIAN.html" style="color: #ff0000; text-decoration: underline;"><strong>Worlds of Time and Space</strong></a>, dimensões alternativas onde versões diferentes dos personagens e eventos se revelam.<br><br>
+
+      A história também aborda temas mais profundos, como o sacrifício, a dualidade entre luz e trevas, e a luta interna dos heróis que enfrentam seus próprios passados e escolhas.<br><br>
+
+      Ao final do arco principal, a batalha contra o <a href="GUARDIAN TALES/DarkMagicianGUARDIAN.html" style="color: #ff0000; text-decoration: underline;">Dark Magician</a> e seus mestres leva a um confronto épico que decide o futuro de todos os mundos conectados ao Cubo Dimensional. Mas mesmo após essa luta, novas ameaças surgem, e o destino de <a href="GUARDIAN TALES/kanterburyGUARDIAN.html" style="color: #ff0000; text-decoration: underline;">Kanterbury</a> continua em suas mãos.
+    </p>
+  </div>
+</div>
+
+
+
+
+        <div class="accordion">
+      <h2>Como Jogar</h2>
+      <div class="content">
+        <p style="color: #ffffff; background-color: rgba(0,0,0,0.5); text-shadow: 0px 0px 10px #00eeff ;">
+          Guardian Tales é um jogo de aventura e ação com visual retrô e elementos de RPG. Nele, você assume o papel de um guardião do reino de Kanterbury, e seu objetivo é lutar contra monstros, resolver quebra-cabeças e salvar o mundo. Para quem nunca jogou, o começo é simples: ao abrir o jogo pela primeira vez, você escolhe seu herói inicial e passa por um tutorial que ensina os controles básicos, como andar, atacar e interagir com objetos.<br><br>
+
+Durante as fases, você explora mapas cheios de segredos, portas trancadas e desafios. Os controles são intuitivos: você movimenta seu personagem usando um botão direcional na tela (ou deslizando o dedo) e usa botões de ataque e habilidades especiais para lutar contra os inimigos. Além das batalhas, muitos mapas têm enigmas e obstáculos, exigindo raciocínio e atenção para encontrar o caminho certo.<br><br>
+
+Conforme avança, você desbloqueia novos personagens, armas e habilidades. Cada herói tem um estilo de luta diferente — alguns usam espadas, outros arcos ou magia — e montar uma equipe equilibrada faz toda a diferença. O jogo também oferece modos extras, como arena PvP (jogador contra jogador), missões cooperativas e desafios diários.<br><br>
+
+Por fim, Guardian Tales tem uma história envolvente, cheia de humor, referências a outros jogos e momentos emocionantes. É um jogo que mistura ação, estratégia e diversão, ideal para quem gosta de explorar mundos fantásticos e melhorar seus personagens aos poucos.
+        </p>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <h2>Dicas para Iniciantes</h2>
+      <div class="content">
+        <p style="color: #ffffff; background-color: rgba(0,0,0,0.5); text-shadow: 0px 0px 10px #00eeff ;">
+          🧠 Dicas para Iniciantes em Guardian Tales<br>
+Se você está começando agora em Guardian Tales, aqui vão algumas dicas importantes que vão te ajudar a progredir mais rápido e evitar erros comuns:<br><br>
+
+✅ 1. Faça a História Principal com Calma<br>
+O modo história é onde você vai aprender tudo: como lutar, usar personagens, resolver puzzles e mais. Não tenha pressa — explore bem os mapas, procure por baús escondidos e tente pegar todas as recompensas.<br><br><br>
+
+💎 2. Use seus Cristais com Sabedoria<br>
+Os cristais são a moeda premium do jogo. No início, evite gastar em coisas desnecessárias. Guarde para fazer invocações de heróis ou armas poderosas nos banners certos (espere por eventos bons!).<br><br><br>
+
+🛡️ 3. Foque em um Time Principal<br>
+Em vez de tentar evoluir vários heróis ao mesmo tempo, escolha 1 personagem principal (de preferência um herói 3★ bom no início, como Marina, Bianca ou Bari) e monte um time em volta dele. Isso ajuda a progredir mais rápido.<br><br><br>
+
+⚔️ 4. Participe de uma Guilda<br>
+Entrar em uma guilda ativa te dá acesso a recompensas diárias, raids e um grupo para tirar dúvidas. Isso é muito útil, mesmo se você for iniciante.<br><br><br>
+
+🧪 5. Não Gaste Todos os Recursos de Uma Vez<br>
+Itens como martelos de reforço, pedras de evolução e awakening materials são escassos no começo. Guarde para usar em armas e heróis que você realmente vai manter no time.<br><br><br>
+
+🎮 6. Jogue o Coliseu e Arena Todos os Dias<br>
+Mesmo que você perca, participar desses modos dá recompensas importantes ao longo do tempo. E você vai melhorando com a prática!<br><br><br>
+
+🧱 7. Treine os Puzzles<br>
+O jogo tem muitas fases com enigmas e desafios de lógica. Se ficar travado, tente observar o mapa com atenção e mexer em tudo — às vezes o segredo está em um botão escondido ou em mover blocos na ordem certa.<br><br><br>
+
+🏠 8. Personalize Sua Ilha<br>
+Pode parecer algo secundário, mas a ilha também traz bônus com as estruturas que você constrói. Além disso, decorar é divertido e ajuda a relaxar entre uma batalha e outra.<br><br><br>
+
+🎁 9. Aproveite os Eventos<br>
+O jogo sempre tem eventos com recompensas fáceis para quem está começando. Faça as missões diárias e colete os prêmios — eles ajudam muito no progresso.<br><br><br>
+
+🔄 10. Reiniciar Conta no Início é Normal (Reroll)<br>
+Se você não gostou dos personagens ou armas que tirou logo no começo, pode deletar a conta e tentar de novo (reroll). Muitos jogadores fazem isso até conseguir um herói forte.<br><br><br>
+        </p>
+      </div>
+    </div>
+
+     <div class="accordion">
+      <h2>Informações gerais do Jogo</h2>
+      <div class="content">
+        <p style="color: #ffffff; background-color: rgba(0,0,0,0.5); text-shadow: 0px 0px 10px #00eeff ;">
+          Guardian Tales é um jogo de ação e aventura no estilo RPG retrô com gráficos em pixel art, lançado pela empresa Kong Studios. Ele mistura exploração, combate em tempo real, resolução de puzzles e história com humor e referências culturais. Está disponível para celulares (Android e iOS) e também pode ser jogado em alguns PCs por emuladores.<br><br>
+
+🧭 Gênero e Estilo<br><br>
+• Gênero: Ação/RPG com elementos de aventura.<br><br>
+
+• Visual: Gráficos pixelados estilo 16-bit (como os jogos antigos de Super Nintendo), mas com animações modernas e muito bem feitas.<br><br>
+
+• Câmera: Vista de cima (top-down), como em jogos clássicos tipo Zelda.<br><br><br>
+
+🗺️ Como Funciona o Jogo?<br>
+Você começa o jogo como um "Guardião" que deve proteger o reino de uma ameaça chamada Invaders (invasores). Aos poucos, você encontra novos aliados, enfrenta chefes e explora diferentes mundos e fases com muita história e reviravoltas.<br><br>
+
+• Cada mundo tem várias fases com desafios únicos.<br><br>
+
+• Durante o jogo, você pode resolver enigmas, empurrar blocos, encontrar passagens secretas e coletar itens escondidos.<br><br>
+
+• Também pode interagir com NPCs, fazer escolhas nos diálogos e até ver piadas sobre outros jogos e animes.<br><br><br>
+
+🧙‍♂️ Personagens:<br><br>
+• Você pode desbloquear vários heróis, cada um com habilidades únicas.<br><br>
+
+• Há personagens de todas as classes: guerreiros, magos, curandeiros, arqueiros, tanques, e mais.<br><br>
+
+• Cada personagem pode ser melhorado com experiência, equipamentos, ascensão e “Awakening” (despertar de atributos).<br><br><br>
+
+⚔️ Combate<br><br>
+• O combate é em tempo real, com movimentação livre e botões para ataque, habilidade especial e esquiva.<br><br>
+
+• Estratégia importa: escolher os personagens certos para sua equipe pode facilitar muito as fases e lutas contra chefes.<br><br><br>
+
+🏠 Modos de Jogo<br>
+Além do modo história principal, existem vários outros modos:<br><br>
+
+• Coliseu e Arena (PvP): batalhas automáticas ou em tempo real contra outros jogadores.<br><br>
+
+• Raids de Guilda: desafios em grupo contra chefes enormes.<br><br>
+
+• Tower of Horizon e Camadas de Calabouços: desafios difíceis com boas recompensas.<br><br>
+
+• Modo Co-op: você pode jogar com amigos em tempo real.<br><br><br>
+
+💰 Sistema de Progressão<br>
+Você pode melhorar seus heróis e armas de várias formas:<br><br>
+
+• Subir de nível<br><br>
+
+• Equipar armas e acessórios<br><br>
+
+• Despertar (Awakening) habilidades passivas<br><br>
+
+• Evoluir com materiais específicos<br><br>
+
+• Usar cristais para invocar novos heróis e equipamentos<br><br><br>
+
+🎨 Personalização<br>
+• Skins: Você pode mudar a aparência dos personagens com trajes diferentes.<br><br>
+
+• Ilhas: Cada jogador tem uma "ilha" que pode decorar como quiser, construindo estruturas, jardins e monumentos.
+        </p>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <h2>elementos</h2>
+      <div class="content">
+        <img src="data:image/jpeg;base64,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" alt="" style="width: 800px; border-radius: 12px; box-shadow: 0 0 10px #00f0ff66; margin-bottom: 16px;">
+      </div>
+    </div>
+
+    <div class="accordion">
+      <h2>Classes e Funções</h2>
+      <div class="content">
+        <p style="color:  #ffffff; background-color: rgba(0,0,0,0.5); text-shadow: 0px 0px 10px #00eeff ;">
+         Em Guardian Tales, cada herói tem uma classe, que indica o papel dele na batalha. Saber a função de cada classe é essencial para montar um time forte e equilibrado. Veja abaixo as principais:<br><br><br>
+
+🛡️ Tank (Tanque)<br>
+Função: Proteger o time, absorver o dano dos inimigos.<br><br>
+
+• Características: Alta defesa e vida (HP), habilidades de provocação (taunt), escudos e resistência.<br><br>
+
+• Exemplo de heróis tanques: Marina, Craig, Future Princess.<br><br>
+
+• Dica: Um bom tanque mantém os inimigos longe dos aliados mais frágeis.<br><br><br>
+
+💉 Support (Suporte)<br>
+Função: Curar, proteger ou fortalecer os aliados.<br><br>
+
+• Características: Habilidades de cura, escudo, buff (aumentar ataque/defesa) e debuff nos inimigos.<br><br>
+
+• Exemplo de suportes: Gabriel, Veronica, Future Knight.<br><br>
+
+• Dica: Um bom suporte pode mudar o rumo da batalha, mesmo sem causar muito dano.<br><br><br>
+
+🎯 Ranged (Atirador / Longo Alcance)<br>
+Função: Atacar de longe com alto dano constante.<br><br>
+
+• Características: Alta velocidade de ataque, alcance, boa mobilidade, mas frágil na defesa.<br><br>
+
+• Exemplo de atiradores: Nari, MK-99, Bianca.<br><br>
+
+• Dica: Mantenha-os protegidos atrás do tanque. Eles brilham em batalhas longas.<br><br><br>
+
+🗡️ Melee (Corpo a Corpo)<br>
+Função: Lutar de perto, causando muito dano.<br><br>
+
+• Características: Alto dano por segundo (DPS), combos rápidos, mas podem ser vulneráveis se não tiverem boa mobilidade ou defesa.<br><br>
+
+• Exemplo de melee: Lynn, Beth, Plitvice.<br><br>
+
+• Dica: Ideais para eliminar inimigos rapidamente, mas precisam de suporte.<br><br><br>
+
+🧙‍♂️ Magic (Mago)<br>
+Função: Usar feitiços de dano ou controle.<br><br>
+
+• Características: Dano mágico em área (AoE), controle de grupo (stun, slow, burn), fracos na defesa.<br><br>
+
+• Exemplo de magos: Lucy, Arabelle, Alef.<br><br>
+
+• Dica: Perfeitos para limpar grupos de inimigos ou causar status negativos.<br><br>
+
+💡 Como montar um bom time?<br>
+Um time equilibrado geralmente tem:<br><br>
+
+• 1 Tank<br><br>
+
+• 1 Suporte<br><br>
+
+• 1 ou 2 DPS (de qualquer tipo: melee, ranged ou mágico)<br><br>
+
+Você também pode montar times focados (ex: todos atiradores), mas no início é melhor ter equilíbrio para lidar com diferentes situações.
+        </p>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <h2>Tipos de Armas</h2>
+      <div class="content">
+        <p style="color: #ffffff; background-color: rgba(0,0,0,0.5); text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+          As armas são divididas em categorias e cada personagem só pode usar um tipo específico:<br><br>
+         🗡️ Armas em Guardian Tales – Explicação Completa
+Em Guardian Tales, as armas são parte fundamental da jogabilidade. Cada herói pode usar apenas um tipo específico de arma, e escolher a arma certa pode mudar completamente sua experiência no jogo.<br><br>
+
+⚔️ Tipos de Armas<br>
+As armas são divididas em várias categorias:<br><br>
+
+• Espadas: São equilibradas e ótimas para combate corpo a corpo. Muitos cavaleiros e guerreiros usam espadas.<br><br>
+
+• Arcos: Usados por arqueiros, permitem ataques à distância com velocidade.<br><br>
+
+• Bastões (Staffs): Armas de magos e curandeiros. Lançam magias ou curam aliados.<br><br>
+
+• Rifles: Armas de longo alcance que causam dano preciso e rápido.<br><br>
+
+• Luvas (Gauntlets): Permitem ataques físicos ou de energia em alta velocidade.<br><br>
+
+• Cajados: Focados em magias poderosas ou suporte avançado.<br><br>
+
+• Armas Especiais: Alguns heróis têm armas únicas, como lanças ou equipamentos exclusivos.<br><br><br>
+
+🌟 Raridade das Armas<br>
+As armas possuem níveis de raridade indicados por estrelas:<br><br>
+
+⭐ Comum<br><br>
+
+⭐⭐ Rara<br><br>
+
+⭐⭐⭐ Épica<br><br>
+
+⭐⭐⭐⭐ Lendária<br><br>
+
+As armas mais fortes e desejadas são as EX Weapons (Armas Exclusivas), que são únicas para cada herói e desbloqueiam habilidades especiais.<br><br><br>
+
+💥 EX Weapons – Armas Exclusivas<br>
+Cada herói pode ter uma arma exclusiva, que não só aumenta seus atributos, mas também desbloqueia uma habilidade especial única. Essas armas são essenciais para tirar o máximo de desempenho de um personagem.<br>
+
+Exemplos:<br><br>
+
+• Future Princess: Sua arma exclusiva ativa uma habilidade defensiva que protege a equipe.<br>
+
+•Loraine (se for adicionada no seu site): Sua EX Weapon aprimora magias de suporte e cura.<br><br><br>
+
+🔧 Como Melhorar Armas<br>
+Existem várias formas de fortalecer suas armas:<br><br>
+
+• Upgrade com ouro ou cristais<br>
+
+• Fusão de armas repetidas<br>
+
+• Awakening com pedras especiais para liberar atributos extras
+        </p>
+      </div>
+    </div>
+
+  
+    <div class="accordion">
+      <h2>Raridade dos Heróis</h2>
+      <div class="content">
+        <p style="color: #ffffffef; background-color: rgba(0,0,0,0.5); text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+          Os heróis são classificados por raridade:<br><br>
+          • <strong>1 estrelas ★</strong> – Comuns<br>
+          <i>fácil de conseguir e fracos <strong>(NÃO RECOMENDADO)</strong></i> <br>
+          • <strong>2 estrelas ★★</strong> – incomuns<br>
+          <i>melhor que o de 1 estrela mas ainda sim fracos <strong>(NÃO RECOMENDADO)</strong></i> <br>
+          • <strong>3 estrelas ★★★</strong> – raros <br>
+          <i>úteis para iniciantes<strong> (MEDIANO)</strong></i> <br>
+          • <strong>4 estrelas ★★★★</strong> – Épicos <br>
+          <i> muito melhor em habilidade e stats <strong>(RECOMENDADO)</strong></i> <br>
+          • <strong>5 estrelas ★★★★★</strong> – Lendarios/Herois <br>
+          <i>praticamente os melhores, habilidade unicas e alto desempenho em PvE e PvP <strong>(MUITO RECOMENDADO)</strong></i> <br>
+          • <strong>6 estrelas ★★★★★★</strong> – evoluidos <br>
+          <i> os melhores do jogo, apenas evolução dos herois 5 estrelas, melhorando muito os stats dos herois<strong> (MUITO RECOMENDADO)</strong></i> <br><br>
+          Quanto maior a raridade, melhores são os atributos, habilidades e artes visuais. Heróis 3★ pra cima normalmente vêm com dublagem, cutscenes especiais e armas exclusivas.
+        </p>
+      </div>
+    </div>
+
+    
+
+    <div class="accordion">
+  <h2>Personagens importantes - parte 1</h2>
+  <div class="content">  
+    <div class="personagens">
+      <!-- CAVALEIRO -->
+<div class="div1" style="flex: 1 1 250px; background-color: #1a2b2b; border-radius: 12px; padding: 16px; box-shadow: 0 0 12px #00f0ff40;"  >
+  <!-- Nome do personagem -->
+  <h3 style="color: #00f0ff; font-size: 1.2rem; margin: 0 0 10px; text-align: center;">Cavaleiro (The Guardian / Knight)</h3>
+  <!-- Imagem do personagem -->
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtdWpy7OP9egNKHzUvCrM5Go72DX4ZljI0A&s" alt="Imagem do Personagem" style="width: 100%; height: auto;"> <br><br>
+  <!-- Descrição do personagem -->
+  <p style="color: #ffffff; text-shadow: #09b9e6 0px 0px 5px; font-size: 0.9rem; text-align: center; line-height: 1.4; font-weight: bold;">
+    Em meio às altas torres e muralhas do reino de Kanterbury, havia uma tradição antiga: os Guardians, defensores do reino, guerreiros treinados desde a juventude para proteger o povo e a família real com honra e coragem. Dentre eles, estava um jovem (ou jovem mulher, dependendo da escolha do jogador) que até então era apenas um recruta — sem glórias, títulos ou fama. <br>
+
+Esse(a) jovem era o Knight, alguém comum entre muitos, mas com um coração inabalável. <br>
+
+No dia em que os Invaders atacaram Kanterbury, tudo mudou. O céu escureceu, as muralhas caíram, e a cidade foi tomada por caos. Muitos Guardians mais experientes tombaram tentando proteger a princesa e o castelo. Mas no meio da destruição, o Knight sobreviveu — não por sorte, mas por determinação. <br>
+
+Durante a fuga, o(a) Knight encontra a Princesa de Kanterbury, e juntos tentam escapar da invasão. Esse é o início de uma longa jornada. <br>
+
+Não demora para que o(a) Knight seja tocado(a) por um chamado mais alto: a Deusa do Destino aparece e revela que ele(a) é o escolhido(a) para empunhar a Espada da Profecia, uma arma lendária que só responde àqueles com verdadeiro espírito de guardião. A partir daí, o destino do mundo recai sobre seus ombros. <br>
+
+O(a) Knight não é um herói por nascimento. É alguém que cresce com cada batalha, aprende com cada derrota e nunca abandona um aliado. Sua jornada o(a) leva por diferentes reinos e dimensões — mundos dominados por demônios, civilizações tecnológicas, desertos mágicos, florestas encantadas — enfrentando chefes lendários, vilões complexos e até versões alternativas de si mesmo(a). <br>
+
+Mas o que mais marca o Knight não é sua força, e sim sua humanidade: é um herói silencioso, que não busca glória, mas faz o que é certo porque é o certo. Ele(a) forma laços profundos com vários personagens ao longo da jornada — como a rebelde Future Princess, a misteriosa Karina, o leal Marvin, e muitos outros. <br>
+
+Mesmo quando o mundo parece cair, quando os deuses se calam e a esperança se apaga, o Knight se mantém de pé. <br>
+  </p>
+</div>
+
+<!-- Princess -->
+<div class="div2" style="flex: 1 1 250px; background-color: #2b2b1a; border-radius: 12px; padding: 16px; box-shadow: 0 0 12px #00f0ff40; " >
+  <!-- Nome do personagem -->
+  <h3 style="color: #00f0ff; font-size: 1.2rem; margin: 0 0 10px; text-align: center;">Princesa (Future Prince)</h3>
+  <!-- Imagem do personagem -->
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMv06zZjLALOAZMgu2TUpTwtOk8eefQpbeKw&s" alt="Imagem do Personagem" style="width: 100%; height: auto;"> <br><br>
+  
+  <!-- Descrição do personagem -->
+  <p style="color: #ffffff; text-shadow: #d0ff00 0px 0px 5px; font-size: 0.9rem; text-align: center; line-height: 1.4; font-weight: bold; ">
+    Nos corredores dourados do castelo de Kanterbury, cresceu uma jovem de coração inquieto e espírito livre: a Princesa de Kanterbury. Filha única da rainha, ela foi criada cercada de luxo, mas também de regras, etiquetas e expectativas sufocantes. Desde pequena, sentia-se presa dentro de sua própria coroa — como um pássaro em uma gaiola de ouro. <br>
+
+Apesar de sua posição como futura rainha, a princesa nunca se encaixou completamente no papel que o mundo esperava dela. Era destemida, curiosa e constantemente escapava dos olhos dos guardas para explorar as ruas da cidade e ouvir os problemas do povo. Sonhava não apenas em governar, mas em lutar ao lado de seu povo — algo que sua mãe considerava indigno de uma monarca. <br>
+
+Tudo mudou no dia em que os Invaders atacaram. <br>
+
+Em meio às chamas e à destruição, a princesa não fugiu como era esperado. Pegou uma espada e tentou lutar. No entanto, ela foi rapidamente dominada e levada como prisioneira. Mas o destino ainda tinha planos para ela. Durante a fuga ao lado do Knight, seu leal guardião, ela enfrentou o perigo de perto e despertou uma força adormecida dentro de si. <br>
+
+Com o tempo — e após muitos eventos traumáticos, incluindo confrontos com inimigos que antes pareciam invencíveis — a princesa passou por uma transformação chocante: ela se tornou a Future Princess, uma versão de si mesma vinda de um futuro onde Kanterbury havia sido completamente destruída. Nesse futuro sombrio, ela não era mais uma princesa indefesa, mas uma guerreira fria, estrategista e extremamente poderosa. <br>
+
+A Future Princess é marcada por tragédia e sacrifício. Viu amigos morrerem, mundos se apagarem e precisou fazer escolhas impossíveis para sobreviver. Ao voltar ao passado, ela luta para mudar o destino, mesmo que isso signifique confrontar a si mesma — sua versão mais jovem, cheia de esperança, e o mundo que ainda acredita que tudo pode ser salvo sem dor. <br>
+
+Apesar de sua frieza no campo de batalha, dentro dela ainda vive a chama da garota que queria fazer o bem. Sua luta é dupla: contra os Invasores, e contra a ideia de que o sofrimento é inevitável. Ela representa a força de alguém que perdeu tudo e, mesmo assim, continua de pé. <br>
+  </p>
+</div>
+    
+<!-- Loraine -->
+<div style="flex: 1 1 250px; background-color: #1b2b1a; border-radius: 12px; padding: 16px; box-shadow: 0 0 12px #00f0ff40; " >
+  <!-- Nome do personagem -->
+  <h3 style="color: #00f0ff; font-size: 1.2rem; margin: 0 0 10px; text-align: center;">Loraine (Lorelai)</h3>
+  <!-- Imagem do personagem -->
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe16EHGrNK58WbN27YqHnijCRDkvz9ZqQPkQ&s" alt="Imagem do Personagem" style="width: 100%; height: 220px;"> <br> <br>
+  <!-- Descrição do personagem -->
+  <p style="color: #ffffff; text-shadow: #00ff15 0px 0px 5px; font-size: 0.9rem; text-align: center; line-height: 1.4; font-weight: bold;">
+    Lá, entre os espaços esquecidos do tempo e da imaginação, existe um lugar chamado Hotel de Heavenhold — um refúgio entre mundos, onde viajantes de diferentes dimensões descansam, sonham e, às vezes, encontram o rumo para suas jornadas. No coração silencioso desse hotel enigmático está Loraine, a misteriosa gerente que parece saber mais do que qualquer um deveria. <br>
+
+Loraine não é uma guerreira, nem uma nobre. É uma mulher serena, de fala suave e expressão calma — como se estivesse sempre em paz, mesmo quando o mundo desmorona. Mas essa tranquilidade esconde um passado que poucos conhecem. <br>
+
+Ela surgiu pela primeira vez sem origem clara, simplesmente apareceu quando os heróis chegaram ao Heavenhold após o início da missão do Knight. Desde então, ela tornou-se a alma daquele lugar: serve chá, organiza os quartos, ouve os problemas dos viajantes... e, discretamente, guia o destino de todos que cruzam seu caminho. <br>
+
+A verdade, no entanto, é que Loraine não é humana — ou, pelo menos, não completamente. <br>
+
+Com o tempo, pistas sobre sua natureza foram reveladas. Ela possui conexões com as forças que regem as dimensões, como se fosse uma ponte entre mundos, um elo entre o real e o irreal. É como se ela mesma fosse uma manifestação viva do “intermundo” — aquele espaço entre os sonhos, a memória e a existência. <br>
+
+Loraine é gentil, mas também incrivelmente sábia. Ela vê o futuro em fragmentos, entende os corações das pessoas, e sabe que nem todo destino pode ser evitado — mas que vale a pena tentar. Seu poder não está em espadas ou magias destrutivas, mas no seu conhecimento, na sua presença constante e no apoio silencioso que oferece aos heróis. <br> <br>
+
+Muitos se perguntam: <br> <br>
+
+<strong>"Quem é Loraine, de verdade?"</strong> <br>
+<strong>"Uma deusa caída? Um espírito guardião? Uma ilusão viva?"</strong> <br> <br>
+
+Ela mesma nunca responde. Apenas sorri e oferece uma xícara de chá, como se dissesse: "Algumas perguntas não precisam de resposta. Apenas confie no caminho."
+  </p>
+</div>
+
+<!-- Beth -->
+<div style="flex: 1 1 250px; background-color: #2b1a2b; border-radius: 12px; padding: 16px; box-shadow: 0 0 12px #00f0ff40; " >
+  <!-- Nome do personagem -->
+  <h3 style="color: #00f0ff; font-size: 1.2rem; margin: 0 0 10px; text-align: center;">Beth</h3>
+  <!-- Imagem do personagem -->
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNNlK__S0vYWuQ7I-wHu3S7UlTmPaFFLK7gA&s" alt="Imagem do Personagem" style="width: 100%; height: auto;"> <br><br>
+  
+  <!-- Descrição do personagem -->
+  <p style="color: #ffffff; text-shadow: #cc00ff 0px 0px 5px; font-size: 0.9rem; text-align: center; line-height: 1.4; font-weight: bold;">
+  No coração do Reino Demoníaco, onde as leis são forjadas em sangue e o poder dita o destino, nasceu Beth, uma guerreira destinada à glória — e à ruína. <br>
+
+Desde jovem, Beth foi criada em meio ao caos das guerras entre clãs demoníacos. Ao contrário da maioria, que sucumbia à selvageria ou à ambição, ela cresceu com um senso de propósito incomum. Não lutava por prazer, nem por sede de sangue, mas por honra e controle. Em um mundo onde a força era tudo, Beth tornou-se uma lenda. <br>
+
+Reconhecida como a "General Carmesim", Beth era temida e respeitada. Ela liderava exércitos com uma combinação rara de brutalidade e estratégia. Sua espada, manchada com o sangue de reis e monstros, tornava-se uma extensão de sua própria alma. Dizem que onde Beth marchava, o campo de batalha se tornava um mar vermelho — não pela crueldade, mas pela eficiência de alguém que nasceu para vencer. <br>
+
+Mas sua história vai além de uma guerreira implacável. <br>
+
+Dentro de Beth havia um conflito silencioso. Criada para matar, ela começou a questionar o sentido das guerras sem fim. O vazio da vitória a consumia pouco a pouco. Ela não acreditava mais em reis, deuses ou líderes — apenas na verdade fria do campo de batalha. Esse desencanto a levou a romper com o trono demoníaco e a seguir seu próprio caminho. <br>
+
+Foi nesse momento que ela cruzou o caminho do Knight e do grupo de heróis que tentavam salvar os mundos. Inicialmente indiferente, Beth se alia a eles não por lealdade, mas por respeito: ela reconhece no Knight um guerreiro puro, alguém que luta com propósito, não por ego. <br>
+
+Com o tempo, Beth se torna uma aliada essencial. Sua presença no campo de batalha é devastadora, mas é nas conversas silenciosas, nos olhares contidos e nas decisões difíceis que ela mostra sua verdadeira força: a coragem de alguém que perdeu tudo, mas ainda se recusa a abandonar o que é certo. <br>
+
+Ela é fria, direta e impaciente, mas seus aliados aprendem a confiar nela — e muitos passam a admirá-la. Ela jamais busca simpatia, mas quando luta, todos sabem que estão seguros. <br>
+  </p>
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="accordion">
+  <h2>Personagens importantes - parte 2</h2>
+  <div class="content">  
+    <div class="personagens">
+      <!-- kaden -->
+<div class="div1" style="flex: 1 1 250px; background-color: #2b1a1a; border-radius: 12px; padding: 16px; box-shadow: 0 0 12px #00f0ff40;"  >
+  <!-- Nome do personagem -->
+  <h3 style="color: #00f0ff; font-size: 1.2rem; margin: 0 0 10px; text-align: center;">plague doctor (kaden)</h3>
+  <!-- Imagem do personagem -->
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThuIJOjsn7mD-g-C7kmkBMRmH0Op8w7FYJeA&s" alt="Imagem do Personagem" style="width: 100%; height: auto;"> <br><br>
+  <!-- Descrição do personagem -->
+  <p style="color: #ffffff; text-shadow: #e60909 0px 0px 5px; font-size: 0.9rem; text-align: center; line-height: 1.4; font-weight: bold;">
+    Muito antes da jornada do Knight começar, antes da ascensão da Future Princess ou da invasão interdimensional que mergulhou Kanterbury no caos, existiu um homem chamado Kaden. Ele foi o primeiro Guardião Real do reino — um herói lendário, agora quase esquecido, mas cujas ações silenciosas moldaram todo o futuro do mundo. <br> 
+
+Kaden nasceu numa era de relativa paz, mas cheia de sinais sombrios. Portais entre realidades estavam começando a se abrir, e forças desconhecidas espreitavam além das fronteiras do mundo conhecido. Desde jovem, Kaden mostrou habilidades incomuns: dominava tanto a espada quanto a magia, e tinha uma intuição afiada sobre o perigo e o destino. Seu coração era nobre, e seu dever, claro: proteger a princesa de sua época e manter Kanterbury a salvo. <br>
+
+Mas ele era mais do que um guerreiro. Kaden era alguém que amava profundamente o reino e as pessoas que jurou proteger. Ele cultivava uma ligação intensa com a princesa — um laço que ia além da formalidade, carregado de carinho, respeito e talvez até amor. <br>
+
+Quando as primeiras distorções dimensionais começaram a se abrir, Kaden foi o primeiro a enfrentá-las. Ele viajou entre mundos, enfrentou entidades de realidades quebradas e tentou selar as fendas sozinho. Nessa época, formou alianças e viu companheiros caírem um a um, corrompidos ou destruídos por forças incompreensíveis. <br>
+
+No auge de sua missão, Kaden foi traído por alguém em quem confiava — um erro que custou caro. A princesa desapareceu. Kanterbury começou a ruir. E Kaden, em seu último esforço para conter uma fenda instável, foi tragado por ela e preso em um espaço entre as dimensões — um lugar onde o tempo não flui, onde tudo é silêncio e fragmento de realidades perdidas. <br>
+
+Mas ele não morreu. <br>
+
+Ele sobreviveu em meio ao vazio. Lá, Kaden presenciou infinitas versões de si mesmo: algumas se tornaram monstros; outras foram derrotadas; em algumas, ele salvava o mundo — apenas para vê-lo ser destruído depois. Com o passar dos séculos (ou instantes — naquele lugar, não havia tempo), ele perdeu tudo: sua fé, seu amor, seu passado. Restou apenas uma certeza — o ciclo se repetiria eternamente, e o sacrifício não bastava. <br>
+
+Quando o Knight e seus aliados, no presente, começaram a interferir nas linhas do tempo e a reabrir passagens entre os mundos, Kaden sentiu o chamado. Ele voltou. Não como herói, mas como alguém diferente: frio, calculista, marcado pela dor. Seu antigo senso de dever agora estava torcido por milênios de sofrimento e decepção. Para ele, a única forma de impedir a repetição do fim era reiniciar tudo, destruir o mundo para impedir que ele fosse destruído de novo. <br>
+
+Ao encontrar o Knight, Kaden não demonstrou ódio — apenas pena. Via no protagonista a mesma chama que um dia carregou. Mas também via fraqueza: apego, esperança, ilusão. Para ele, aquele herói ainda não entendia o preço de salvar o mundo. <br>
+
+Kaden tornou-se, assim, um espelho sombrio do Knight. Um aviso vivo de que mesmo os maiores heróis podem cair, e que a linha entre salvação e destruição é fina como uma lâmina. <br>
+
+
+  </p>
+</div>
+
+<!-- alter -->
+<div class="div2" style="flex: 1 1 250px; background-color: #1a1b2b; border-radius: 12px; padding: 16px; box-shadow: 0 0 12px #00f0ff40; " >
+  <!-- Nome do personagem -->
+  <h3 style="color: #00f0ff; font-size: 1.2rem; margin: 0 0 10px; text-align: center;">Alter Knight</h3>
+  <!-- Imagem do personagem -->
+  <img src="data:image/jpeg;base64,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" alt="Imagem do Personagem" style="width: 100%; height: auto;"> <br><br>
+  
+  <!-- Descrição do personagem -->
+  <p style="color: #ffffff; text-shadow: #2f00ff 0px 0px 5px; font-size: 0.9rem; text-align: center; line-height: 1.4; font-weight: bold; ">
+    Toda luz projeta uma sombra. <br> <br>
+
+Em um universo onde as escolhas moldam destinos, e onde o tempo e o espaço são frágeis como vidro, o Knight não foi o único a trilhar o caminho da espada e do sacrifício. Em uma realidade distante, corrompida e esquecida, nasceu o Alter Knight — a sombra do herói, o reflexo distorcido de tudo que o Knight poderia ter sido. <br>
+
+Esta versão do protagonista fez escolhas diferentes. Quando o mundo começou a cair, quando os aliados tombaram um a um e a esperança se desfez como fumaça, o Alter Knight olhou ao redor e viu um mundo que não merecia ser salvo. Ferido, solitário e consumido pela dor, ele(a) cedeu às trevas. <br>
+
+Mas não por fraqueza. <br>
+
+O Alter Knight acreditava que a verdadeira salvação só viria por meio do controle absoluto, do sacrifício completo da emoção. Para proteger o que restava do mundo — ou talvez apenas para não sentir mais dor —, abandonou a luz e abraçou o poder sombrio que espreitava além do véu da realidade. Esse poder o(a) transformou. Seu corpo foi marcado, sua alma alterada, e sua espada passou a carregar o peso da fúria contida. <br> <br>
+
+O Alter Knight não luta por justiça. Luta por ordem a qualquer custo. <br>
+Não confia mais em alianças, e vê os sonhos dos fracos como distrações inúteis. <br>
+Não há humor, nem compaixão. Só propósito e determinação brutal. <br> <br>
+
+Ao contrário do Knight original, que avança com aliados e esperança, o Alter Knight caminha sozinho, com passos pesados e olhos vazios. Ele(a) enfrentou e derrotou antigos companheiros, se tornou uma lenda temida em mundos distorcidos — conhecido como “aquele que desistiu do amanhã”. <br>
+
+Quando finalmente encontra o Knight original, não o(a) vê como inimigo, mas como uma memória viva de tudo que perdeu — ou pior: uma mentira do que poderia ter sido. <br>
+
+Esse encontro entre espelhos se torna uma das batalhas mais intensas e emocionais da jornada. Não é apenas um combate físico, mas um duelo de destinos, onde cada golpe é uma pergunta: <br>
+
+“Você salvaria esse mundo... mesmo que ele não te salve de volta?”
+  </p>
+</div>
+    
+<!-- cammila -->
+<div style="flex: 1 1 250px; background-color: #281a2b; border-radius: 12px; padding: 16px; box-shadow: 0 0 12px #00f0ff40; " >
+  <!-- Nome do personagem -->
+  <h3 style="color: #00f0ff; font-size: 1.2rem; margin: 0 0 10px; text-align: center;">camilla queen</h3>
+  <!-- Imagem do personagem -->
+  <img src="data:image/jpeg;base64,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" alt="Imagem do Personagem" style="width: 100%; height: 220px;"> <br> <br>
+  <!-- Descrição do personagem -->
+  <p style="color: #ffffff; text-shadow: #cc00ff 0px 0px 5px; font-size: 0.9rem; text-align: center; line-height: 1.4; font-weight: bold;">
+    Camilla, herdeira legítima do trono de Kanterbury, foi criada desde pequena com a responsabilidade de liderar a humanidade até o cumprimento da profecia. Filha da rainha Beatrix II, ela demonstrava desde cedo talentos extraordinários em diversas áreas, como magia e o uso de lanças. Sua mãe trouxe os melhores tutores do reino para treiná-la, e até mesmo a Capitã dos Cavaleiros, Eva, sentiu-se inferior a ela. <br>
+
+Aos 14 anos, Camilla foi levada por sua mãe até a Espada do Campeão, uma relíquia sagrada, e ouviu que seu maior legado seria proteger o reino e a profecia. Logo após, sua mãe desapareceu misteriosamente. Em seu lugar, surgiu o espectro da antiga rainha Lili, dizendo que Camilla deveria continuar a treinar o jovem Cavaleiro, que um dia usaria a Espada do Campeão para cumprir o destino da humanidade. <br>
+
+Apesar de tudo, Camilla começou a duvidar da rigidez da profecia, especialmente após o nascimento de sua irmãzinha – a Pequena Princesa – que, segundo Lili, não fazia parte dos planos do destino. Mesmo assim, Camilla escolheu criá-la com amor, junto do Cavaleiro, acreditando que o futuro poderia ser mudado. Aos poucos, seu coração antes moldado pela disciplina das rainhas começou a amolecer. <br>
+
+Tempos depois, Camilla escutou escondida uma conversa entre Lili e um homem misterioso, que falava sobre rachaduras na profecia. Ele alertou Camilla de que, se quisesse salvar o mundo de verdade, deveria fugir de Lili e encontrar o "Salvador". Com medo, ela fugiu. <br>
+
+Durante a invasão dos Invasores, Camilla tentou proteger os cidadãos, teleportando-os para um local seguro. No trono, ao lado da Princesa, foi atacada por uma figura misteriosa: era Beth, a 13ª Comandante dos Invasores. Camilla reconheceu sua identidade e pediu para ser levada até o Salvador. Lá, propôs uma aliança: ela ajudaria a impedir o cumprimento da profecia em troca de poder e respostas. Como resultado, tornou-se a Comandante da 1ª Corporação dos Invasores. <br>
+
+Com acesso à tecnologia dos Invasores, Camilla liderou um ataque devastador ao castelo voador Heavenhold, que caiu no Mundo Demônio. Ela o tomou para si, tornando-se sua nova rainha. Em vez de continuar com violência, ofereceu uma trégua diplomática à Princesa e ao Cavaleiro. Durante um jantar em Heavenhold, revelou sua identidade e declarou que o Cavaleiro nunca foi o verdadeiro herói – e sim a Princesa, quem sempre protegeu tudo. <br>
+
+Convencida de que só ela poderia salvar o mundo, Camilla tentou destruir o Cavaleiro. Mesmo após batalhas intensas e o envolvimento dos Campeões, ela insistia que ele era fraco, sustentado apenas por aliados. Porém, mesmo diante da derrota, ela seguia determinada a cumprir seu novo propósito: proteger sua irmã e o mundo, mesmo que precisasse enfrentar a todos para isso. <br>
+
+  </p>
+</div>
+
+
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="accordion">
+  <h2>BOSS</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold; ">
+      Dentro do jogo existem vários boss. Clique para ver mais:<br><br>
+    </p>
+
+    <div class="boss-list">
+      <div class="column left" style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+        <p style="text-shadow: 0px 0px 10px #ff0000";>TEMPORADA 1:</p><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/Minotaur.html" >• Minotaur<br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/AlteredMadPandaMK-3.html" >• Altered Mad Panda MK-3</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/Harvester.html" >• Harvester</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/Elphaba.html">• Elphaba</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/InvaderCommander.html">• Invader Commander</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/ViperClanLeader.html">• Viper Clan Leader</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/Fairy.html">• Fairy</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/LavaSlime.html">• Lava Slime</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/AncientDemon.html">• Ancient Demon</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/Erina.html">• Erina</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/GeneralGast.html">• General Gast</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/Duncan.html">• Duncan</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/DarkMagician.html">• Dark Magician</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/Beth.html">• Beth</a><br><br>
+      </div>
+
+      <div class="column right" style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+        <p style="text-shadow: 0px 0px 10px #ff0000";>TEMPORADA 2:</p><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/MK.2.html">• MK.2</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/CountOfDemonshireClaude.html">• Count Of Demonshire Claude</p></a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/DemonGodBellial.html">• Demon God Bellial</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/LittleJerryVolt.html">• Little Jerry Volt</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/FirstCorpsCommander.html">• First Corps Commander</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/Morrian.html">• Morrian</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/PlagueDoctor.html">• Plague Doctor</a><br><br>
+      </div>
+
+      <div class="column right" style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+        <p style="text-shadow: 0px 0px 10px #ff0000";>CHEFES OCULTOS:</p><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/TheLostLamb.html">• The Lost Lamb</a><br><br>
+        <a href="/GM1 - wiki/GUARDIAN TALES/BOSS GUARDIAN TALES/Worker287634.html">• Worker287634</a><br><br>
+
+
+
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+  
+
+  <!-- QUIZ 1 -->
+  <div style="background-color: #1b1f2a; padding: 20px; border-radius: 12px; box-shadow: 0 0 12px #00f0ff60; width: 320px; font-family: 'Segoe UI', sans-serif;">
+    
+    <h3 style="color: #00f0ff; text-align: center; text-shadow: 0 0 6px #00f0ff;">Quiz 1 - Camilla</h3>
+    <p style="color: #ffffff; font-weight: bold;">1. Quem treinou Camilla?</p>
+    <label><input type="radio" name="q1_1" value="a" style="cursor: pointer;"> Knight</label><br>
+    <label><input type="radio" name="q1_1" value="b" style="cursor: pointer;"> Rainha Lili</label><br>
+    <label><input type="radio" name="q1_1" value="c" style="cursor: pointer;"> Tutores Reais</label><br>
+    <label><input type="radio" name="q1_1" value="d" style="cursor: pointer;"> Eva</label>
+
+    <p style="color: #ffffff; font-weight: bold;">2. O que aconteceu com Beatrix II?</p>
+    <label><input type="radio" name="q1_2" value="a" style="cursor: pointer;"> Morreu em batalha</label><br>
+    <label><input type="radio" name="q1_2" value="b" style="cursor: pointer;" > Foi exilada</label><br>
+    <label><input type="radio" name="q1_2" value="c" style="cursor: pointer;"> Desapareceu</label><br>
+    <label><input type="radio" name="q1_2" value="d" style="cursor: pointer;"> Tornou-se inimiga</label>
+
+    <p style="color: #ffffff; font-weight: bold;">3. Camilla é movida por:</p>
+    <label><input type="radio" name="q1_3" value="a" style="cursor: pointer;"> Ambição</label><br>
+    <label><input type="radio" name="q1_3" value="b" style="cursor: pointer;"> Dever</label><br>
+    <label><input type="radio" name="q1_3" value="c" style="cursor: pointer;"> Vingança</label><br>
+    <label><input type="radio" name="q1_3" value="d" style="cursor: pointer;"> Medo</label>
+
+    <button onclick="verificarQuiz1()" style="cursor: pointer; margin-top: 16px; width: 100%; padding: 10px; background: #00f0ff; border: none; color: #000; font-weight: bold; border-radius: 8px;">Verificar</button>
+    <p id="resultadoQuiz1" style="text-align: center; margin-top: 10px;"></p>
+  </div>
+
+  <!-- QUIZ 2 -->
+  <div style="background-color: #1b1f2a; padding: 20px; border-radius: 12px; box-shadow: 0 0 12px #00f0ff60; width: 320px; font-family: 'Segoe UI', sans-serif;">
+    <h3 style="color: #00f0ff; text-align: center; text-shadow: 0 0 6px #00f0ff;">Quiz 2 - Savior</h3>
+    <p style="color: #ffffff; font-weight: bold;">1. Savior é conhecido por:</p>
+    <label><input type="radio" name="q2_1" value="a" style="cursor: pointer;"> Cumprir a profecia</label><br>
+    <label><input type="radio" name="q2_1" value="b" style="cursor: pointer;"> Romper o destino</label><br>
+    <label><input type="radio" name="q2_1" value="c" style="cursor: pointer;"> Liderar os invasores</label><br>
+    <label><input type="radio" name="q2_1" value="d" style="cursor: pointer;"> Fugir do futuro</label>
+
+    <p style="color: #ffffff; font-weight: bold;">2. Quem ele influencia fortemente?</p>
+    <label><input type="radio" name="q2_2" value="a" style="cursor: pointer;"> Beth</label><br>
+    <label><input type="radio" name="q2_2" value="b" style="cursor: pointer;"> Eva</label><br>
+    <label><input type="radio" name="q2_2" value="c" style="cursor: pointer;"> Camilla</label><br>
+    <label><input type="radio" name="q2_2" value="d" style="cursor: pointer;"> Lili</label>
+
+    <p style="color: #ffffff; font-weight: bold;">3. Qual o objetivo dele?</p>
+    <label><input type="radio" name="q2_3" value="a" style="cursor: pointer;"> Salvar o mundo</label><br>
+    <label><input type="radio" name="q2_3" value="b" style="cursor: pointer;"> Controlar o reino</label><br>
+    <label><input type="radio" name="q2_3" value="c" style="cursor: pointer;"> Destruir Kanterbury</label><br>
+    <label><input type="radio" name="q2_3" value="d" style="cursor: pointer;"> Recuperar a espada</label>
+
+    <button onclick="verificarQuiz2()" style="cursor: pointer; margin-top: 16px; width: 100%; padding: 10px; background: #00f0ff; border: none; color: #000; font-weight: bold; border-radius: 8px;">Verificar</button>
+    <p id="resultadoQuiz2" style="text-align: center; margin-top: 10px;"></p>
+  </div>
+
+
+
+  
+</div>
+</div>
+</div>
+
+</div>
+
+  <footer>
+    © 2025 Guardian Tales Fan Page | Criado por: ARTHUR RABELO
+  </footer>
+
+  <script>
+
+  function fecharPopup() {
+    popup.style.display = "none";
+  }
+
+  const accordions = document.querySelectorAll('.accordion');
+
+  accordions.forEach((acc) => {
+    acc.addEventListener('click', function () {
+      const content = this.querySelector('.content');
+      content.classList.toggle('open');
+
+      accordions.forEach((other) => {
+        if (other !== this) {
+          other.querySelector('.content').classList.remove('open');
+        }
+      });
+    });
+  });
+
+  const topBtn = document.getElementById("topBtn");
+
+  window.onscroll = function () {
+    topBtn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? "block" : "none";
+  };
+
+  topBtn.onclick = function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+function toggleQuiz(btn) {
+  const quiz = btn.closest('.quiz-bloco');
+  const conteudo = quiz.querySelector('.quiz-conteudo');
+  if (conteudo.style.display === 'none') {
+    conteudo.style.display = 'block';
+    btn.innerHTML = '−'; // símbolo de minimizar
+  } else {
+    conteudo.style.display = 'none';
+    btn.innerHTML = '+'; // símbolo de expandir
+  }
+}
+  function verificarQuiz1() {
+  const r1 = document.querySelector('input[name="q1_1"]:checked')?.value;
+  const r2 = document.querySelector('input[name="q1_2"]:checked')?.value;
+  const r3 = document.querySelector('input[name="q1_3"]:checked')?.value;
+  let acertos = 0;
+
+  if (r1 === "c") acertos++;
+  if (r2 === "c") acertos++;
+  if (r3 === "b") acertos++;
+
+  const resultado = document.getElementById("resultadoQuiz1");
+  resultado.style.color = acertos === 3 ? "#00ff88" : "#ff4d6d";
+  resultado.innerHTML = `Você acertou <span style='color:#00f0ff;'>${acertos}</span> de 3 perguntas.`;
+}
+
+function verificarQuiz2() {
+  const r1 = document.querySelector('input[name="q2_1"]:checked')?.value;
+  const r2 = document.querySelector('input[name="q2_2"]:checked')?.value;
+  const r3 = document.querySelector('input[name="q2_3"]:checked')?.value;
+  let acertos = 0;
+
+  if (r1 === "b") acertos++;
+  if (r2 === "c") acertos++;
+  if (r3 === "a") acertos++;
+
+  const resultado = document.getElementById("resultadoQuiz2");
+  resultado.style.color = acertos === 3 ? "#00ff88" : "#ff4d6d";
+  resultado.innerHTML = `Você acertou <span style='color:#00f0ff;'>${acertos}</span> de 3 perguntas.`;
+}
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guardian Tales - Guia Interativo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f0f1a;
+      color: #ffffff;
+    }
+
+    html {
+  scroll-behavior: smooth;
+}
+
+
+    header {
+      background-color: #121226;
+      border-bottom: 2px solid #00f0ff;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 0 10px #00f0ff50;
+    }
+
+    header h1 {
+      color: #00f0ff;
+      text-shadow: 0 0 8px #00f0ff;
+      margin: 0;
+    }
+
+    nav a {
+      color: #ffffff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #00f0ff;
+    }
+
+    .hero-image {
+  height: 100vh;
+  background-image: url('https://i.ytimg.com/vi/Rf3kJQSD94k/maxresdefault.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  border-bottom: 2px solid #00f0ff60;
+}
+
+
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .accordion {
+      background-color: #1c1c2e;
+      border-left: 5px solid #00f0ff;
+      border-bottom: 2px solid #00f0ff;
+      border-radius: 0px 20px 20px 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 0 10px #00f0ff20;
+      transition: background-color 0.3s;
+    }
+
+    .accordion:hover {
+      background-color: #25253a;
+    }
+
+    .accordion h2 {
+      color: #00f0ff;
+      margin: 0;
+      text-shadow: 0 0 5px #00f0ff;
+      
+    }
+
+    .content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.4s;
+      padding: 0 20px;
+    }
+
+    .content.open {
+      padding: 20px;
+      max-height: 3000px;
+    }
+
+    .content p {
+  margin: 0;
+  line-height: 1.7;
+  color: #ddd;
+  font-size: 1.05rem;
+}
+
+
+
+
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      border-top: 1px solid #00f0ff30;
+      box-shadow: 0 -2px 10px #00eeff, inset #00eeff98 0 2px 10px;
+      margin-top: 60px;
+    }
+
+
+    .personagens{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px; 
+    }
+
+    
+.titulo{
+  font-size: 7em;
+  justify-content: center;
+  display: flex;
+  font-family: fantasy;
+  color: #0f0f1a;
+  text-shadow: #ffffff 10px 10px 40px;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.subtitulo{
+  font-size: 2em;
+  justify-content: center;
+  display: flex;
+  font-family: fantasy;
+  color: #0f0f1a;
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+  </style>
+</head>
+<body>
+
+
+
+
+  <header>
+    <h1>GUARDIAN TALES</h1>
+    <nav>
+      <a href="guardian.html">Voltar</a>
+    </nav>
+  </header>
+
+  <!-- Banner de Capa com Efeito Parallax -->
+<section class="hero-image">  <h1 class="titulo"> </h1> <h3 class="subtitulo"></h3></section>
+
+
+  <div class="container">
+
+    <div class="accordion" >
+  <h2>como kanterbury foi criado</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+      O mundo de Kanterbury nasceu da união entre magia e tecnologia ancestral. Dizem que os antigos construtores — seres quase divinos chamados de Arquitetos — moldaram o reino combinando força mágica elemental com engenharias avançadas.<br><br>
+
+Esses Arquitetos ergueram castelos flutuantes, instalaram portais interdimensionais e criaram cidades que funcionam por meio de cristais mágicos. Ao longo dos séculos, esse conhecimento se perdeu, restando apenas ruínas e lendas espalhadas pelas terras de Kanterbury.
+    </p>
+  </div>
+</div>
+
+
+    <div class="accordion">
+  <h2>historia de kanterbury</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+      Kanterbury foi, por muito tempo, um reino pacífico e próspero, governado por uma linhagem real justa e protegida pela Ordem dos Guardiões. Com o tempo, o reino se tornou um símbolo de equilíbrio entre todas as raças e culturas. <br><br>
+
+Porém, tudo começou a ruir com a invasão do Exército Dimensional. Portais se abriram nos céus e criaturas de outra realidade começaram a invadir, corromper e destruir tudo. O castelo real caiu, a rainha desapareceu e os Guardiões foram quase extintos. <br><br>
+
+Agora, os sobreviventes vivem sob o medo, tentando reconstruir o que restou, enquanto o novo Guardião (você, o jogador) surge para reunir os aliados e recuperar o reino perdido.
+
+
+    </p>
+  </div>
+</div>
+
+<div class="accordion" >
+  <h2>moradores de kanterbury</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+     Kanterbury é lar de diversos povos e criaturas. Entre eles: <br><br>
+
+Humanos: Vivem nas cidades e vilas, muitos se tornaram soldados ou estudiosos.<br><br>
+
+Bestiais (Beastfolk): Humanos com traços de animais, geralmente protetores da natureza.<br><br>
+
+Robôs Antigos: Criados por civilizações perdidas, ainda vagam por masmorras e ruínas.<br><br>
+
+Fadas e Elfos: Habitantes mágicos de florestas ocultas, guardiões de antigos segredos.<br><br>
+
+Monstros Corrompidos: Criaturas que antes eram pacíficas, mas foram corrompidas pela energia dos portais.<br><br>
+
+Esses povos vivem em regiões diferentes, com culturas e histórias próprias. Muitos ainda acreditam que Kanterbury pode ser restaurado, e ajudam o Guardião em sua jornada.<br><br>
+    </p>
+  </div>
+</div>
+
+
+<div class="accordion" >
+  <h2>Regiões importantes de Kanterbury</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+• Castelo de Kanterbury: Antiga capital, agora sob domínio inimigo.<br><br>
+
+• Aldeia dos Guardiões: Último refúgio da ordem dos Guardiões.<br><br>
+
+• Floresta Elven: Lar dos elfos, protegida por magia poderosa.<br><br>
+
+• Deserto de Rah: Terra de ruínas antigas e civilizações extintas.<br><br>
+
+• Masmorras Ancestrais: Locais com enigmas, armadilhas e segredos do passado.
+    </p>
+  </div>
+</div>
+
+<div class="accordion" >
+  <h2>Cultura e Sociedade</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+• Arquitetura: Combina estilo medieval com elementos tecnológicos — castelos de pedra com torres de cristal, vilarejos com fontes que flutuam por magia. <br><br>
+
+Tradições: <br>
+
+   • Festival do Guardião: celebrado anualmente com corridas de obstáculos e exibição de habilidades. <br><br>
+
+   • Ritual dos Portais: realizado por magos para manter portais estáveis e prevenir invasões. <br><br>
+
+Economia: baseada em comércio de itens mágicos, artesanatos locais e tesouros descobertos em masmorras.
+    </p>
+  </div>
+</div>
+
+<div class="accordion" >
+  <h2>Facções e Políticos</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+• Ordem dos Guardiões: grupo de heróis dedicados a proteger Kanterbury; hoje refazendo suas fileiras. <br><br>
+
+• Círculo Mágico: ordem de arcanistas que estudam os portais e mantêm os magos ativos. <br><br>
+
+• Mercadores Errantes: guildas que atravessam regiões, trazendo itens raros, equipamentos e rumores. <br><br>
+
+• Nobres Locais: líderes de minorias e vilas que podem ser aliados ou antagonistas dependendo das missões.
+    </p>
+  </div>
+</div>
+
+<div class="accordion" >
+  <h2>Eventos Lendários</h2>
+  <div class="content">
+    <p style="color: #ffffff; text-shadow: 0px 0px 10px #00eeff ; font-weight: bold;">
+• A Grande Invasão: o momento em que os portais se abriram e o Exército Dimensional invadiu em massa, culminando na queda do castelo. <br><br>
+
+• O Levante das Estrelas: um ponto histórico em que um grupo de Guardiões expulsou temporariamente a escuridão usando magia mágica combinada. <br><br>
+
+• O Ritual Sagrado: realizado para sellar portais por tempo limitado, exigindo sacrifícios e trabalho de toda população.
+    </p>
+  </div>
+</div>
+
+
+</div>
+</div>
+
+
+
+        
+
+  <footer>
+    © 2025 Guardian Tales Fan Page | Criado por: ARTHUR RABELO
+  </footer>
+
+  <script>
+  const accordions = document.querySelectorAll('.accordion');
+
+  accordions.forEach((acc) => {
+    acc.addEventListener('click', function () {
+      const content = this.querySelector('.content');
+      content.classList.toggle('open');
+
+      // Fecha os outros
+      accordions.forEach((other) => {
+        if (other !== this) {
+          other.querySelector('.content').classList.remove('open');
+        }
+      });
+    });
+  });
+
+
+
+   const topBtn = document.getElementById("topBtn");
+
+  window.onscroll = function () {
+    topBtn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? "block" : "none";
+  };
+
+  topBtn.onclick = function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+
+
+
+ 
+
+
+</script>
+
+
+</body>
+</html>
