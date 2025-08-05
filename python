@@ -1,5 +1,5 @@
-idade = input("quantos anos voce tem? ")
-ano = 2025 - int(idade) - int(mes1)
-mes1 = input("voce fez aniversario este ano?(se sim coloca 1, se não coloca 0)")
+idade = int(input("Quantos anos você tem? "))
+mes1 = int(input("Você fez aniversário este ano? (Se sim coloque 1, se não coloque 0): "))
+ano = 2025 - idade - mes1
 
-print(f"\n se voce tem {idade}, então o ano que voce nasceu é {ano}")
+print(f"\nSe você tem {idade} anos, então o ano que você nasceu é {ano}.")
