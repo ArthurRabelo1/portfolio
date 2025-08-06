@@ -3,3 +3,7 @@ mes1 = int(input("Você fez aniversário este ano? (Se sim coloque 1, se não co
 idade = 2025 - ano_nascimento - mes1
 
 print(f"\nSe você nasceu em {ano_nascimento}, então sua idade é {idade} anos.")
+
+
+
+inicio = input("acerte o numero de 1 - 50, digite um numero de 1 a 50")
