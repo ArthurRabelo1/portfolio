@@ -6,7 +6,14 @@ print(f"\nSe você nasceu em {ano_nascimento}, então sua idade é {idade} anos.
 
 
 
-inicio = input("acerte o numero de 1 - 50, digite um numero de 1 a 50")
-numero = random.radint(1, 50)
+import random
 
-print = (f"\n O numero que voce escolheu foi {inicio} e o numero sorteado foi {numero}")
+inicio = int(input("Acerte o número de 1 - 50, digite um número de 1 a 50: "))
+numero = random.randint(1, 50)
+
+print(f"\nO número que você escolheu foi {inicio} e o número sorteado foi {numero}")
+
+if inicio == numero:
+    print("\nParabéns! Você acertou o número!")
+else:
+    print("\nQue pena! Tente novamente.")
