@@ -7,6 +7,6 @@ print(f"\nSe você nasceu em {ano_nascimento}, então sua idade é {idade} anos.
 
 
 inicio = input("acerte o numero de 1 - 50, digite um numero de 1 a 50")
-numero = random.rading(1, 50)
+numero = random.radint(1, 50)
 
 print = (f"\n O numero que voce escolheu foi {inicio} e o numero sorteado foi {numero}")
