@@ -39,3 +39,18 @@ elif (jogada_usuario == "Pedra" and jogada_computador == "Tesoura") or \
     print("Você venceu!")
 else:
     print("Computador venceu!")
+
+
+
+
+
+jogador = input("insira um numero de 1 a 10")
+pc = random.randint(1, 10)
+
+print(f"O usario escolheu o numero {jogador}")
+print(f"O bot escolheu o numero {pc}")
+
+if jogador == pc:
+   print("jogador acertou")
+else:
+   print("jogador errou")
