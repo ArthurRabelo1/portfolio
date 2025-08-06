@@ -17,3 +17,25 @@ if inicio == numero:
     print("\nParabéns! Você acertou o número!")
 else:
     print("\nQue pena! Tente novamente.")
+
+
+
+
+import random
+
+opcoes = ["Pedra", "Papel", "Tesoura"]
+
+jogada_usuario = input("Escolha Pedra, Papel ou Tesoura: ").capitalize()
+jogada_computador = random.choice(opcoes)
+
+print(f"Você escolheu: {jogada_usuario}")
+print(f"O computador escolheu: {jogada_computador}")
+
+if jogada_usuario == jogada_computador:
+    print("Empate!")
+elif (jogada_usuario == "Pedra" and jogada_computador == "Tesoura") or \
+     (jogada_usuario == "Papel" and jogada_computador == "Pedra") or \
+     (jogada_usuario == "Tesoura" and jogada_computador == "Papel"):
+    print("Você venceu!")
+else:
+    print("Computador venceu!")
