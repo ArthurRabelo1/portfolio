@@ -6,7 +6,7 @@ print(f"\nSe você nasceu em {ano_nascimento}, então sua idade é {idade} anos.
 
 
 
-import random
+
 
 inicio = int(input("Acerte o número de 1 - 50, digite um número de 1 a 50: "))
 numero = random.randint(1, 50)
@@ -19,9 +19,6 @@ else:
     print("\nQue pena! Tente novamente.")
 
 
-
-
-import random
 
 opcoes = ["Pedra", "Papel", "Tesoura"]
 
@@ -44,13 +41,19 @@ else:
 
 
 
-jogador = input("insira um numero de 1 a 10")
+jogador = int(input("insira um numero de 1 a 10: "))
 pc = random.randint(1, 10)
 
-print(f"O usario escolheu o numero {jogador}")
-print(f"O bot escolheu o numero {pc}")
+print(f"O usuário escolheu o número {jogador}")
+print(f"O bot escolheu o número {pc}")
 
 if jogador == pc:
-   print("jogador acertou")
+    print("jogador acertou")
 else:
-   print("jogador errou")
+    print("jogador errou")
+
+
+
+
+opcoes = ["arthur", "raphael", "lapa", "heitor"]
+print(f"o nome sorteado foi {opcoes}")
