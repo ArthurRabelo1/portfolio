@@ -55,5 +55,8 @@ else:
 
 
 
+import random
+
 opcoes = ["arthur", "raphael", "lapa", "heitor"]
-print(f"o nome sorteado foi {opcoes}")
+nome_sorteado = random.choice(opcoes)
+print(f"O nome sorteado foi {nome_sorteado}")
