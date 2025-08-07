@@ -60,3 +60,12 @@ import random
 opcoes = ["arthur", "raphael", "lapa", "heitor"]
 nome_sorteado = random.choice(opcoes)
 print(f"O nome sorteado foi {nome_sorteado}")
+
+
+
+
+nomes = ["arthur", "lapa", "heitor"]
+produtos = ["livro", "mouse", "pc"]
+embaralhamento = random.shuffle(produtos, nomes)
+
+print(f"o {nomes} ganhou um {produtos}")
