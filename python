@@ -64,8 +64,14 @@ print(f"O nome sorteado foi {nome_sorteado}")
 
 
 
+import random
+
 nomes = ["arthur", "lapa", "heitor"]
 produtos = ["livro", "mouse", "pc"]
-embaralhamento = random.shuffle(produtos, nomes)
 
-print(f"o {nomes} ganhou um {produtos}")
+# Embaralha a lista de produtos
+random.shuffle(produtos)
+
+# Associa cada nome com um produto embaralhado
+for nome, produto in zip(nomes, produtos):
+    print(f"O {nome} ganhou um {produto}")
