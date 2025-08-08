@@ -79,5 +79,5 @@ for nome, produto in zip(nomes, produtos):
 import random
 
 letra = input("insira um nome para sorteio de letra")
-random.choice(letra)
-print(f"a letra sorteada foi {letra}")
+sorteado = random.choice(letra)
+print(f"a letra sorteada foi {sorteado}")
