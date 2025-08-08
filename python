@@ -95,11 +95,23 @@ print(calculo)
 
 
 
-O programa deve calcular: 100 * (1 - 20/100) e retornar o preço final 80.
 
-numero = float(input("Insira o preço do produto: "))
-desconto = float(input("Insira o desconto (em %): "))
+def validar_numero(valor):
+    try:
+        return float(valor)
+    except ValueError:
+        return None
 
-resultado = numero * (1 - desconto / 100)
+preco = input("Insira o preço do produto: ")
+desconto = input("Insira o desconto (em %): ")
 
-print(f"\nO preço final é {resultado:.2f}")
+preco = validar_numero(preco)
+desconto = validar_numero(desconto)
+
+if preco is None or preco <= 0:
+    print("\nErro: O preço deve ser um número válido maior que 0.")
+elif desconto is None or desconto < 0 or desconto > 100:
+    print("\nErro: O desconto deve ser um número válido entre 0 e 100.")
+else:
+    preco_final = preco * (1 - desconto / 100)
+    print(f"\nO preço final é {preco_final:.2f}")
