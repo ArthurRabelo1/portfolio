@@ -81,3 +81,7 @@ import random
 letra = input("insira um nome para sorteio de letra")
 sorteado = random.choice(letra)
 print(f"a letra sorteada foi {sorteado}")
+
+
+numero = 42
+texto = str(numero) + "é a resposta"
