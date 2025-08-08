@@ -92,3 +92,14 @@ print(texto)
 numero = 3.14
 calculo = float(numero) * 2
 print(calculo)
+
+
+
+O programa deve calcular: 100 * (1 - 20/100) e retornar o preço final 80.
+
+
+numero = input("insira o preço do produto: ")
+desconto = input("insira o desconto: ")
+
+calculo = str(numero) * str(1 - desconto/numero)
+print(f"\nO preço final é {calculo}")
