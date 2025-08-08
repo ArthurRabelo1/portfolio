@@ -97,9 +97,9 @@ print(calculo)
 
 O programa deve calcular: 100 * (1 - 20/100) e retornar o preço final 80.
 
+numero = float(input("Insira o preço do produto: "))
+desconto = float(input("Insira o desconto (em %): "))
 
-numero = input("insira o preço do produto: ")
-desconto = input("insira o desconto: ")
+resultado = numero * (1 - desconto / 100)
 
-calculo = str(numero) * str(1 - desconto/numero)
-print(f"\nO preço final é {calculo}")
+print(f"\nO preço final é {resultado:.2f}")
