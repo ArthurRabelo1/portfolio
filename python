@@ -86,3 +86,9 @@ print(f"a letra sorteada foi {sorteado}")
 numero = 42
 texto = str(numero) + "é a resposta"
 print(texto)
+
+
+
+numero = 3.14
+calculo = float(numero) * 2
+print(calculo)
