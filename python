@@ -19,6 +19,7 @@ else:
     print("\nQue pena! Tente novamente.")
 
 
+import random
 
 opcoes = ["Pedra", "Papel", "Tesoura"]
 
@@ -67,11 +68,16 @@ print(f"O nome sorteado foi {nome_sorteado}")
 import random
 
 nomes = ["arthur", "lapa", "heitor"]
-produtos = ["livro", "mouse", "pc"]
-
-# Embaralha a lista de produtos
+produtos = ["livro", "mouse", "comida"]
 random.shuffle(produtos)
 
 # Associa cada nome com um produto embaralhado
 for nome, produto in zip(nomes, produtos):
     print(f"O {nome} ganhou um {produto}")
+
+
+import random
+
+letra = input("insira um nome para sorteio de letra")
+random.choice(letra)
+print(f"a letra sorteada foi {letra}")
