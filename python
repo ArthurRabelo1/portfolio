@@ -115,3 +115,54 @@ elif desconto is None or desconto < 0 or desconto > 100:
 else:
     preco_final = preco * (1 - desconto / 100)
     print(f"\nO preço final é {preco_final:.2f}")
+
+
+
+
+import random
+import operator
+
+x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+y = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+operadores = [
+    ("+", operator.add),
+    ("-", operator.sub),
+    ("/", operator.truediv),
+    ("*", operator.mul)
+]
+
+num1 = random.choice(x)
+num2 = random.choice(y)
+simbolo, funcao = random.choice(operadores)
+
+resultado = funcao(num1, num2)
+
+print(f"{num1} {simbolo} {num2} = {resultado}")
+
+
+
+
+
+import operator
+
+numero1 = float(input("Insira qualquer número: "))
+
+operadores = [
+    ("+", operator.add),
+    ("-", operator.sub),
+    ("/", operator.truediv),
+    ("*", operator.mul)
+]
+
+soma = input("Escolha uma das operações (+ - * /): ")
+
+numero2 = float(input("Insira qualquer numero: "))
+for simbolo, funcao in operadores:
+    if simbolo == soma:
+        calculo = funcao(numero1, numero2)
+        break
+else:
+    print("Operador inválido!")
+    exit()
+
+print(f"\n{numero1} {soma} {numero2} = {calculo}")
