@@ -170,3 +170,4 @@ print(f"\n{numero1} {soma} {numero2} = {calculo}")
 
 
 import random
+import operator
