@@ -169,5 +169,207 @@ print(f"\n{numero1} {soma} {numero2} = {calculo}")
 
 
 
-import random
-import operator
+
+def soma(a,b):
+  resultado = a + b
+
+
+
+print("\n ~~~~ Programa Iniciado! ~~~~ ")
+
+# Variável que controla o loop. Inicialmente, o programa está rodando
+rodando = True
+
+# O loop continuará até que 'rodando' seja False
+while rodando:
+    # Exibe o menu de opções para o usuário
+    print("\n Menu ")
+    print("\n1 - soma de 2 números")
+    print("\n2 - Subtração de 2 números")   
+    print("\n3 - multiplicação de 2 Número")
+    print("\n4 - Divisão de números")
+    print("\n5 - Fatorial")
+    print("0 - Encerrar Programa")
+
+    # Solicita ao usuário que escolha uma opção
+    opcao = input("\n Escolha uma opção! ")
+
+    if opcao == "1":
+        # Soma
+        a = int(input("insira o Valor de A: "))  # Solicita o valor de A e converte para inteiro
+        b = int(input("insira o Valor de B: "))  # Solicita o valor de B e converte para inteiro
+        resultado = a + b  # Realiza a soma
+        print(f"Resultado da soma: {resultado}")  # Exibe o resultado da soma
+
+    elif opcao == "2":
+        # Subtração
+        a = int(input("insira o Valor de A: "))  # Solicita o valor de A e converte para inteiro
+        b = int(input("insira o Valor de B: "))  # Solicita o valor de B e converte para inteiro
+        resultado = a - b  # Realiza a subtração
+        print(f"Resultado da subtração: {resultado}")  # Exibe o resultado da subtração
+
+    elif opcao == "3":
+        # Multiplicação
+        a = int(input("insira o Valor de A: "))  # Solicita o valor de A e converte para inteiro
+        b = int(input("insira o Valor de B: "))  # Solicita o valor de B e converte para inteiro
+        resultado = a * b  # Realiza a multiplicação
+        print(f"Resultado da multiplicação: {resultado}")  # Exibe o resultado da multiplicação
+
+    elif opcao == "4":
+        # Divisão
+        a = int(input("insira o Valor de A: "))  # Solicita o valor de A e converte para inteiro
+        b = int(input("insira o Valor de B: "))  # Solicita o valor de B e converte para inteiro
+        if b != 0:  # Verifica se B não é zero para evitar erro de divisão por zero
+            resultado = a / b  # Realiza a divisão
+            print(f"Resultado da divisão: {resultado}")  # Exibe o resultado da divisão
+        else:
+            print("Erro: Divisão por zero!")  # Exibe erro se B for zero
+
+    elif opcao == "5":
+        # Fatorial
+        a = int(input("insira o Valor de A: "))  # Solicita o valor de A e converte para inteiro
+        resultado = math.factorial(a)  # Calcula o fatorial de A
+        print(f"Resultado do fatorial: {resultado}")  # Exibe o fatorial calculado
+
+    elif opcao == "0":
+        # Se o usuário escolher '0', o programa será encerrado
+        print("\n ~~~~ Programa Encerrado. ~~~~ ")
+        rodando = False  # Define 'rodando' como False, o que termina o loop
+
+    else:
+        # Caso o usuário digite uma opção inválida
+        print("\n Opção inválida, escolha novamente!")  # Informa que a opção não existe
+
+
+
+import datetime
+
+
+
+
+
+
+
+def soma(a, b):
+    return a + b
+
+def subtracao(a, b):
+    return a - b
+
+def multiplicacao(a, b):
+    return a * b
+
+def divisao(a, b):
+    if b != 0:
+        return a / b
+    else:
+        return "Erro: divisão por zero!"
+
+def fatorial(n):
+    resultado = 1
+    for i in range(1, n + 1):
+        resultado *= i
+    return resultado
+
+def potencia(a, b):
+    resultado = 1
+    for _ in range(int(b)):
+        resultado *= a
+    return resultado
+
+def raiz_quadrada(n):
+    if n < 0:
+        return "Erro: raiz de número negativo!"
+    aproximacao = n / 2
+    for _ in range(20): 
+        aproximacao = (aproximacao + n / aproximacao) / 2
+    return aproximacao
+
+def media(lista):
+    if len(lista) == 0:
+        return 0
+    return sum(lista) / len(lista)
+
+def logaritmo(x, base=10):
+    if x <= 0 or base <= 0 or base == 1:
+        return "Erro: valores inválidos para logaritmo!"
+    
+    y = x / base
+    
+    for _ in range(50):
+        try:
+            f = (base ** y) - x
+            derivada = (base ** y) * ((base - 1) / base)
+            y -= f / derivada
+        except ZeroDivisionError:
+            return "Erro no cálculo!"
+    return y
+
+
+# Programa principal
+rodando = True
+
+while rodando:
+    print("\n=============== Menu ===============")
+    print("| 1 - Soma de 2 números            |")
+    print("| 2 - Subtração de 2 números       |")   
+    print("| 3 - Multiplicação de 2 números   |")
+    print("| 4 - Divisão de números           |")
+    print("| 5 - Fatorial                     |")
+    print("| 6 - Potência (A^B)               |")
+    print("| 7 - Raiz Quadrada                |")
+    print("| 8 - Média de uma lista de números|")
+    print("| 9 - Logaritmo (log_b(x))         |")
+    print("| 0 - Encerrar Programa            |")
+    print("====================================")
+    opcao = input("Escolha uma opção: ")
+
+    if opcao == "1":
+        a = float(input("\nValor de A: "))
+        b = float(input("Valor de B: "))
+        print(f"RESULTADO: {soma(a, b)}")
+
+    elif opcao == "2":
+        a = float(input("\nValor de A: "))
+        b = float(input("Valor de B: "))
+        print(f"RESULTADO: {subtracao(a, b)}")
+
+    elif opcao == "3":
+        a = float(input("\nValor de A: "))
+        b = float(input("Valor de B: "))
+        print(f"RESULTADO: {multiplicacao(a, b)}")
+
+    elif opcao == "4":
+        a = float(input("\nValor de A: "))
+        b = float(input("Valor de B: "))
+        print(f"RESULTADO: {divisao(a, b)}")
+
+    elif opcao == "5":
+        n = int(input("\nDigite um número inteiro: "))
+        print(f"RESULTADO: {fatorial(n)}")
+
+    elif opcao == "6":
+        a = float(input("\nBase (A): "))
+        b = int(input("Expoente (B): "))
+        print(f"RESULTADO: {potencia(a, b)}")
+
+    elif opcao == "7":
+        n = float(input("\nDigite um número: "))
+        print(f"RESULTADO: {raiz_quadrada(n)}")
+
+    elif opcao == "8":
+        numeros = input("\nDigite vários números separados por espaço: ")
+        lista = [float(x) for x in numeros.split()]
+        print(f"RESULTADO: {media(lista)}")
+
+    elif opcao == "9":
+        x = float(input("\nDigite o valor de x: "))
+        base = float(input("Digite a base do logaritmo: "))
+        print(f"RESULTADO: {logaritmo(x, base): .3f}")
+
+    elif opcao == "0":
+        print("\n  Programa Encerrado.  ")
+        rodando = False
+
+    else:
+        print("Opção inválida, tente novamente.")
