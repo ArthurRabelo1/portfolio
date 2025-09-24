@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simulação: PC Infectado (Visual)</title>
+  <style>
+    :root {
+      --bg: #0b0f12;
+      --panel: #071219;
+      --accent: #ff5959;
+      --accent2: #fff;
+      --text: #fff;
+      --muted: #888;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      /* Aplicação das novas cores no body */
+      background: radial-gradient(ellipse at 10% 10%, rgba(99,102,241,0.12), transparent 10%),
+                  radial-gradient(ellipse at 90% 90%, rgba(6,182,212,0.06), transparent 10%),
+                  var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: linear-gradient(180deg, #0f1420 0%, #0f1420 40%, rgba(15, 20, 32, .6) 100%);
+      border-right: 1px solid rgba(255, 255, 255, .06);
+      padding: 18px 14px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 8px;
+      margin-bottom: 8px;
+    }
+
+    .brand svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .brand strong {
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .nav {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--accent2);
+      text-decoration: none;
+      opacity: .95;
+      transition: .15s ease;
+      font-weight: 500;
+    }
+
+    .nav a:hover {
+      background: rgba(255, 255, 255, .02);
+      transform: translateX(2px);
+    }
+
+   .nav a.active{background:linear-gradient(135deg, rgba(0,209,154,.18), rgba(40,160,255,.12)); border:1px solid rgba(255,255,255,.06)}
+
+    .sidebar .footer {
+      margin-top: auto;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 10px 0;
+    }
+
+    /* Desktop */
+    .desktop {
+      position: relative;
+      width: calc(100vw - 240px);
+      height: 100vh;
+      padding: 20px;
+      margin-left: 240px;
+      background-image: radial-gradient(circle at 10% 10%, rgba(0, 255, 159, 0.02), transparent 10%), radial-gradient(circle at 90% 90%, rgba(255, 89, 89, 0.02), transparent 10%);
+    }
+
+    /* Taskbar */
+    .taskbar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 46px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      padding: 6px 12px;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .start {
+      width: 110px;
+      height: 32px;
+      background: linear-gradient(180deg, #062023, #05181a);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    /* Icons on desktop */
+    .icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .icon {
+      width: 84px;
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .icon .box {
+      width: 64px;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Windows */
+    .win {
+      position: absolute;
+      width: 540px;
+      height: 320px;
+      background: linear-gradient(180deg, #07131a, #031017);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .win .title {
+      height: 38px;
+      padding: 8px 12px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), transparent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .win .title strong {
+      flex: 1;
+    }
+
+    .btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btns .b {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .content {
+      flex: 1;
+      padding: 12px;
+      font-size: 13px;
+      line-height: 1.4;
+      overflow: auto;
+    }
+
+    /* Dialog */
+    .dialog {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 420px;
+      background: #081419;
+      border-radius: 8px;
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+      z-index: 999;
+    }
+
+    .dialog h3 {
+      margin: 0 0 8px 0;
+    }
+
+    .dialog .actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+
+    /* Animations */
+    @keyframes shake {
+      0% { transform: translate(0); }
+      20% { transform: translate(-6px, 0); }
+      40% { transform: translate(6px, 0); }
+      60% { transform: translate(-3px, 0); }
+      80% { transform: translate(3px, 0); }
+      100% { transform: translate(0); }
+    }
+
+    .shake {
+      animation: shake 0.6s ease-in-out;
+    }
+
+    /* Fullscreen overlay */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 0, 0, 0.06), rgba(0, 0, 0, 0.8));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 22px;
+      z-index: 200;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .25s;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Small helper */
+    .kbd {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    /* Responsive */
+    @media(max-width:900px) {
+      .win {
+        width: 90%;
+        height: 60%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar" aria-label="Navegação principal">
+    <div class="brand" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" class="icon">
+        <path d="M12 2l7 3v6c0 5.25-3.5 10-7 11-3.5-1-7-5.75-7-11V5l7-3Z" stroke="currentColor" stroke-width="1.6" />
+      </svg>
+      <strong>TCC - Segurança na internet</strong>
+    </div>
+    <nav class="nav" aria-label="Seções">
+     <a  href="tcc.html"><span>Infográfico</span></a>
+      <a  href="index.html"><span>ant-virus</span></a>
+      <a  href="cartao.html"><span>simulação de cartao</span></a>
+      <a class="active" href="virus.html"><span>virus falso</span></a>   
+    </nav>
+
+  </aside>
+
+  <div class="desktop" id="desktop">
+    <div class="icons" id="icons" style="position:relative;z-index:2">
+      <div class="icon" data-type="infect">
+        <div class="box">💾</div>
+        <div>Meus Documentos</div>
+      </div>
+      <div class="icon" data-type="browser">
+        <div class="box">🌐</div>
+        <div>Navegador</div>
+      </div>
+      <div class="icon" data-type="email">
+        <div class="box">📧</div>
+        <div>E-mail</div>
+      </div>
+    </div>
+
+    <div class="taskbar">
+      <div class="start">MENU • Simulação</div>
+      <div style="flex:1"></div>
+      <div class="kbd">Pressione H para pânico</div>
+    </div>
+
+    <div id="overlay" class="overlay">SISTEMA COMPROMETIDO — MODO SIMULADO</div>
+  </div>
+
+  <template id="winTemplate">
+    <div class="win">
+      <div class="title">
+        <div class="btns">
+          <span class="b" style="background:#ff5f56"></span>
+          <span class="b" style="background:#ffbd2e"></span>
+          <span class="b" style="background:#27c93f"></span>
+        </div>
+        <strong>Janela</strong>
+      </div>
+      <div class="content">conteúdo</div>
+    </div>
+  </template>
+
+  <template id="dialogTemplate">
+    <div class="dialog">
+      <h3>Atenção!</h3>
+      <div class="msg">A atividade suspeita foi detectada. Deseja executar a correção automática?</div>
+      <div class="actions">
+        <button class="btnClose">Fechar</button>
+        <button class="btnAction">Executar</button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    // Disclaimer
+    console.log('SIMULAÇÃO VISUAL: Não realiza ações nocivas. Apenas efeitos no navegador.');
+
+    const desktop = document.getElementById('desktop');
+    const icons = document.getElementById('icons');
+    const overlay = document.getElementById('overlay');
+    const winTpl = document.getElementById('winTemplate').content;
+    const dialogTpl = document.getElementById('dialogTemplate').content;
+
+    // Utility to make element draggable
+    function makeDraggable(el, header) {
+      header = header || el.querySelector('.title');
+      let isDown = false, offsetX = 0, offsetY = 0;
+      header.style.cursor = 'move';
+      header.addEventListener('mousedown', (e) => {
+        isDown = true;
+        offsetX = e.clientX - el.offsetLeft;
+        offsetY = e.clientY - el.offsetTop;
+        el.style.zIndex = ++zIndex;
+      });
+      document.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        el.style.left = (e.clientX - offsetX) + 'px';
+        el.style.top = (e.clientY - offsetY) + 'px';
+      });
+      document.addEventListener('mouseup', () => {
+        isDown = false;
+      });
+    }
+
+    let zIndex = 10;
+
+    // spawn a window at random-ish position
+    function spawnWindow(title, contentHTML, opts = { width: 520, height: 320 }) {
+      const node = winTpl.cloneNode(true).firstElementChild;
+      node.style.width = opts.width + 'px';
+      node.style.height = opts.height + 'px';
+      node.querySelector('strong').textContent = title;
+      node.querySelector('.content').innerHTML = contentHTML;
+      node.style.left = (100 + Math.random() * (window.innerWidth - 700)) + 'px';
+      node.style.top = (80 + Math.random() * (window.innerHeight - 420)) + 'px';
+      node.style.zIndex = ++zIndex;
+
+      // close button: double-click title closes
+      const titleBar = node.querySelector('.title');
+      titleBar.addEventListener('dblclick', () => {
+        node.remove();
+      });
+
+      // small auto-shake if flagged
+      if (opts.shake) {
+        node.classList.add('shake');
+        setTimeout(() => node.classList.remove('shake'), 900);
+      }
+
+      desktop.appendChild(node);
+      makeDraggable(node, titleBar);
+      return node;
+    }
+
+    // spawn a system dialog
+    function spawnDialog(msg) {
+      const d = dialogTpl.cloneNode(true).firstElementChild;
+      d.querySelector('.msg').textContent = msg;
+      d.querySelector('.btnClose').addEventListener('click', () => {
+        d.remove();
+      });
+      d.querySelector('.btnAction').addEventListener('click', () => {
+        d.querySelector('.btnAction').textContent = 'Executando...';
+        fakeProgress(d.querySelector('.btnAction'));
+      });
+      desktop.appendChild(d);
+      return d;
+    }
+
+    function fakeProgress(btn) {
+      let pct = 0;
+      const int = setInterval(() => {
+        pct += 8 + Math.random() * 12;
+        if (pct >= 100) {
+          pct = 100;
+          clearInterval(int);
+          btn.textContent = 'Concluído';
+        } else {
+          btn.textContent = 'Executando ' + Math.floor(pct) + '%';
+        }
+      }, 300);
+    }
+
+    // sample contents
+    const browsers = [
+      '<div><strong>Atenção — Download concluído</strong><p>arquivo_anexo.exe foi salvo na pasta Downloads.</p></div>',
+      '<div><strong>Busca</strong><p>Resultados: <em>site-seguro.com - [OK]</em><br> <em>arquivo_suspeito.exe - [NOK]</em></p></div>'
+    ];
+    const emails = [
+      '<div><strong>E-mail: Oferta</strong><p>Abra o anexo para ver a promoção *</p></div>',
+      '<div><strong>Mensagem</strong><p>Seu pacote foi retido — clique para detalhes.</p></div>'
+    ];
+
+    // clicking icons spawns related windows
+    icons.addEventListener('click', (e) => {
+      const ic = e.target.closest('.icon');
+      if (!ic) return;
+      const type = ic.dataset.type;
+      if (type === 'browser') spawnWindow('Navegador — google.com', browsers[Math.floor(Math.random() * browsers.length)], { shake: false });
+      if (type === 'email') spawnWindow('Cliente de E-mail', emails[Math.floor(Math.random() * emails.length)], { shake: true });
+      if (type === 'infect') spawnWindow('Meus Documentos', '<p>documento_conta.xls<br>relatorio_financeiro.pdf<br><strong>suspeito_loader.exe</strong></p>', { shake: true });
+    });
+
+    // automatic sequence that simulates infection
+    function startSequence() {
+      // 1. small popup
+      setTimeout(() => {
+        spawnWindow('Atualização do Sistema', '<p>Verificando atualizações...</p>', { shake: false });
+      }, 700);
+      // 2. fake download complete
+      setTimeout(() => {
+        spawnWindow('Navegador', browsers[0], { shake: false });
+      }, 1800);
+      // 3. email with attachment
+      setTimeout(() => {
+        spawnWindow('E-mail: Novo', emails[0], { shake: true });
+      }, 3200);
+      // 4. explorer window with suspicious file
+      setTimeout(() => {
+        spawnWindow('Explorador', '<p>...suspeito_loader.exe — <em>executando</em></p>', { shake: true });
+      }, 4400);
+      // 5. system dialog asking for permission
+      setTimeout(() => {
+        spawnDialog('Permitir que "suspeito_loader.exe" faça alterações no sistema?');
+      }, 5200);
+      // 6. overlay and lots of windows
+      setTimeout(() => {
+        overlay.classList.add('show');
+        playBeep();
+        floodWindows();
+      }, 7600);
+    }
+
+    function floodWindows() {
+      const titles = ['Processador', 'Memória', 'Rede', 'Conexões', 'Scanner', 'Backup'];
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => {
+          spawnWindow(titles[i % titles.length], '<p>Operação em andamento... <em>PID ' + (2000 + i) + '</em></p>', { shake: Math.random() > 0.6 });
+        }, 200 * i);
+      }
+    }
+
+    // beeps via WebAudio
+    function playBeep() {
+      try {
+        const ctx = new(window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine';
+        o.frequency.value = 880;
+        g.gain.value = 0.02;
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start();
+        setTimeout(() => {
+          o.frequency.value = 440;
+        }, 120);
+        setTimeout(() => {
+          o.stop();
+          ctx.close();
+        }, 800);
+      } catch (e) {
+        console.log('audio not supported');
+      }
+    }
+
+    // panic hotkey H to trigger overlay and extra windows
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'h') {
+        overlay.classList.toggle('show');
+        playBeep();
+        floodWindows();
+      }
+    });
+
+    // also provide a timed autoplay but small delay
+    setTimeout(() => {
+      startSequence();
+    }, 1200);
+
+    // safety: clear everything on click of the overlay
+    overlay.addEventListener('click', () => {
+      overlay.classList.remove('show');
+      // remove extra windows
+      document.querySelectorAll('.win').forEach(w => w.remove());
+      document.querySelectorAll('.dialog').forEach(d => d.remove());
+    });
+
+    // prevent any real destructive operations: intercept any attempt to navigate away triggered by the simulation
+    window.addEventListener('beforeunload', (e) => {
+      // no-op: ensure normal navigation isn't blocked by the simulation
+    });
+  </script>
+
+  <noscript>
+    <div style="position:fixed;left:0;right:0;top:0;padding:12px;background:#ffefef;color:#600;z-index:999">Atenção: Ative o JavaScript para ver a simulação visual.</div>
+  </noscript>
+</body>
+</html>

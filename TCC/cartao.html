@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cartão Clonado  - Exemplo (Seguro)</title>
+  <style>
+    /* --- Estilos mantidos igual ao seu código --- */
+    :root{
+      --bg: #0f1724;
+      --card-front: linear-gradient(135deg,#458666,#39815d);
+      --card-back: linear-gradient(90deg,#111827,#374151);
+      --accent: #f8fafc;
+      --muted: rgba(248,250,252,0.8);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      background: radial-gradient(ellipse at 10% 10%, rgba(99,102,241,0.12), transparent 10%),
+                  radial-gradient(ellipse at 90% 90%, rgba(6,182,212,0.06), transparent 10%),
+                  var(--bg);
+      color:var(--accent);
+      padding:24px;
+      height: 100vh;
+      width: 100vw;
+      overflow-x: hidden;
+    }
+    .container { width:1100px; max-width: calc(100% - 48px); display:grid; grid-template-columns:1fr; gap:28px; align-items:start; margin-left:260px;margin-top: 5%; }
+    .sidebar { width:240px; background: linear-gradient(180deg, #0f1420 0%, #0f1420 40%, rgba(15,20,32,.6) 100%); border-right:1px solid rgba(255,255,255,.06); padding:18px 14px; position:fixed; top:0; left:0; height:100vh; display:flex; flex-direction:column; }
+    .brand{ display:flex; align-items:center; gap:10px; padding:10px 8px; margin-bottom:8px; }
+    .brand svg{width:28px; height:28px;}
+    .brand strong{font-weight:700; letter-spacing:.3px}
+    .nav{margin-top:10px; display:flex; flex-direction:column; gap:6px}
+    .nav a{ display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:10px; color:var(--accent); text-decoration:none; opacity:.95; transition:.15s ease; font-weight:500;}
+    .nav a:hover{background:rgba(255,255,255,.02); transform:translateX(2px)}
+     .nav a.active{background:linear-gradient(135deg, rgba(0,209,154,.18), rgba(40,160,255,.12)); border:1px solid rgba(255,255,255,.06)}
+   
+    main { padding: 8px; display:flex; flex-direction:column; gap:18px; }
+    .top-note{ background: rgba(255,255,255,0.02); padding:12px 14px; border-radius:10px; font-size:14px; color:var(--muted); }
+    .wrap{ display:grid; grid-template-columns: 380px 1fr; gap:28px; align-items:start; }
+    .card-stage{ perspective: 1200px; }
+    .card{ width:380px; height:240px; border-radius:18px; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(.2,.9,.2,1); position:relative; box-shadow:0 18px 40px rgba(2,23,11,0.6), inset 0 1px 0 rgba(255,255,255,0.03); cursor:default; background:#222; }
+    .card.flipped{ transform: rotateY(180deg); }
+    .card-face{ position:absolute; inset:0; backface-visibility:hidden; border-radius:18px; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; padding:20px; box-sizing:border-box; }
+    .card-front{ background: var(--card-front); color:white; }
+    .chip{ width:56px; height:40px; border-radius:6px; background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.06)); box-shadow: inset 0 -6px 8px rgba(0,0,0,0.12); }
+    .card-rows{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .card-number{ font-size:20px; letter-spacing:2px; font-weight:600; margin-top:12px; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.12)); }
+    .card-meta{ display:flex; justify-content:space-between; align-items:center; margin-top:18px; font-size:14px; color:rgba(255,255,255,0.95); }
+    .card-brand{ display:flex; gap:8px; align-items:center; justify-content:flex-end; }
+    .brand-circle{ width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-weight:700; }
+    .card-back{ background: var(--card-back); color:var(--muted); transform: rotateY(180deg); padding:18px 18px; }
+    .magnetic{ height:44px; background:linear-gradient(90deg,#000,#2b2b2b); margin-top:8px; border-radius:4px; }
+    .cvv-strip{ display:flex; justify-content:flex-end; align-items:center; gap:12px; margin-top:18px; }
+    .cvv-box{ width:120px; height:34px; background:linear-gradient(90deg,#ddd,#bbb); border-radius:4px; display:flex; align-items:center; justify-content:center; padding:6px 10px; font-weight:700; color:#111; text-align:center; }
+    .form{ background: rgba(255,255,255,0.02); padding:20px; border-radius:12px; width:100%; box-shadow:0 6px 24px rgba(2,6,23,0.45);}
+    .field{ display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+    label{ font-size:13px; color:var(--muted); }
+    input[type="text"], input[type="tel"], input[type="month"]{ padding:12px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:var(--accent); outline:none; font-size:15px; transition: box-shadow .15s, border-color .15s; caret-color: #fff; }
+    input::placeholder{ color: rgba(248,250,252,0.35); }
+    input:focus{ box-shadow: 0 6px 18px rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.35); }
+    .row{ display:flex; gap:12px; }
+    .small{ flex:1; min-width:0; }
+    .large{ flex:2; }
+    .help{ font-size:12px; color:rgba(248,250,252,0.5); margin-top:6px; }
+    .actions{ display:flex; gap:10px; margin-top:6px; }
+    .btn{ padding:10px 14px; border-radius:10px; border:0; background:linear-gradient(90deg,#111827,#374151); color:var(--accent); font-weight:600; cursor:pointer; }
+    .btn.primary{ background: linear-gradient(90deg,#145531,#145531); color:#04203a; transition: all 0.15s; }
+    .btn.primary:hover{ transform:translateY(-1px); }
+    .note{ font-size:13px; color:rgba(248,250,252,0.48); }
+    footer{ grid-column: 1 / -1; margin: top 120px;; font-size:13px; color:rgba(248,250,252,0.32); }
+    @media (max-width:920px){ .container{ margin-left:0; } .wrap{ grid-template-columns:1fr; } .card{ width:100%; max-width:420px; height:260px; margin:0 auto; } }
+  </style>
+</head>
+<body>
+  <aside class="sidebar" aria-label="Navegação principal">
+    <div class="brand" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" class="icon"><path d="M12 2l7 3v6c0 5.25-3.5 10-7 11-3.5-1-7-5.75-7-11V5l7-3Z" stroke="currentColor" stroke-width="1.6"/></svg>
+      <strong>TCC - Segurança na internet</strong>
+    </div> 
+    <nav class="nav" aria-label="Seções">
+      <a  href="tcc.html"><span>Infográfico</span></a>
+      <a href="index.html"><span>ant-virus</span></a>
+      <a class="active" href="cartao.html"><span>simulação de cartao</span></a>
+      <a href="virus.html"><span>virus falso</span></a>   
+   
+      <!---- <a href="#"><span>Acesso Remoto</span></a>
+      <a href="#"><span>Ransomware</span></a>
+      <a href="#"><span>Módulos</span></a>
+      <a href="#"><span>Sandbox</span></a>
+    <a href="#"><span>Configurações</span></a>  -->
+    </nav> 
+
+  </aside>
+
+  <div class="container">
+    <main>
+      <div class="top-note" role="status">
+        <strong>Atenção:</strong> clonaram seu cartao bloqueie ele aqui</u>.
+      </div>
+      <div class="wrap" role="main" aria-label="Cartão de crédito digitável">
+        <div class="card-stage" aria-hidden="false">
+          <div id="visualCard" class="card" tabindex="0" aria-label="Visualização do cartão">
+            <div class="card-face card-front" id="cardFront">
+              <div class="card-rows">
+                <div class="chip" aria-hidden="true"></div>
+                <div class="card-brand" aria-hidden="true">
+                  <div style="text-align:right">
+                    <div style="font-size:12px;opacity:.95">VALID</div>
+                    <div style="font-size:11px;opacity:.85">THRU</div>
+                  </div>
+                  <div class="brand-circle" id="logoText">V</div>
+                </div>
+              </div>
+              <div class="card-number" id="displayNumber">#### #### #### ####</div>
+              <div class="card-meta">
+                <div>
+                  <div style="font-size:12px;opacity:.92">Nome</div>
+                  <div id="displayName" style="font-size:16px;font-weight:700">SEU NOME AQUI</div>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-size:12px;opacity:.92">VALIDADE</div>
+                  <div id="displayExpiry" style="font-size:16px;font-weight:700">MM/AA</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-face card-back" id="cardBack">
+              <div style="width:100%;">
+                <div class="magnetic" aria-hidden="true"></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px">
+                  <div style="width:65%; font-size:13px; color: rgba(255,255,255,0.85)">
+                    <div style="background: rgba(255,255,255,0.06); padding:6px 8px; border-radius:6px; font-size:13px;"> Nome do portador e dados </div>
+                  </div>
+                  <div style="width:30%; display:flex; flex-direction:column; align-items:center;">
+                    <div style="font-size:13px; opacity:.9">CVV</div>
+                    <div class="cvv-box" id="displayCvv">•••</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form class="form" id="cardForm" autocomplete="off" novalidate>
+          <div class="field">
+            <label for="cardNumber">Número do cartão</label>
+            <input id="cardNumber" name="cardNumber" type="tel" inputmode="numeric" maxlength="19" placeholder="#### #### #### ####" aria-describedby="helpNumber" autocomplete="cc-number" />
+            <div id="helpNumber" class="help">Exemplo: digite números apenas. Espaços serão adicionados automaticamente.</div>
+          </div>
+          <div class="field">
+            <label for="cardName">Nome no cartão</label>
+            <input id="cardName" name="cardName" type="text" maxlength="30" placeholder="Como no cartão" autocomplete="cc-name" />
+          </div>
+          <div class="row">
+            <div class="field small">
+              <label for="cardExpiry">Validade (MM/AA)</label>
+              <input id="cardExpiry" name="cardExpiry" type="tel" inputmode="numeric" maxlength="5" placeholder="MM/AA" autocomplete="cc-exp" />
+            </div>
+            <div class="field small">
+              <label for="cardCvv">CVV</label>
+              <input id="cardCvv" name="cardCvv" type="tel" inputmode="numeric" maxlength="4" placeholder="•••" autocomplete="cc-csc" />
+            </div>
+          </div>
+          <div class="actions">
+            <button type="button" id="flipBtn" class="btn" title="Virar cartão (ver CVV)">Virar cartão</button>
+            <button type="button" id="simulateBtn" class="btn primary">bloqueiar cartao</button>
+          </div>
+          <p class="note" style="margin-top:12px"> Nota: Esta página é apenas para demonstração local. Não grave nem envie dados reais de cartões aqui. </p>
+        </form>
+        <footer> Dica: pressione TAB entre campos. Ao focar no CVV o cartão vira para mostrar o verso. </footer>
+      </div>
+    </main>
+  </div>
+
+  <script>
+(function(){
+  const card = document.getElementById('visualCard');
+  const numberInput = document.getElementById('cardNumber');
+  const nameInput = document.getElementById('cardName');
+  const expiryInput = document.getElementById('cardExpiry');
+  const cvvInput = document.getElementById('cardCvv');
+  const flipBtn = document.getElementById('flipBtn');
+  const simulateBtn = document.getElementById('simulateBtn');
+  const form = document.getElementById('cardForm');
+
+  const displayNumber = document.getElementById('displayNumber');
+  const displayName = document.getElementById('displayName');
+  const displayExpiry = document.getElementById('displayExpiry');
+  const displayCvv = document.getElementById('displayCvv');
+  const logoText = document.getElementById('logoText');
+
+  function digitsOnly(s){ return s.replace(/\D/g,''); }
+
+  function formatCardNumber(value){
+    const v = digitsOnly(value);
+    if (/^3[47]\d{0,13}$/.test(v)) {
+      return v.replace(/(\d{1,4})(\d{1,6})?(\d{1,5})?/, function(_,a,b,c){ return [a,b,c].filter(Boolean).join(' ').trim(); });
+    } else { return v.replace(/(\d{1,4})/g,'$1 ').trim(); }
+  }
+
+  function setBrandIcon(value){
+    const v = digitsOnly(value);
+    if (/^4/.test(v)) logoText.textContent = 'V';
+    else if (/^5[1-5]/.test(v)) logoText.textContent = 'M';
+    else if (/^3[47]/.test(v)) logoText.textContent = 'A';
+    else logoText.textContent = 'C';
+  }
+
+  numberInput.addEventListener('input', function(){
+    const formatted = formatCardNumber(this.value);
+    this.value = formatted;
+    displayNumber.textContent = formatted.padEnd(19,'#');
+    setBrandIcon(formatted);
+  });
+
+  nameInput.addEventListener('input', function(){
+    displayName.textContent = this.value.trim() ? this.value.trim().toUpperCase() : 'SEU NOME AQUI';
+  });
+
+  expiryInput.addEventListener('input', function(){
+    let v = digitsOnly(this.value).slice(0,4);
+    if (v.length>=3) v = v.slice(0,2)+'/'+v.slice(2);
+    this.value = v;
+   
+    displayExpiry.textContent = v || 'MM/AA';
+  });
+
+  cvvInput.addEventListener('input', function(){
+    const v = digitsOnly(this.value).slice(0,4);
+    displayCvv.textContent = v ? '•'.repeat(v.length) : '•••';
+  });
+
+  // Flip on focus of CVV
+  cvvInput.addEventListener('focus', ()=> card.classList.add('flipped'));
+  cvvInput.addEventListener('blur', ()=> card.classList.remove('flipped'));
+
+  // Flip on button click
+  flipBtn.addEventListener('click', ()=>{
+    card.classList.toggle('flipped');
+    if(card.classList.contains('flipped')) cvvInput.focus(); else numberInput.focus();
+  });
+
+  // Simulate validation
+  simulateBtn.addEventListener('click', ()=>{
+    form.requestSubmit(); // dispara validação
+  });
+
+  // Form validation
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const number = digitsOnly(numberInput.value);
+    const name = nameInput.value.trim();
+    const exp = digitsOnly(expiryInput.value);
+    const cvv = digitsOnly(cvvInput.value);
+
+    const errors = [];
+    if(!(number.length>=13 && number.length<=19)) errors.push('Número do cartão inválido (13–19 dígitos).');
+    if(name.length<2) errors.push('Nome inválido.');
+    if(!(exp.length===4 && parseInt(exp.slice(0,2),10)>=1 && parseInt(exp.slice(0,2),10)<=12)) errors.push('Validade inválida. Use MM/AA.');
+    if(!(cvv.length===3 || cvv.length===4)) errors.push('CVV inválido.');
+
+    if(errors.length){
+      alert('Corrija:\n- '+errors.join('\n- '));
+      return;
+    }
+
+    console.log('Cartão (simulado):', {number,name,expiry:expiryInput.value,cvv});
+    alert('PARABENS SEU CARTAO FOI CRONADO COM SUCESSO VALEU PELO PS5');
+  });
+
+  // Initialize placeholders
+  displayNumber.textContent = '#### #### #### ####';
+  displayName.textContent = 'SEU NOME AQUI';
+  displayExpiry.textContent = 'MM/AA';
+  displayCvv.textContent = '•••';
+
+  // Prevent pasting invalid characters
+  numberInput.addEventListener('paste', function(e){
+    e.preventDefault();
+    const text = (e.clipboardData||window.clipboardData).getData('text');
+    const digits = digitsOnly(text).slice(0,19);
+    this.value = formatCardNumber(digits);
+    displayNumber.textContent = this.value.padEnd(19,'#');
+    setBrandIcon(this.value);
+  });
+
+  expiryInput.addEventListener('paste', function(e){
+    e.preventDefault();
+    const text = digitsOnly((e.clipboardData||window.clipboardData).getData('text'));
+    const mm = text.slice(0,2);
+    const yy = text.slice(2,4);
+    this.value = (mm + (yy ? '/' + yy : '')).slice(0,5);
+    displayExpiry.textContent = this.value || 'MM/AA';
+  });
+
+})();
+  </script>
+</body>
+</html>

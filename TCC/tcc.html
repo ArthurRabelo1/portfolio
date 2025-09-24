@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infográfico + Gráficos de Pizza</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #0f1724;
+      --accent: #f8fafc;
+      --muted: rgba(248,250,252,0.8);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 200vh;
+      background: radial-gradient(ellipse at 10% 10%, rgba(99,102,241,0.12), transparent 10%),
+                  radial-gradient(ellipse at 90% 90%, rgba(6,182,212,0.06), transparent 10%),
+                  var(--bg);
+      color: var(--accent);
+      padding: 24px;
+      overflow-x: hidden;
+    }
+    strong { color: #fff; margin: 20px 0 10px; text-align: center; }
+
+    .title-circle {
+      background: #2f3e46;
+      width: 300px;
+      height: 180px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 30px;
+      font-size: 30px;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: linear-gradient(180deg, #0f1420 0%, #0f1420 40%, rgba(15,20,32,.6) 100%);
+      border-right: 1px solid rgba(255,255,255,.06);
+      padding: 18px 14px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .brand { display:flex; align-items:center; gap:10px; padding:10px 8px; margin-bottom:8px; }
+    .brand svg { width:28px; height:28px; }
+    .brand strong { font-weight:700; letter-spacing:.3px }
+    .nav { margin-top:10px; display:flex; flex-direction:column; gap:6px }
+    .nav a {
+      display:flex; align-items:center; gap:12px;
+      padding:12px 14px; border-radius:14px; color:#fff;
+      text-decoration:none; opacity:.9; transition:.2s ease; font-weight:500;
+    }
+    .nav a:hover { background:rgba(255,255,255,.04); transform:translateX(2px) }
+    .nav a.active{background:linear-gradient(135deg, rgba(0,209,154,.18), rgba(40,160,255,.12)); border:1px solid rgba(255,255,255,.06)}
+    .sidebar .footer { margin-top:auto; font-size:12px; color:var(--muted, #aaa); }
+
+    .main-content { margin-left: 240px; padding: 20px; }
+
+    /* INFÓGRAFICO */
+    .infografico-wrapper {
+      position: relative;
+      width: 1000px;
+      height: 400px;
+      margin: 20px auto;
+      overflow: hidden;
+      background: #1f1e1e;
+      border-radius: 20px;
+      padding: 20px;
+    }
+    .infografico-scroll {
+      display: flex;
+      flex-direction: column;
+      animation: scrollVertical 20s linear infinite;
+    }
+    .infografico-wrapper:hover .infografico-scroll { animation-play-state: paused; }
+    @keyframes scrollVertical { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+
+    .container { display: flex; flex-direction: column; gap: 20px; padding: 20px; }
+
+    .timeline-item {
+      display: flex; align-items: center;
+      background: #444; color: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s; cursor: pointer;
+    }
+    .circle-step {
+      min-width: 50px; min-height: 50px;
+      border-radius: 50%;
+      background: #458666;
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: bold;
+      margin-right: 20px;
+    }
+    .content h3 { margin: 0 0 10px; font-size: 18px; }
+    .content p { margin: 0; font-size: 14px; line-height: 1.4; }
+
+    /* MODAL */
+    .overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.6);
+      display: none; justify-content: center; align-items: center;
+      z-index: 10;
+    }
+    .modal {
+      background: #dad7cd;
+      width: 80%; max-width: 1000px;
+      height: 80%; border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      overflow-y: auto; display: flex; flex-direction: column; gap: 20px;
+    }
+    .modal h2 { margin: 0; font-size: 26px; color: #222; }
+    .modal p { font-size: 18px; line-height: 1.6; color: #444; }
+    .modal .images { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+    .modal .images img { width: 250px; height: 160px; object-fit: cover; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+
+    /* GRÁFICOS */
+    .charts {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 80px auto;
+      flex-wrap: wrap;
+    }
+    .chart-box {
+      background: #1f1e1e;
+      margin-top: 100px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+      opacity: 0; /* Inicialmente invisível */
+      transition: transform 0.2s linear, opacity 0.2s linear;
+    }
+    .chart-box.left { transform: translateX(-100vw); }  /* Gráfico fixo da esquerda */
+    .chart-box.right { transform: translateX(100vw); } /* Gráfico dinâmico da direita */
+
+    canvas { background: #dad7cd; border-radius: 10px; padding: 10px; }
+    .input-area { margin-top: 20px; display: flex; gap: 10px; justify-content: center; }
+    .input-area input { padding: 10px; border-radius: 8px; border: none; width: 250px; font-size: 16px; }
+    .input-area button { padding: 10px 15px; border: none; border-radius: 8px; background: #354f52; color: #dad7cd; font-size: 16px; cursor: pointer; transition: background 0.3s; }
+    .input-area button:hover { background: #52796f; }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" class="icon"><path d="M12 2l7 3v6c0 5.25-3.5 10-7 11-3.5-1-7-5.75-7-11V5l7-3Z" stroke="currentColor" stroke-width="1.6"/></svg>
+      <strong>TCC - Segurança na internet</strong>
+    </div> 
+    <nav class="nav">
+     <a class="active" href="tcc.html"><span>Infográfico</span></a>
+      <a  href="index.html"><span>ant-virus</span></a>
+      <a  href="cartao.html"><span>simulação de cartao</span></a>
+      <a href="virus.html"><span>virus falso</span></a>   
+   
+     
+    </nav> 
+    <div class="footer">v. 1.0.0 • Base de vírus: 2025-09-05</div>  
+  </aside>
+
+  <div class="main-content">
+    <div class="title-circle"><strong>Dicas<br>de<br>Segurança</strong></div>
+
+    <div class="infografico-wrapper">
+      <div class="infografico-scroll">
+        <div class="container">
+          <!-- Timeline items -->
+          <div class="timeline-item" data-title="Etapa 1" data-text="Resumo explicativo da etapa 1." data-images="https://source.unsplash.com/400x300/?password,security">
+            <div class="circle-step">🔑</div>
+            <div class="content">
+              <h3>Usar Senhas Fortes</h3>
+              <p>Crie combinações longas com letras maiúsculas, minúsculas, números e símbolos. Evite reutilizar a mesma senha.</p>
+            </div>
+          </div>
+          <div class="timeline-item" data-title="Etapa 2" data-text="Resumo explicativo da etapa 2." data-images="https://source.unsplash.com/400x300/?wifi,network">
+            <div class="circle-step">📡</div>
+            <div class="content">
+              <h3>Redes Wi-Fi Seguras</h3>
+              <p>Não utilize redes públicas para acessar informações sensíveis. Prefira conexões privadas com senha.</p>
+            </div>
+          </div>
+          <div class="timeline-item" data-title="Etapa 3" data-text="Resumo explicativo da etapa 3." data-images="https://source.unsplash.com/400x300/?phishing,email">
+            <div class="circle-step">📩</div>
+            <div class="content">
+              <h3>Cuidado com Phishing</h3>
+              <p>Não clique em links suspeitos recebidos por e-mail, SMS ou redes sociais. Sempre verifique o remetente.</p>
+            </div>
+          </div>
+          <div class="timeline-item" data-title="Etapa 4" data-text="Resumo explicativo da etapa 4." data-images="https://source.unsplash.com/400x300/?update,system">
+            <div class="circle-step">🛡️</div>
+            <div class="content">
+              <h3>Mantenha Atualizações</h3>
+              <p>Mantenha sistemas, aplicativos e antivírus sempre atualizados para proteger contra vulnerabilidades.</p>
+            </div>
+          </div>
+          <div class="timeline-item" data-title="Etapa 5" data-text="Resumo explicativo da etapa 5." data-images="https://source.unsplash.com/400x300/?privacy,security">
+            <div class="circle-step">👁️</div>
+            <div class="content">
+              <h3>Proteja sua Privacidade</h3>
+              <p>Revise as permissões de aplicativos e redes sociais. Compartilhe apenas o necessário.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Duplicado para scroll infinito -->
+        <div class="container">
+          <!-- mesmos itens -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="overlay" id="overlay">
+      <div class="modal" id="modal">
+        <h2 id="modal-title"></h2>
+        <p id="modal-text"></p>
+        <div class="images" id="modal-images"></div>
+      </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="charts">
+      <div class="chart-box left">
+        <h2>Gráfico Fixo</h2>
+        <canvas id="graficoFixo" width="350" height="350"></canvas>
+      </div>
+      <div class="chart-box right">
+        <h2>Gráfico Dinâmico</h2>
+        <canvas id="graficoDinamico" width="350" height="350"></canvas>
+        <div class="input-area">
+          <input type="text" id="entrada" placeholder="Digite uma categoria...">
+          <button onclick="adicionarFatia()">Adicionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== MODAL ===== */
+    const items = document.querySelectorAll(".timeline-item");
+    const overlay = document.getElementById("overlay");
+    const modalTitle = document.getElementById("modal-title");
+    const modalText = document.getElementById("modal-text");
+    const modalImages = document.getElementById("modal-images");
+
+    items.forEach(item => {
+      item.addEventListener("click", () => {
+        modalTitle.textContent = item.dataset.title;
+        modalText.textContent = item.dataset.text;
+        modalImages.innerHTML = "";
+        const urls = item.dataset.images.split(",");
+        urls.forEach(url => {
+          const img = document.createElement("img");
+          img.src = url.trim();
+          modalImages.appendChild(img);
+        });
+        overlay.style.display = "flex";
+      });
+    });
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) overlay.style.display = "none";
+    });
+
+    /* ===== GRÁFICOS ===== */
+    const paleta = ["#CAD2C5","#84A98C","#52796F","#354F52","#2F3E46"];
+    const ctxFixo = document.getElementById("graficoFixo").getContext("2d");
+    new Chart(ctxFixo, {
+      type: "pie",
+      data: { labels: ["Phishing","Malware","Roubo de Senha","Ransomware","Outros"], datasets:[{data:[40,25,15,10,10],backgroundColor:paleta,borderColor:"#0f1420",borderWidth:2}] },
+      options:{ responsive:true, plugins:{ legend:{ position:"right", labels:{ color:"#000", font:{ size:14 }}}}}
+    });
+
+    const ctxDinamico = document.getElementById("graficoDinamico").getContext("2d");
+    const dadosDinamicos = { labels:[], datasets:[{ data:[], backgroundColor:[], borderColor:"#0f1420", borderWidth:2 }]};
+    const graficoDinamico = new Chart(ctxDinamico,{ type:"pie", data:dadosDinamicos, options:{ plugins:{ legend:{ position:"right", labels:{ color:"#000"}}}}});
+
+    let corIndex = 0;
+    function adicionarFatia() {
+      const entrada = document.getElementById("entrada");
+      const valor = entrada.value.trim();
+      if(!valor) return;
+      const index = dadosDinamicos.labels.indexOf(valor);
+      if(index===-1){
+        dadosDinamicos.labels.push(valor);
+        dadosDinamicos.datasets[0].data.push(1);
+        dadosDinamicos.datasets[0].backgroundColor.push(paleta[corIndex%paleta.length]);
+        corIndex++;
+      } else { dadosDinamicos.datasets[0].data[index]++; }
+      graficoDinamico.update();
+      entrada.value="";
+    }
+
+    /* ===== PARALLAX + GRÁFICOS HORIZONTAIS ===== */
+    const infografico = document.querySelector(".infografico-wrapper");
+    const graficoFixoBox = document.querySelector(".chart-box.left");
+    const graficoDinamicoBox = document.querySelector(".chart-box.right");
+
+    window.addEventListener("scroll", () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.body.scrollHeight;
+
+      // Infográfico parallax
+      const translateY = scrollTop * 0.6;
+      const scrollPercent = scrollTop / (docHeight - windowHeight);
+      const opacity = 1 - scrollPercent * 1.2;
+      infografico.style.transform = `translateY(${translateY}px)`;
+      infografico.style.opacity = Math.max(opacity, 0);
+
+      // Gráfico fixo da esquerda
+      const topFixo = graficoFixoBox.getBoundingClientRect().top;
+      if(topFixo < windowHeight){
+        const progress = Math.min((windowHeight - topFixo) / windowHeight, 1);
+        graficoFixoBox.style.transform = `translateX(${(-100 + 100*progress)}vw)`;
+        graficoFixoBox.style.opacity = progress;
+      }
+
+      // Gráfico dinâmico da direita
+      const topDinamico = graficoDinamicoBox.getBoundingClientRect().top;
+      if(topDinamico < windowHeight){
+        const progress = Math.min((windowHeight - topDinamico) / windowHeight, 1);
+        graficoDinamicoBox.style.transform = `translateX(${(100 - 100*progress)}vw)`;
+        graficoDinamicoBox.style.opacity = progress;
+      }
+    });
+  </script>
+</body>
+</html>

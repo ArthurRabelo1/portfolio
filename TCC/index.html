@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCC - ANT VIRUS teste</title>
+  <style>
+    :root{
+      --bg:#0f1420;          /* fundo principal */
+      --panel:#161c2c;       /* cartões */
+      --panel-2:#1b2235;     /* hover */
+      --text:#e7ecf5;        /* texto principal */
+      --muted:#93a0b8;       /* texto secundário */
+      --brand:#00d19a;       /* verde principal */
+      --brand-2:#00b38b;     /* verde escuro */
+      --danger:#ff5d6c;
+      --warn:#ffb649;
+      --accent:#28a0ff;
+      --card-radius:22px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(0,209,154,.18), transparent 40%),
+                  radial-gradient(1000px 400px at 120% 10%, rgba(40,160,255,.15), transparent 40%),
+                  var(--bg);
+      color:var(--text);
+      display:grid;
+      grid-template-columns: 260px 1fr;
+      grid-template-rows: 72px 1fr;
+      grid-template-areas:
+        "sidebar header"
+        "sidebar main";
+    }
+
+    /* Sidebar */
+        .container { width:1100px; max-width: calc(100% - 48px); display:grid; grid-template-columns:1fr; gap:28px; align-items:start; margin-left:260px;margin-top: 5%; }
+    .sidebar { width:240px; background: linear-gradient(180deg, #0f1420 0%, #0f1420 40%, rgba(15,20,32,.6) 100%); border-right:1px solid rgba(255,255,255,.06); padding:18px 14px; position:fixed; top:0; left:0; height:100vh; display:flex; flex-direction:column; }
+    .brand{ display:flex; align-items:center; gap:10px; padding:10px 8px; margin-bottom:8px; }
+    .brand{
+      display:flex; align-items:center; gap:10px; padding:10px 8px; margin-bottom:8px;
+    }
+    .brand svg{width:28px; height:28px;}
+    .brand strong{font-weight:700; letter-spacing:.3px}
+    .nav{margin-top:10px; display:flex; flex-direction:column; gap:6px}
+    .nav a{
+      display:flex; align-items:center; gap:12px;
+      padding:12px 14px; border-radius:14px; color:var(--text);
+      text-decoration:none; opacity:.9; transition:.2s ease; font-weight:500;
+    }
+    .nav a:hover{background:rgba(255,255,255,.04); transform:translateX(2px)}
+    .nav a.active{background:linear-gradient(135deg, rgba(0,209,154,.18), rgba(40,160,255,.12)); border:1px solid rgba(255,255,255,.06)}
+    .nav svg{width:18px; height:18px; opacity:.9}
+    .sidebar .footer{
+      position:absolute; left:14px; right:14px; bottom:16px; font-size:12px; color:var(--muted);
+    }
+
+
+
+    /* Header */
+    header{
+      grid-area:header; display:flex; align-items:center; justify-content:space-between;
+      padding:14px 22px; border-bottom:1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(8px);
+    }
+    .h-left{display:flex; align-items:center; gap:14px}
+    .title{font-size:22px; font-weight:700}
+    .pill{
+      font-size:12px; color:#0d231b; background:linear-gradient(135deg, var(--brand), var(--brand-2));
+      padding:6px 10px; border-radius:999px; font-weight:700; letter-spacing:.4px; box-shadow: var(--shadow);
+    }
+    .h-right{display:flex; align-items:center; gap:10px}
+    .btn{
+      border:0; background:var(--panel); color:var(--text); padding:10px 14px; border-radius:14px; font-weight:600; cursor:pointer; transition:.15s; display:inline-flex; align-items:center; gap:8px; box-shadow: var(--shadow);
+    }
+    .btn:hover{background:var(--panel-2); transform: translateY(-1px)}
+    .btn.primary{background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:#072a20}
+    .btn.warn{background: linear-gradient(135deg, #ffce67, var(--warn)); color:#231800}
+
+
+
+    /* Main */
+    main{grid-area:main; padding:22px; overflow:auto}
+    .status-wrap{
+      display:grid; grid-template-columns: 1fr 380px; gap:22px; margin-bottom:22px;
+    }
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--card-radius); padding:18px; box-shadow:var(--shadow);
+    }
+    .card h3{margin:0 0 8px 0}
+
+    .safe{ display:flex; align-items:center; gap:18px }
+    .safe .ring{
+      width:64px; height:64px; border-radius:50%;
+      background: conic-gradient(var(--brand) 0 280deg, rgba(255,255,255,.12) 280deg);
+      display:grid; place-items:center; position:relative;
+    }
+    .safe .ring::after{content:""; position:absolute; inset:7px; background:var(--bg); border-radius:50%}
+    .safe .dot{ position:absolute; width:10px; height:10px; background:var(--brand); border-radius:50%; right:8px; top:8px; box-shadow:0 0 24px var(--brand)}
+    .safe .ring span{ position:relative; font-weight:800; z-index:1 }
+    .safe .desc{color:var(--muted)}
+
+    .log{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; color:var(--muted); height:100%;}
+    .log .line{opacity:.9; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,.06)}
+
+
+
+
+    /* Modules grid */
+    .grid{
+      display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:18px;
+    }
+
+    .module{ position:relative; padding:18px; border-radius:var(--card-radius); background: linear-gradient(180deg, rgba(40,160,255,.08), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.06); transition:.2s; cursor:default; min-height:150px}
+    .module:hover{ transform: translateY(-2px); background: linear-gradient(180deg, rgba(0,209,154,.12), rgba(255,255,255,.02)) }
+    .module .top{ display:flex; align-items:center; justify-content:space-between; gap:10px }
+    .module h4{ margin:8px 0 4px 0 }
+    .module p{ margin:0; color:var(--muted); font-size:13px }
+    .badge{ font-size:11px; padding:4px 8px; border-radius:999px; background:rgba(255,255,255,.06); color:var(--muted); font-weight:700 }
+    .status-dot{ width:10px; height:10px; border-radius:50%; background:var(--brand); box-shadow:0 0 12px var(--brand) }
+    .status-dot.off{ background:#3a4157; box-shadow:none }
+    .actions{ display:flex; align-items:center; justify-content:space-between; margin-top:16px }
+
+    .switch{ --w:42px; --h:24px; width:var(--w); height:var(--h); background:#3a4157; border-radius:999px; position:relative; cursor:pointer; transition: .2s; box-shadow: inset 0 0 0 1px rgba(255,255,255,.06) }
+    .switch::after{ content:""; position:absolute; width:18px; height:18px; border-radius:50%; background:#fff; top:3px; left:3px; transition:.2s; box-shadow: var(--shadow) }
+    .switch.on{ background:linear-gradient(135deg, var(--brand), var(--brand-2)) }
+    .switch.on::after{ left:calc(var(--w) - 21px) }
+
+    .icon{ width:24px; height:24px; opacity:.95 }
+
+    .open{ border:0; padding:8px 10px; border-radius:12px; background:rgba(255,255,255,.06); color:var(--text); cursor:pointer; font-weight:700 }
+    .open:hover{ background:rgba(255,255,255,.1) }
+
+
+
+
+    /* Modal */
+    .modal{ position:fixed; inset:0; display:none; place-items:center; background:rgba(6,10,18,.6); backdrop-filter: blur(4px); }
+    .modal.active{ display:grid }
+    .modal .inner{ width:min(560px, 92vw); background:var(--panel); border:1px solid rgba(255,255,255,.06); border-radius:18px; padding:18px 18px 12px; box-shadow: var(--shadow); animation: pop .2s ease }
+    @keyframes pop{ from{ transform:scale(.98); opacity:.6 } to{ transform:scale(1); opacity:1 } }
+    .modal h3{ margin:6px 0 4px 0 }
+
+
+
+
+    /* Scan area */
+    .scan{
+      display:none; margin-top:12px; padding:14px; background:rgba(255,255,255,.03); border:1px dashed rgba(255,255,255,.08); border-radius:14px;
+    }
+    .progress{ height:10px; background:#2b3246; border-radius:999px; overflow:hidden }
+    .bar{ height:100%; width:0%; background: linear-gradient(90deg, var(--brand), var(--accent)); transition: width .2s ease }
+
+
+
+    /* Toast */
+    .toasts{ position: fixed; right:16px; bottom:16px; display:flex; flex-direction:column; gap:10px; z-index:10 }
+    .toast{ background:var(--panel); border:1px solid rgba(255,255,255,.06); color:var(--text); padding:12px 14px; border-radius:14px; box-shadow: var(--shadow); animation: slide .25s ease }
+    @keyframes slide{ from{ transform: translateY(8px); opacity:0 } to{ transform: translateY(0); opacity:1 } }
+
+
+
+    /* Responsive */
+    @media (max-width: 1100px){
+      body{ grid-template-columns: 92px 1fr }
+      .brand strong{ display:none }
+      .nav a span{ display:none }
+    }
+    @media (max-width: 900px){ .grid{ grid-template-columns: repeat(2, minmax(0,1fr)) } .status-wrap{ grid-template-columns: 1fr } }
+    @media (max-width: 520px){ .grid{ grid-template-columns: 1fr } }
+  </style>
+</head>
+
+
+
+
+<body>
+  <!-- Sidebar -->
+ <aside class="sidebar" aria-label="Navegação principal">
+    <div class="brand" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" class="icon"><path d="M12 2l7 3v6c0 5.25-3.5 10-7 11-3.5-1-7-5.75-7-11V5l7-3Z" stroke="currentColor" stroke-width="1.6"/></svg>
+      <strong>TCC - Segurança na internet</strong>
+    </div> 
+    <nav class="nav" aria-label="Seções">
+      <a  href="tcc.html"><span>Infográfico</span></a>
+      <a class="active" href="index.html"><span>ant-virus</span></a>
+      <a  href="cartao.html"><span>simulação de cartao</span></a>
+      <a href="virus.html"><span>virus falso</span></a>   
+   
+      <!---- <a href="#"><span>Acesso Remoto</span></a>
+      <a href="#"><span>Ransomware</span></a>
+      <a href="#"><span>Módulos</span></a>
+      <a href="#"><span>Sandbox</span></a>
+    <a href="#"><span>Configurações</span></a>  -->
+    </nav> 
+
+  </aside>
+  <!-- Header -->
+  <header>
+    <div class="h-left">
+      <div class="title">Proteção</div>
+      <div class="pill">SEGURO</div>
+    </div>
+    <div class="h-right">
+      <button class="btn primary" id="btnScan">
+        <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v4H4zm0 12h16v4H4zM2 12h4m12 0h4" stroke="currentColor" stroke-width="1.6"/></svg>
+        Iniciar Verificação
+      </button>
+      <button class="btn" id="btnUpdate">
+        <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2M6 12a6 6 0 1 0 6-6" stroke="currentColor" stroke-width="1.6"/></svg>
+        Atualizar Base
+      </button>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <section class="status-wrap">
+      <div class="card">
+        <div class="safe">
+          <div class="ring"><span>100%</span><i class="dot"></i></div>
+          <div>
+            <h3>Sistema protegido</h3>
+            <div class="desc">Todos os módulos essenciais estão ativos e atualizados.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card log" id="log">
+        <div class="line">[OK] Serviço inicializado</div>
+        <div class="line">[OK] Driver anti-malware carregado</div>
+        <div class="line">[OK] Atualizações verificadas</div>
+      </div>
+    </section>
+
+    <section class="grid" id="modules">
+      <!-- Módulos serão preenchidos via JS para reduzir repetição -->
+    </section>
+  </main>
+
+  <!-- Modal genérico -->
+  <div class="modal" id="modal">
+    <div class="inner">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px">
+        <h3 id="modalTitle">Detalhes do módulo</h3>
+        <button class="btn" id="closeModal">Fechar</button>
+      </div>
+      <p id="modalDesc" style="color:var(--muted); margin:6px 0 12px">—</p>
+      <div class="scan" id="scanBox">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px">
+          <strong>Verificação rápida</strong>
+          <span id="scanPct">0%</span>
+        </div>
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <div style="margin-top:8px; color:var(--muted)" id="scanInfo">Preparando…</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Toasts -->
+  <div class="toasts" id="toasts"></div>
+
+   <script>
+  
+  const MODULES = [
+    {
+      id:'escaneamento',
+      title:'Escaneamento de Vírus',
+      desc:'Realiza verificações rápidas ou completas no sistema.',
+      modalDesc:'Esse módulo é responsável por analisar arquivos, programas e processos em busca de ameaças como vírus, trojans e malwares. Você pode realizar escaneamentos rápidos, completos ou personalizados.',
+      on:false
+    },
+    {
+      id:'modulo-principal',
+      title:'Módulo Principal',
+      desc:'Núcleo do antivírus responsável pelos recursos.',
+      modalDesc:'O módulo principal gerencia e integra todos os recursos de proteção do antivírus, garantindo que os outros componentes trabalhem em conjunto de forma eficaz.',
+      on:false
+    },
+    {
+      id:'quarentena',
+      title:'Quarentena',
+      desc:'Isola e bloqueia arquivos suspeitos.',
+      modalDesc:'Esse modulo serve para isolar e armazenar de forma segura ficheiros que foram identificados como suspeitos ou maliciosos, impedindo que eles afetem o restante do sistema ou se propaguem. Neste espaço seguro, o ficheiro fica inativo e não pode ser acedido por outros programas ou por vírus, permitindo que o utilizador analise ou exclua o item sem arriscar o seu computador. ',
+      on:false
+    },
+    {
+      id:'rede',
+      title:'Verificador de Rede',
+      desc:'Monitora tráfego e conexões.',
+      modalDesc:'Esse módulo acompanha as portas e o tráfego de rede em tempo real, prevenindo acessos não autorizados e ataques externos.',
+      on:false
+    },
+    {
+      id:'ransom',
+      title:'Módulo Ransomware',
+      desc:'Impede tentativas de criptografia não autorizada.',
+      modalDesc:'Esse módulo detecta e bloqueia atividades de ransomware, evitando que arquivos sejam criptografados sem autorização do usuário.',
+      on:false
+    },
+    {
+      id:'firewall',
+      title:'Firewall',
+      desc:'Bloqueia conexões não autorizadas.',
+      modalDesc:'Esse modulo serve para proteger o seu dispositivo, agindo como uma barreira que controla o tráfego de rede, bloqueando acessos não autorizados e atividades maliciosas antes que possam atingir o sistema. Ele difere do antivírus, que detecta e remove malwares já presentes no dispositivo, trabalhando em conjunto para oferecer uma segurança mais completa contra ameaças cibernéticas. ',
+      on:false
+    },
+    {
+      id:'remoto',
+      title:'Acesso Remoto',
+      desc:'Gerencia tentativas de controle remoto.',
+      modalDesc:'Esse módulo protege contra invasões por controle remoto, impedindo que terceiros acessem sua máquina sem permissão.',
+      on:false
+    },
+    {
+      id:'realtime',
+      title:'Scan em Tempo Real',
+      desc:'Verifica arquivos assim que são acessados.',
+      modalDesc:'Esse recurso garante proteção contínua, analisando automaticamente cada arquivo aberto, copiado ou baixado, prevenindo ameaças imediatamente.',
+      on:false
+    },
+    {
+      id:'sandbox',
+      title:'Sandbox',
+      desc:'Executa programas em ambiente isolado.',
+      modalDesc:' cria um ambiente virtual e isolado para executar arquivos suspeitos ou aplicativos não confiáveis. A sua função é permitir que o sistema analise o comportamento do código ou aplicação dentro desse espaço seguro, sem que ele possa afetar ou causar danos ao sistema operativo e aos dados reais do computador. Se a aplicação se mostrar maliciosa, ela é bloqueada e eliminada dentro do sandbox, sem risco para o utilizador. ',
+      on:false
+    },
+    {
+      id:'web',
+      title:'Proteção Web',
+      desc:'Bloqueia sites maliciosos e phishing.',
+      modalDesc:'Esse módulo protege durante a navegação, bloqueando sites suspeitos, links perigosos e prevenindo ataques de phishing.',
+      on:false
+    },
+    {
+      id:'email',
+      title:'Proteção de E-mail',
+      desc:'Verifica anexos e links recebidos.',
+      modalDesc:'Esse módulo analisa anexos de e-mail e links incorporados para identificar vírus, malware e tentativas de phishing antes que causem danos.',
+      on:false
+    },
+    {
+      id:'usb',
+      title:'Proteção USB',
+      desc:'Escaneia dispositivos removíveis.',
+      modalDesc:'Esse recurso realiza automaticamente a verificação de pendrives e HDs externos conectados ao computador, evitando a entrada de malwares.',
+      on:false
+    }
+  ];
+
+  // ------- Utilidades simples
+  const $ = s => document.querySelector(s);
+  const el = (tag, attrs={}) => Object.assign(document.createElement(tag), attrs);
+
+  function toast(msg){
+    const t = el('div', {className:'toast', innerText: msg});
+    $('#toasts').appendChild(t);
+    setTimeout(()=>{ t.style.opacity=.0; t.style.transform='translateY(6px)'; }, 2600);
+    setTimeout(()=> t.remove(), 3100);
+  }
+
+  function log(msg){
+    const l = el('div', {className:'line'}); l.textContent = msg; $('#log').appendChild(l); $('#log').scrollTop = 999999;
+  }
+
+  // ------- Renderização dos módulos
+  const grid = $('#modules');
+  MODULES.forEach(m => {
+    const card = el('article', {className:'module', id:`m-${m.id}`});
+    card.innerHTML = `
+      <div class="top">
+        <span class="badge">${m.on ? 'Ativo' : 'Desativado'}</span>
+        <span class="status-dot ${m.on ? '' : 'off'}"></span>
+      </div>
+      <h4>${m.title}</h4>
+      <p>${m.desc}</p>
+      <div class="actions">
+        <div class="switch ${m.on ? 'on' : ''}" role="switch" aria-checked="${m.on}"></div>
+        <button class="open">Abrir</button>
+      </div>`;
+
+    // Eventos: switch
+    const sw = card.querySelector('.switch');
+    const badge = card.querySelector('.badge');
+    const dot = card.querySelector('.status-dot');
+    sw.addEventListener('click', () => {
+      sw.classList.toggle('on');
+      const isOn = sw.classList.contains('on');
+      badge.textContent = isOn ? 'Ativo' : 'Desativado';
+      dot.classList.toggle('off', !isOn);
+      log(`[${isOn ? 'ON' : 'OFF'}] ${m.title}`);
+      toast(`${m.title}: ${isOn ? 'ativado' : 'desativado'}`);
+    });
+
+    // Evento: abrir modal
+    card.querySelector('.open').addEventListener('click', () => openModule(m));
+
+    grid.appendChild(card);
+  });
+
+  // ------- Modal + Scan fake
+  const modal = $('#modal');
+  const scanBox = $('#scanBox');
+  let scanning = false; let progress = 0; let timer;
+
+  function openModule(m){
+    $('#modalTitle').textContent = m.title;
+    $('#modalDesc').textContent = m.modalDesc; // usa o texto detalhado no modal
+    scanBox.style.display = (m.id === 'escaneamento') ? 'block' : 'none';
+    modal.classList.add('active');
+  }
+
+  $('#closeModal').addEventListener('click', ()=> modal.classList.remove('active'));
+  modal.addEventListener('click', (e)=>{ if(e.target === modal) modal.classList.remove('active') });
+
+  // ------- Simulação de escaneamento
+  function startScan(){
+    openModule({id:'escaneamento', title:'Escaneamento de Vírus', modalDesc:'Verificação rápida em andamento…'});
+    scanBox.style.display = 'block';
+    const bar = $('#bar'); const pct = $('#scanPct'); const info = $('#scanInfo');
+    progress = 0; scanning = true; bar.style.width = '0%'; pct.textContent = '0%'; info.textContent = 'Iniciando…';
+    clearInterval(timer);
+    timer = setInterval(()=>{
+      if(!scanning) return;
+      progress += Math.random()*11;
+      if(progress >= 100){
+        progress = 100; scanning = false; clearInterval(timer);
+        info.textContent = 'Nenhuma ameaça encontrada';
+        toast('Scan concluído: 0 ameaças');
+        log('[OK] Scan rápido concluído');
+      }
+      bar.style.width = progress.toFixed(0) + '%';
+      pct.textContent = progress.toFixed(0) + '%';
+      if(progress > 10 && progress < 90){ info.textContent = 'Analisando arquivos do sistema…'; }
+    }, 280);
+  }
+
+  $('#btnScan').addEventListener('click', startScan);
+  $('#btnUpdate').addEventListener('click', ()=>{ toast('Base de vírus atualizada'); log('[OK] Base de vírus atualizada'); });
+  
+</script>
+
+</body>
+</html>
